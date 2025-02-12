@@ -22,10 +22,13 @@ LunaHerb is a Swift-based iOS application that combines the world of medicinal h
 ## Installation
 
 1. clone the LunaHerb project with Git
+   ```git
+   git clone https://github.com/RebeccaCalabretta/LunaHerb.git
+   ```
 
-2. open the project in Xcode
+3. open the project in Xcode
 
-3. start the app on an iOS device or the iOS simulator
+4. start the app on an iOS device or the iOS simulator
 
 ## Features
 
