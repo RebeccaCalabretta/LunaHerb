@@ -1,4 +1,4 @@
-# LunaHerb 🌕🌿
+# LunaHerb
 ![LunaHerb_darkBlueBG](https://github.com/user-attachments/assets/c3e4e0da-976f-4daa-b709-96c1428a59c7)
 
 LunaHerb is a Swift-based iOS application that combines the world of medicinal herbs with the influence of the phases of the moon. The app offers a comprehensive database of medicinal herbs and their uses, shows favorable planting and harvesting times based on the current moon position and allows you to search for ailments to find suitable herbs. 
@@ -37,31 +37,26 @@ LunaHerb is a Swift-based iOS application that combines the world of medicinal h
 
 💚 **Save favorites**: Favorite herbs are saved for faster access.
 
-**Offline mode**: Access data after initial download even without an internet connection.
+🚫 **Offline mode**: Access data after initial download even without an internet connection.
 
-## iOS technology and architecture
+## iOS Technology and Architecture
 
-- **[MVVM Pattern](https://www.geeksforgeeks.org/introduction-to-model-view-view-model-mvvm/)**
+- **[MVVM Pattern](https://www.avanderlee.com/swiftui/mvvm-architectural-coding-pattern-to-structure-views/)**
+- **[SwiftUI](https://developer.apple.com/documentation/SwiftUI)**
+- **[SwiftData](https://developer.apple.com/documentation/SwiftData)**
+- **[CoreLocation](https://developer.apple.com/documentation/CoreLocation)**
+- **[URLSession](https://developer.apple.com/documentation/foundation/urlsession)**
 
-- **[SwiftUI](https://developer.apple.com/xcode/swiftui/)**
+## Libraries
 
-SwiftData
+**[SwiftData](https://developer.apple.com/documentation/SwiftData)**: Store and retrieve herbal data
 
-CoreLocation
-
-URLSession
-
-## libraries
-
-**SwiftData**: Store and retrieve herbal data
-
-**EKAstrologyCalc**: Retrieve data on the current moon position
+**[EKAstrologyCalc](https://github.com/emvakar/EKAstrologyCalc)**: Retrieve data on the current moon position
 
 ## API
+**[WeatherAPI](https://www.weatherapi.com/docs/)**: Retrieve current weather data
 
-**WeatherAPI**: Retrieve current weather data
-
-## Backend integration
+## Backend Integration
 
 LunaHerb was developed for offline-friendly use:
 
