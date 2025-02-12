@@ -1,34 +1,49 @@
 # LunaHerb 🌕🌿
+![LunaHerb_darkBlueBG](https://github.com/user-attachments/assets/c3e4e0da-976f-4daa-b709-96c1428a59c7)
 
-LunaHerb ist eine Swift-basierte iOS-Anwendung, die die Welt der Heilkräuter mit dem Einfluss der Mondphasen verbindet. Die App bietet eine umfassende Datenbank zu Heilkräutern und ihrer Anwendung, zeigt günstige Pflanz- und Erntezeiten anhand des aktuellen Mondstands und ermöglicht die Suche nach Beschwerden, um passende Kräuter zu finden. 
+LunaHerb is a Swift-based iOS application that combines the world of medicinal herbs with the influence of the phases of the moon. The app offers a comprehensive database of medicinal herbs and their uses, shows favorable planting and harvesting times based on the current moon position and allows you to search for ailments to find suitable herbs. 
+
+## Index
+
+[Screenshots](#Screenshots)
+
+[Installation](#Installation)
+
+[Features](#Features)
+
+[iOS Technology and Architecture](#iOS-Technology-Implementation)
+
+[Libraries](#Libraries)
+
+[Contact/Authors](#Contact/Authors)
 
 ## Screenshots
 
 ## Installation
 
-1.  Clone das LunaHerb-Projekt mit Git
+1. clone the LunaHerb project with Git
 
-2.  Öffne das Projekt in Xcode
+2. open the project in Xcode
 
-3.  Starte die App auf einem iOS-Gerät oder dem iOS-Simulator
+3. start the app on an iOS device or the iOS simulator
 
 ## Features
 
-🪴 **Heilkräuter-Datenbank**: Enthält detaillierte Infos zu Heilkräutern, deren Wirkungen & Anwendungen.
+🪴 **Healing herbs database**: Contains detailed information on medicinal herbs, their effects & applications.
 
-⏰ **Pflanz- und Erntezeitpunkt**: Zeigt empfohlene Zeitpunkte, basierend auf dem Mondzyklus.
+⏰ **Planting and harvesting time**: Shows recommended times, based on the lunar cycle.
 
-🔍 **Suchfunktion**: Zeigt Kräuter entsprechend der Symptome / Beschwerden.
+🔍 **Search function**: Shows herbs according to symptoms / ailments.
 
-💚 **Favoriten speichern**: Lieblings-Kräuter werden für einen schnelleren Zugriff gespeichert.
+💚 **Save favorites**: Favorite herbs are saved for faster access.
 
-**Offline-Modus**: Zugriff auf Daten nach dem ersten Download auch ohne Internetverbindung.
+**Offline mode**: Access data after initial download even without an internet connection.
 
-## iOS Technologie und Architektur
+## iOS technology and architecture
 
-MVVM
+- **[MVVM Pattern](https://www.geeksforgeeks.org/introduction-to-model-view-view-model-mvvm/)**
 
-SwiftUI
+- **[SwiftUI](https://developer.apple.com/xcode/swiftui/)**
 
 SwiftData
 
@@ -36,30 +51,26 @@ CoreLocation
 
 URLSession
 
-## Bibilotheken
+## libraries
 
-**SwiftData**: Speichern und Abrufen von Kräuterdaten
+**SwiftData**: Store and retrieve herbal data
 
-**EKAstrologyCalc**: Abruf der Daten zum aktuellen Mondstand
+**EKAstrologyCalc**: Retrieve data on the current moon position
 
 ## API
 
-**WeatherAPI**: Abruf der aktuellen Wetterdaten
+**WeatherAPI**: Retrieve current weather data
 
-## Backend Integration
+## Backend integration
 
-LunaHerb wurde für eine offline-freundliche Nutzung entwickelt:
+LunaHerb was developed for offline-friendly use:
 
-**Datenbank mit SwiftData**: Alle Informationen zu Kräutern und Mondphasen werden lokal auf dem Gerät gespeichert.
+**Database with SwiftData**: All herb and moon phase information is stored locally on the device.
 
-**Individuelle Anpassung**: Nutzer können eigene Favoriten anlegen und Erinnerungen eintragen – ganz ohne Internetverbindung.
-
-## Contributing
-(((((())))))
+**Customization**: Users can create their own favorites and enter reminders - all without an internet connection.
 
 ## Author/Contact
 
 RebeccaCalabretta
-
 
 
