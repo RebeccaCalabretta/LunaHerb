@@ -52,8 +52,6 @@ LunaHerb is a Swift-based iOS application that combines the world of medicinal h
 
 ## Libraries
 
-**[SwiftData](https://developer.apple.com/documentation/SwiftData)**: Store and retrieve herbal data
-
 **[EKAstrologyCalc](https://github.com/emvakar/EKAstrologyCalc)**: Retrieve data on the current moon position
 
 ## API
