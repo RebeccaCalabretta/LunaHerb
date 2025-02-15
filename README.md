@@ -1,5 +1,5 @@
 # LunaHerb
-![LunaHerb_darkBlueBG](https://github.com/user-attachments/assets/c3e4e0da-976f-4daa-b709-96c1428a59c7)
+![LunaHerb_darkBlueBG_800x500](https://github.com/user-attachments/assets/d9ac177b-9793-4985-b39b-8a0e3cca58bc)
 
 LunaHerb is a Swift-based iOS application that combines the world of medicinal herbs with the influence of the phases of the moon. The app offers a comprehensive database of medicinal herbs and their uses, shows favorable planting and harvesting times based on the current moon position and allows you to search for ailments to find suitable herbs. 
 
