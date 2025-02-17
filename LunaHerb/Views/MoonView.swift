@@ -14,40 +14,59 @@ struct MoonView: View {
     var body: some View {
         
         VStack {
-            VStack {
-                Text(viewModel.moonData.moonSymbol)
-                    .font(.system(size: 36))
-                Text(viewModel.moonData.moonPhase)
-                    .bold()
-                Text("im \(viewModel.moonData.zodiacSign)")
-            }
-            .frame(width: 320 ,height: 100)
-            .foregroundColor(.white)
-            .background(Color("CardBackground")).overlay(Color(.gray).opacity(0)).cornerRadius(16)
-            
-            DatePicker("", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
-                .datePickerStyle(.compact)
-                .labelsHidden()
+            if let moonData = viewModel.moonData {
+                VStack {
+                    Text(moonData.moonSymbol)
+                        .font(.system(size: 36))
+                    Text(moonData.moonPhase)
+                        .bold()
+                    Text("im \(moonData.zodiacSign)")
+                }
+                .frame(width: 320, height: 100)
+                .foregroundColor(.white)
+                .background(Color("CardBackground").opacity(0.7))
+                .cornerRadius(16)
+                
+                DatePicker("Datum", selection: $selectedDate, displayedComponents: .date)
+                    .datePickerStyle(.compact)
+                    .labelsHidden()
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .center)
+                
+                GeneralButton(title: "Aktualisieren") {
+                    Task {
+                        await viewModel.fetchMoonData(for: selectedDate)
+                    }
+                }
                 .padding()
-                .frame(maxWidth: .infinity, alignment: .center)
-            
-            GeneralButton(title: "Aktualisieren") {
-                // Funktion um die MondDaten zu aktualisieren
-            }
-            .padding()
-            
-            Divider()
-            
-            VStack(alignment: .leading, spacing: 10) {
-                Text("günstig:")
-                    .bold()
-                Text(viewModel.moonData.favorable.joined(separator: ", "))
+                
                 Divider()
-                Text("ungünstig:")
-                    .bold()
-                Text(viewModel.moonData.unfavorable.joined(separator: ", "))
+                
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("günstig:")
+                        .bold()
+                    if let favorable = moonData.favorable, !favorable.isEmpty {
+                        Text(favorable.joined(separator: ", "))
+                    } else {
+                        Text("Keine günstigen Aktionen")
+                            .foregroundColor(.gray)
+                    }
+                    
+                    Divider()
+                    
+                    Text("ungünstig:")
+                        .bold()
+                    if let unfavorable = moonData.unfavorable, !unfavorable.isEmpty {
+                        Text(unfavorable.joined(separator: ", "))
+                    } else {
+                        Text("Keine ungünstigen Aktionen")
+                            .foregroundColor(.gray)
+                    }
+                }
+                .padding()
+            } else {
+                ProgressView()
             }
-            .padding()
             
             Spacer()
         }

@@ -12,6 +12,6 @@ struct MoonData: Codable {
     let moonSymbol: String
     let moonPhase: String
     let zodiacSign: String
-    let favorable: [String]
-    let unfavorable: [String]
+    let favorable: [String]?
+    let unfavorable: [String]?
 }
