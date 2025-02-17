@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		418256932D60D38100CDF0B3 /* EKAstrologyCalc in Frameworks */ = {isa = PBXBuildFile; productRef = 418256922D60D38100CDF0B3 /* EKAstrologyCalc */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		418254882D5B7D2900CDF0B3 /* LunaHerb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunaHerb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				418256932D60D38100CDF0B3 /* EKAstrologyCalc in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = LunaHerb;
 			packageProductDependencies = (
+				418256922D60D38100CDF0B3 /* EKAstrologyCalc */,
 			);
 			productName = LunaHerb;
 			productReference = 418254882D5B7D2900CDF0B3 /* LunaHerb.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 4182547F2D5B7D2900CDF0B3;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				418256912D60D38000CDF0B3 /* XCRemoteSwiftPackageReference "EKAstrologyCalc" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 418254892D5B7D2900CDF0B3 /* Products */;
 			projectDirPath = "";
@@ -322,6 +331,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		418256912D60D38000CDF0B3 /* XCRemoteSwiftPackageReference "EKAstrologyCalc" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/emvakar/EKAstrologyCalc";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.6;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		418256922D60D38100CDF0B3 /* EKAstrologyCalc */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 418256912D60D38000CDF0B3 /* XCRemoteSwiftPackageReference "EKAstrologyCalc" */;
+			productName = EKAstrologyCalc;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 418254802D5B7D2900CDF0B3 /* Project object */;
 }

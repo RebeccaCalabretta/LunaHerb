@@ -1,0 +1,24 @@
+{
+  "originHash" : "219ebb18969310479de9c2a570e41c3f8b70e3bef54c610bbad35c38d300ab8c",
+  "pins" : [
+    {
+      "identity" : "ekastrologycalc",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/emvakar/EKAstrologyCalc",
+      "state" : {
+        "revision" : "7793834ddca681572a05f6e262d4e2d1c3c55fdd",
+        "version" : "1.0.6"
+      }
+    },
+    {
+      "identity" : "esdatehelper",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ESKARIA/ESDateHelper.git",
+      "state" : {
+        "revision" : "6a1fedbbfc0a7ac1a8137d89fbcae0f9bf4e1ff3",
+        "version" : "1.1.1"
+      }
+    }
+  ],
+  "version" : 3
+}
