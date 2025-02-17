@@ -20,7 +20,7 @@ struct MoonView: View {
                         .font(.system(size: 36))
                     Text(moonData.moonPhase)
                         .bold()
-                    Text("im \(moonData.zodiacSign)")
+                    Text("in \(moonData.zodiacSign)")
                 }
                 .frame(width: 320, height: 100)
                 .foregroundColor(.white)

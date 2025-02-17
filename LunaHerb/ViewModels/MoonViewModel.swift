@@ -44,11 +44,15 @@ final class MoonViewModel {
         
         guard let moonInfo = info?.moonModels.first else { return }
         
+        let translatedPhase = info?.phase.translated ?? "Unbekannt"
+        let translatedSign = moonInfo.sign.translated
+        let moonSymbol = info?.phase.emoji ?? ""
+        
         self.moonData = MoonData(
             date: date,
-            moonSymbol: "🌙",
-            moonPhase: info?.phase.rawValue ?? "Unbekannt",
-            zodiacSign: moonInfo.sign.rawValue,
+            moonSymbol: moonSymbol,
+            moonPhase: translatedPhase,
+            zodiacSign: translatedSign,
             favorable: ["Blüten sammeln", "Gießen"],
             unfavorable: []
         )
