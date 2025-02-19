@@ -44,6 +44,7 @@ extension EKMoonPhase {
 }
 
 extension EKMoonPhase {
+    
     var emoji: String {
         switch self {
         case .newMoon: return "🌑"

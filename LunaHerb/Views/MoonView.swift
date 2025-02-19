@@ -23,8 +23,8 @@ struct MoonView: View {
                     Text("in \(moonData.zodiacSign)")
                 }
                 .frame(width: 320, height: 100)
-                .foregroundColor(.white)
-                .background(Color("CardBackground").opacity(0.7))
+                .foregroundColor(Color("TextButton"))
+                .background(Color("CardBackground"))
                 .cornerRadius(16)
                 
                 DatePicker("Datum", selection: $selectedDate, displayedComponents: .date)
@@ -49,7 +49,7 @@ struct MoonView: View {
                         Text(favorable.joined(separator: ", "))
                     } else {
                         Text("Keine günstigen Aktionen")
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color(.systemGray2))
                     }
                     
                     Divider()
@@ -60,10 +60,11 @@ struct MoonView: View {
                         Text(unfavorable.joined(separator: ", "))
                     } else {
                         Text("Keine ungünstigen Aktionen")
-                            .foregroundColor(.gray)
+                            .foregroundColor(Color(.systemGray2))
                     }
                 }
                 .padding()
+                .foregroundColor(Color("Text"))
             } else {
                 ProgressView()
             }
@@ -71,6 +72,7 @@ struct MoonView: View {
             Spacer()
         }
         .padding()
+        .background(Color("AppBackground"))
     }
 }
 

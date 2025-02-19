@@ -16,13 +16,13 @@ struct GeneralButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .foregroundColor(colorScheme == .dark ? Color("LightYellow") : Color("DarkBlue"))
+                .foregroundColor( Color("TextButton"))
                 .padding()
                 .frame(maxWidth: 250)
                 .background(
                     LinearGradient(
                         gradient: Gradient(colors: colorScheme == .dark ?
-                                           [Color("Green1"), Color("DarkBlue")] : [Color("LightYellow"), Color("Green1")]),
+                                           [Color("Green3"), Color("DarkBlue")] : [Color("LightYellow"), Color("Green3")]),
                         startPoint: .top,
                         endPoint: .bottom
                     )

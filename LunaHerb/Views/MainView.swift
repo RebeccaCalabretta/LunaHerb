@@ -17,15 +17,16 @@ struct MainView: View {
                     MoonView()
                 }
                 Tab("Favoriten", systemImage: "heart.fill") {
-                    // FavoritesView()
+                    FavoritesView()
                 }
                 Tab("Kräuter", systemImage: "leaf.fill") {
-                    // HerbListView()
+                    HerbListView()
                 }
                 Tab("Symptome", systemImage: "stethoscope") {
-                    // SymptomListView()
+                    SymptomListView()
                 }
             }
+            .tint(Color("Green3"))
         }
     }
 }

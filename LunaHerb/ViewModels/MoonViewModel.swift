@@ -5,20 +5,6 @@
 //  Created by Rebecca Calabretta on 15.02.25.
 //
 
-//import Foundation
-//
-//@Observable
-//final class MoonViewModel {
-//    var moonData: MoonData = MoonData(
-//        date: Date(),
-//        moonSymbol: "🌘",
-//        moonPhase: "Abnehmender Mond",
-//        zodiacSign: "Stier",
-//        favorable: ["Kräuter sammeln", "Wurzeln ernten"],
-//        unfavorable: ["Blüten ernten", "Gießen"]
-//    )
-//}
-
 import Foundation
 import CoreLocation
 import EKAstrologyCalc
@@ -44,7 +30,7 @@ final class MoonViewModel {
         
         guard let moonInfo = info?.moonModels.first else { return }
         
-        let translatedPhase = info?.phase.translated ?? "Unbekannt"
+        let translatedPhase = info?.phase.translated ?? ""
         let translatedSign = moonInfo.sign.translated
         let moonSymbol = info?.phase.emoji ?? ""
         
