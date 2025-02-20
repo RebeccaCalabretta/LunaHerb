@@ -26,6 +26,7 @@ struct MoonView: View {
                 .foregroundColor(Color("TextButton"))
                 .background(Color("CardBackground"))
                 .cornerRadius(16)
+                .shadow(radius: 2, x: 2, y: 2)
                 
                 DatePicker("Datum", selection: $selectedDate, displayedComponents: .date)
                     .datePickerStyle(.compact)

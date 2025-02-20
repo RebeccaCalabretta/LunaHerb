@@ -1,5 +1,5 @@
 //
-//  EnumExtensions.swift
+//  EKMoonEnumExtensions.swift
 //  LunaHerb
 //
 //  Created by Rebecca Calabretta on 17.02.25.
@@ -9,7 +9,7 @@ import EKAstrologyCalc
 
 extension EKMoonZodiacSign {
     
-    var translated: String {
+    var toGerman: String {
         switch self {
         case .aries: return "Widder"
         case .taurus: return "Stier"
@@ -25,11 +25,28 @@ extension EKMoonZodiacSign {
         case .pisces: return "Fische"
         }
     }
+    
+    var toZodiacSign: ZodiacSign {
+        switch self {
+        case .aries: return .aries
+        case .leo: return .leo
+        case .sagittarius: return .sagittarius
+        case .taurus: return .taurus
+        case .virgo: return .virgo
+        case .capricorn: return .capricorn
+        case .gemini: return .gemini
+        case .libra: return .libra
+        case .aquarius: return .aquarius
+        case .cancer: return .cancer
+        case .scorpio: return .scorpio
+        case .pisces: return .pisces
+        }
+    }
 }
 
 extension EKMoonPhase {
     
-    var translated: String {
+    var toGerman: String {
         switch self {
         case .newMoon: return "Neumond"
         case .waxingCrescent: return "Zunehmende Sichel"
@@ -41,9 +58,6 @@ extension EKMoonPhase {
         case .waningCrescent: return "Abnehmende Sichel"
         }
     }
-}
-
-extension EKMoonPhase {
     
     var emoji: String {
         switch self {
@@ -55,6 +69,19 @@ extension EKMoonPhase {
         case .waningGibbous: return "🌖"
         case .lastQuarter: return "🌗"
         case .waningCrescent: return "🌘"
+        }
+    }
+    
+    var toMoonPhase: MoonPhase {
+        switch self {
+        case .waxingCrescent: return .waxingCrescent
+        case .firstQuarter: return .firstQuarter
+        case .waxingGibbous: return .waxingGibbous
+        case .fullMoon: return .fullMoon
+        case .waningGibbous: return .waningGibbous
+        case .lastQuarter: return .lastQuarter
+        case .waningCrescent: return .waningCrescent
+        case .newMoon: return .newMoon
         }
     }
 }

@@ -30,17 +30,29 @@ final class MoonViewModel {
         
         guard let moonInfo = info?.moonModels.first else { return }
         
-        let translatedPhase = info?.phase.translated ?? ""
-        let translatedSign = moonInfo.sign.translated
+        let translatedPhase = info?.phase.toGerman ?? ""
+        let translatedSign = moonInfo.sign.toGerman
         let moonSymbol = info?.phase.emoji ?? ""
+        
+        let favorableActions = MoonConditions.getActions(
+            for: info!.phase.toMoonPhase,
+            zodiacSign: moonInfo.sign.toZodiacSign,
+            favorable: true
+        )
+        let unfavorableActions = MoonConditions.getActions(
+            for: info!.phase.toMoonPhase,
+            zodiacSign: moonInfo.sign.toZodiacSign,
+            favorable: false
+        )
+        
         
         self.moonData = MoonData(
             date: date,
             moonSymbol: moonSymbol,
             moonPhase: translatedPhase,
             zodiacSign: translatedSign,
-            favorable: ["Blüten sammeln", "Gießen"],
-            unfavorable: []
+            favorable: favorableActions.map { $0.rawValue },
+            unfavorable: unfavorableActions.map { $0.rawValue }
         )
     }
 }
