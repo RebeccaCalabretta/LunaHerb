@@ -5,7 +5,7 @@
 //  Created by Rebecca Calabretta on 19.02.25.
 //
 
-import EKAstrologyCalc
+import Foundation
 
 enum GardeningAction: String {
     case fruchtpflanzenSaeen = "Fruchtpflanzen säen/setzen"
@@ -20,62 +20,25 @@ enum GardeningAction: String {
     case brennnesselnErnten = "Brennnesseln ernten"
     case bluetenErnten = "Blüten ernten"
     case giessenTopfKuebel = "Gießen von Topf- und Kübelkräuter"
-}
-
-enum MoonPhase {
-    case newMoon, waxingCrescent, firstQuarter, waxingGibbous, fullMoon, waningGibbous, lastQuarter, waningCrescent
-}
-
-enum ZodiacSign {
-    case aries, taurus, gemini, cancer, leo, virgo, libra, scorpio, sagittarius, capricorn, aquarius, pisces
-}
-
-struct MoonCondition {
-    let moonPhases: Set<MoonPhase>
-    let zodiacSigns: Set<ZodiacSign>
-}
-
-private let favorableMoonConditions: [GardeningAction: MoonCondition] = [
-    .fruchtpflanzenSaeen: MoonCondition(moonPhases: [.waxingCrescent, .firstQuarter, .waxingGibbous],
-                                        zodiacSigns: [.aries, .leo, .sagittarius]),
-    .wurzelgemueseSaeen: MoonCondition(moonPhases: [.waningGibbous, .lastQuarter, .waningCrescent],
-                                       zodiacSigns: [.virgo, .capricorn, .taurus]),
-    .blattgemueseSaeen: MoonCondition(moonPhases: [.waxingCrescent, .firstQuarter, .waxingGibbous],
-                                      zodiacSigns: [.cancer, .scorpio, .pisces]),
-    .blumenHeilkraeuterSaeen: MoonCondition(moonPhases: [.waxingCrescent, .firstQuarter, .waxingGibbous],
-                                            zodiacSigns: [.gemini, .libra, .aquarius]),
-    .kraeuterAetherischeOele: MoonCondition(moonPhases: [.waxingCrescent, .firstQuarter, .waxingGibbous],
-                                            zodiacSigns: [.gemini, .libra]),
-    .kraeuterFolienbeet: MoonCondition(moonPhases: [.waxingCrescent, .firstQuarter, .waxingGibbous],
-                                       zodiacSigns: [.cancer, .pisces]),
-    .freilandUmpflanzen: MoonCondition(moonPhases: [.waxingCrescent, .firstQuarter, .waxingGibbous],
-                                       zodiacSigns: [.virgo]),
-    .wurzelnErnten: MoonCondition(moonPhases: [.waningCrescent],
-                                  zodiacSigns: [.virgo, .capricorn]),
-    .blaetterErnten: MoonCondition(moonPhases: [.waxingCrescent, .firstQuarter, .waxingGibbous],
-                                   zodiacSigns: [.cancer, .scorpio, .pisces]),
-    .brennnesselnErnten: MoonCondition(moonPhases: [.waningGibbous, .lastQuarter, .waningCrescent],
-                                       zodiacSigns: []),
-    .bluetenErnten: MoonCondition(moonPhases: [.fullMoon, .waxingCrescent, .firstQuarter, .waxingGibbous],
-                                  zodiacSigns: [.gemini, .libra, .aquarius]),
-    .giessenTopfKuebel: MoonCondition(moonPhases: [],
-                                      zodiacSigns: [.cancer, .scorpio, .pisces])
-]
-
-private let unfavorableMoonConditions: [GardeningAction: MoonCondition] = [
-    .blaetterErnten: MoonCondition(moonPhases: [], zodiacSigns: [.virgo]),
-    .giessenTopfKuebel: MoonCondition(moonPhases: [], zodiacSigns: [.aries, .taurus, .gemini, .leo, .virgo, .libra, .sagittarius, .capricorn, .aquarius])
-]
-
-struct MoonConditions {
-    static func getActions(for phase: MoonPhase, zodiacSign: ZodiacSign, favorable: Bool) -> [GardeningAction] {
-        let conditions = favorable ? favorableMoonConditions : unfavorableMoonConditions
+    case petersilieSaeen = "Mittwoch vormittags Petersilie säen, unabhängig vom Mondstand"
+    case heilkraeuterAufbewahrung = "Freitag und Sonntag generell ungünstig für die Ernte zur Aufbewahrung von Heilkräutern. Diese merkwürdige Regel beweist sich durch Ihre Erfahrung"
+    
+    static func getWeekdayActions(for date: Date) -> WeekdayActions {
+        let calendar = Calendar.current
+        let weekday = calendar.component(.weekday, from: date)
         
-        return conditions.filter { (_, condition) in
-            let phaseMatches = condition.moonPhases.isEmpty || condition.moonPhases.contains(phase)
-            let signMatches = condition.zodiacSigns.isEmpty || condition.zodiacSigns.contains(zodiacSign)
-            return phaseMatches && signMatches
+        switch weekday {
+        case 4:
+            return WeekdayActions(favorable: [.petersilieSaeen], unfavorable: [])
+        case 6, 1:
+            return WeekdayActions(favorable: [], unfavorable: [.heilkraeuterAufbewahrung])
+        default:
+            return WeekdayActions(favorable: [], unfavorable: [])
         }
-        .map { $0.key }
     }
+}
+
+struct WeekdayActions {
+    let favorable: [GardeningAction]
+    let unfavorable: [GardeningAction]
 }

@@ -28,11 +28,11 @@ final class MoonViewModel {
         moonPhaseManager = EKAstrologyCalc(location: location)
         let info = moonPhaseManager?.getInfo(date: date)
         
-        guard let moonInfo = info?.moonModels.first else { return }
+        guard let moonInfo = info!.moonModels.first else { return }
         
-        let translatedPhase = info?.phase.toGerman ?? ""
+        let translatedPhase = info!.phase.toGerman
         let translatedSign = moonInfo.sign.toGerman
-        let moonSymbol = info?.phase.emoji ?? ""
+        let moonSymbol = info!.phase.emoji
         
         let favorableActions = MoonConditions.getActions(
             for: info!.phase.toMoonPhase,
@@ -44,7 +44,7 @@ final class MoonViewModel {
             zodiacSign: moonInfo.sign.toZodiacSign,
             favorable: false
         )
-        
+        let weekdayActions = GardeningAction.getWeekdayActions(for: date)
         
         self.moonData = MoonData(
             date: date,
@@ -52,7 +52,9 @@ final class MoonViewModel {
             moonPhase: translatedPhase,
             zodiacSign: translatedSign,
             favorable: favorableActions.map { $0.rawValue },
-            unfavorable: unfavorableActions.map { $0.rawValue }
+            unfavorable: unfavorableActions.map { $0.rawValue },
+            favorableWeekdayActions: weekdayActions.favorable.map { $0.rawValue },
+            unfavorableWeekdayActions: weekdayActions.unfavorable.map { $0.rawValue }
         )
     }
 }

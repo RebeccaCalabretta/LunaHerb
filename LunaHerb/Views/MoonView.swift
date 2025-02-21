@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct MoonView: View {
+    
+    @Environment(\.colorScheme) var colorScheme
     @Environment(MoonViewModel.self) private var viewModel
     @State private var selectedDate = Date()
     
@@ -43,29 +45,68 @@ struct MoonView: View {
                 
                 Divider()
                 
-                VStack(alignment: .leading, spacing: 10) {
-                    Text("günstig:")
-                        .bold()
-                    if let favorable = moonData.favorable, !favorable.isEmpty {
-                        Text(favorable.joined(separator: ", "))
-                    } else {
-                        Text("Keine günstigen Aktionen")
-                            .foregroundColor(Color(.systemGray2))
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        VStack(alignment: .leading, spacing: 5) {
+                            HStack {
+                                Image(systemName: "checkmark.circle.fill")
+                                    .foregroundColor(.green)
+                                
+                                Text("günstig:")
+                                    .font(.title3)
+                                    .bold()
+                                    .foregroundColor(Color.green.opacity(0.8))
+                            }
+                            if let favorable = moonData.favorable, !favorable.isEmpty {
+                                ForEach(favorable, id: \.self) { action in
+                                    Text(action)
+                                        .padding(2)
+                                }
+                            }
+                            if let favorableWeekday = moonData.favorableWeekdayActions, !favorableWeekday.isEmpty {
+                                ForEach(favorableWeekday, id: \.self) { action in
+                                    Text(action)
+                                        .padding(2)
+                                }
+                            }
+                            if (moonData.favorable?.isEmpty ?? true) && (moonData.favorableWeekdayActions?.isEmpty ?? true) {
+                                Text("Keine günstigen Aktionen")
+                                    .foregroundColor(Color(.gray))
+                            }
+                        }
+                        .sectionBackground(colorScheme: colorScheme)
+                        
+                        VStack(alignment: .leading, spacing: 5) {
+                            HStack {
+                                Image(systemName: "xmark.circle.fill")
+                                    .foregroundColor(.red)
+                                
+                                Text("ungünstig:")
+                                    .font(.title3)
+                                    .bold()
+                                    .foregroundColor(Color.red.opacity(0.8))
+                            }
+                            if let unfavorable = moonData.unfavorable, !unfavorable.isEmpty {
+                                ForEach(unfavorable, id: \.self) { action in
+                                    Text(action)
+                                        .padding(2)
+                                }
+                            }
+                            if let unfavorableWeekday = moonData.unfavorableWeekdayActions, !unfavorableWeekday.isEmpty {
+                                ForEach(unfavorableWeekday, id: \.self) { action in
+                                    Text(action)
+                                        .padding(2)
+                                }
+                            }
+                            if (moonData.unfavorable?.isEmpty ?? true) && (moonData.unfavorableWeekdayActions?.isEmpty ?? true) {
+                                Text("Keine ungünstigen Aktionen")
+                                    .foregroundColor(Color(.systemGray2))
+                            }
+                        }
+                        .sectionBackground(colorScheme: colorScheme)
                     }
-                    
-                    Divider()
-                    
-                    Text("ungünstig:")
-                        .bold()
-                    if let unfavorable = moonData.unfavorable, !unfavorable.isEmpty {
-                        Text(unfavorable.joined(separator: ", "))
-                    } else {
-                        Text("Keine ungünstigen Aktionen")
-                            .foregroundColor(Color(.systemGray2))
-                    }
+                    .padding()
                 }
-                .padding()
-                .foregroundColor(Color("Text"))
             } else {
                 ProgressView()
             }

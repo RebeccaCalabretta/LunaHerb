@@ -7,11 +7,13 @@
 
 import Foundation
 
-struct MoonData: Codable {
+struct MoonData {
     let date: Date
     let moonSymbol: String
     let moonPhase: String
     let zodiacSign: String
     let favorable: [String]?
     let unfavorable: [String]?
+    let favorableWeekdayActions: [String]?
+    let unfavorableWeekdayActions: [String]?
 }
