@@ -16,17 +16,10 @@ struct GeneralButton: View {
     var body: some View {
         Button(action: action) {
             Text(title)
-                .foregroundColor( Color("TextButton"))
+                .foregroundColor( Color("textButton"))
                 .padding()
                 .frame(maxWidth: 250)
-                .background(
-                    LinearGradient(
-                        gradient: Gradient(colors: colorScheme == .dark ?
-                                           [Color("Green3"), Color("DarkBlue")] : [Color("LightYellow"), Color("Green3")]),
-                        startPoint: .top,
-                        endPoint: .bottom
-                    )
-                )
+                .gradientBackground()
                 .cornerRadius(16)
                 .padding(.horizontal)
         }
