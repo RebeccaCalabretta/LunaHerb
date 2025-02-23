@@ -51,10 +51,10 @@ final class MoonViewModel {
             moonSymbol: moonSymbol,
             moonPhase: translatedPhase,
             zodiacSign: translatedSign,
-            favorable: favorableActions.map { $0.rawValue },
-            unfavorable: unfavorableActions.map { $0.rawValue },
-            favorableWeekdayActions: weekdayActions.favorable.map { $0.rawValue },
-            unfavorableWeekdayActions: weekdayActions.unfavorable.map { $0.rawValue }
+            favorable: favorableActions.map { $0.text },
+            unfavorable: unfavorableActions.map { $0.text },
+            favorableWeekdayActions: weekdayActions.favorable.map { $0.text },
+            unfavorableWeekdayActions: weekdayActions.unfavorable.map { $0.text }
         )
     }
 }

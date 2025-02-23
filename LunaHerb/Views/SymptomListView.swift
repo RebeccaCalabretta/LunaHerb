@@ -14,7 +14,7 @@ struct SymptomListView: View {
             Text("Hello, World!")
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("AppBackground"))
+        .background(Color("appBackground"))
     }
 }
 
