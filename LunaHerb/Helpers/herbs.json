@@ -3,7 +3,7 @@
         "id": "d1ddb5fe-235d-4a0a-a375-c9a1ef690bb9",
         "name": "Arnika",
         "description": "Arnika ist eine in der Naturheilkunde sehr geschätzte Heilpflanze mit gelben Blüten, die vor allem für ihre entzündungshemmenden und schmerzlindernden Eigenschaften bekannt ist.   Die mehrjährige Pflanze wird bis zu 50 cm hoch. Meistens ist sie aber zwischen 20 und 30 cm groß. Sie ist in Europa vorwiegend in Berggegenden heimisch. So findet man die Arnika beispielsweise in den Alpen, dem Hochschwarzwald und den Vogesen. Sie bevorzugt saure Böden und meidet Kalk.\nIn Deutschland ist die Arnika so selten, dass sie geschützt ist und daher nicht gesammelt werden darf.",
-        "asyncImageURL": "https://www.adiva.hr/wp-content/uploads/2019/11/arnika-ili-brdanka.jpg",
+        "asyncImageURL": "https://www.adiva.hr/wp-content/uploads/2019/11/arnika-ili-brdanka-je-ljekovito-bilje-zanimljivih-svojstava.jpg",
         "properties": [
             "blutreinigend", "durchblutungsfördernd", "entzündungshemmend", "harntreibend", "hautreizend", "krampflösend", "kreislaufstärkend", "schmerzstillend", "schweißtreibend"
         ],
@@ -41,7 +41,7 @@
         "id": "550e8400-e29b-41d4-a716-446655440000",
         "name": "Lavendel",
         "description": "Lavendel wird traditionell zur Beruhigung und Entspannung verwendet.",
-        "asyncImageURL": "https://example.com/lavendel.jpg",
+        "asyncImageURL": "https://www.mein-schoener-garten.de/sites/default/files/styles/discover_1x1/public/Anis%20Bluete%20Makro%2020130711.JPG?h=4e469bdc&itok=AQiUPkcK",
         "properties": ["beruhigend", "schlaffördernd", "krampflösend"],
         "effect": "Wirkt entspannend auf das Nervensystem.",
         "usage": ["Tee", "Öl", "Bäder"],
@@ -57,7 +57,7 @@
         "id": "660e8400-e29b-41d4-a716-446655440001",
         "name": "Pfefferminze",
         "description": "Pfefferminze ist bekannt für ihre erfrischende und verdauungsfördernde Wirkung.",
-        "asyncImageURL": "https://example.com/pfefferminze.jpg",
+        "asyncImageURL": "https://imgix.obi.de/api/disc/cms/public/dam/DE-AT-Assets/pflanzen/ackerschachtelhalm-bekaempfen/1-ackerschachtelhalm-bekaempfen-dam-2095824.jpg",
         "properties": ["erfrischend", "verdauungsfördernd", "krampflösend"],
         "effect": "Lindert Magen-Darm-Beschwerden und erfrischt.",
         "usage": ["Tee", "Öl", "Inhalation"],

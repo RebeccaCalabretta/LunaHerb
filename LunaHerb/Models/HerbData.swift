@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct HerbData: Identifiable, Codable {
+struct HerbData: Identifiable, Hashable, Codable {
     var id: UUID
     var name: String
     var description: String

@@ -11,7 +11,6 @@ struct MainView: View {
     
     var body: some View {
         
-        NavigationStack {
             TabView {
                 Tab("Mond", systemImage: "moon.fill") {
                     MoonView()
@@ -26,12 +25,14 @@ struct MainView: View {
                     SymptomListView()
                 }
             }
-            .tint(Color("Green3"))
-        }
+            .tint(Color("green3"))
+        
     }
 }
 
 #Preview {
     MainView()
         .environment(MoonViewModel())
+        .environment(HerbViewModel())
+
 }

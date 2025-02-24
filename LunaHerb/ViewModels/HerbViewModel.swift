@@ -7,8 +7,9 @@
 
 import Foundation
 
+@MainActor
 @Observable
-class HerbViewModel {
+final class HerbViewModel {
     var herbs: [HerbData] = []
     private var repository = HerbRepository()
     
@@ -20,7 +21,7 @@ class HerbViewModel {
     
     func fetchHerbs() async {
         do {
-            try await repository.loadHerbsFromFile()
+            self.herbs = try await repository.loadHerbsFromFile()
         } catch {
             print("Fehler beim Laden der Kräuterdaten")
         }
