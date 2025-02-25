@@ -8,7 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
-    
+
+    init() {
+        UITabBar.appearance().unselectedItemTintColor = UIColor(named: "unselectedTabItem")
+    }
+
     var body: some View {
         
             TabView {
@@ -25,7 +29,7 @@ struct MainView: View {
                     SymptomListView()
                 }
             }
-            .tint(Color("green3"))
+            .tint(Color("selectedTabItem"))
         
     }
 }
