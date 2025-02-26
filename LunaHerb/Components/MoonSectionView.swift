@@ -1,5 +1,5 @@
 //
-//  SectionView.swift
+//  MoonSectionView.swift
 //  LunaHerb
 //
 //  Created by Rebecca Calabretta on 22.02.25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SectionView: View {
+struct MoonSectionView: View {
     let title: String
     let icon: String
     let color: Color

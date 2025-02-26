@@ -25,7 +25,7 @@ struct MoonView: View {
                     ScrollView {
               
                         LazyVStack(spacing: 16) {
-                            SectionView(
+                            MoonSectionView(
                                 title: "günstig",
                                 icon: "checkmark.circle.fill",
                                 color: .favorableTitle,
@@ -33,7 +33,7 @@ struct MoonView: View {
                                 weekdayActions: moonData.favorableWeekdayActions ?? [],
                                 colorScheme: colorScheme
                             )
-                            SectionView(
+                            MoonSectionView(
                                 title: "ungünstig",
                                 icon: "xmark.circle.fill",
                                 color: .unfavorableTitle,
