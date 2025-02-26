@@ -15,7 +15,6 @@ struct HerbDetailView: View {
             Text(herb.name)
             Text(herb.description)
         }
+        .globalBackground()
     }
-
 }
-

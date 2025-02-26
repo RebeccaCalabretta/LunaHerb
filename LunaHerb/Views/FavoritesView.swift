@@ -14,8 +14,7 @@ struct FavoritesView: View {
         VStack {
             Text("Hello, World!")
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color("appBackground"))
+        .globalBackground()
     }
 }
 

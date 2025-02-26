@@ -52,28 +52,30 @@ struct HerbListView: View {
                 }
             }
             .navigationTitle("Kräuterlexikon")
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        HStack {
-                            Button(action: {
-                                // NotificationsView()
-                            }) {
-                                Image(systemName: "bell")
-                            }
-                            
-                            Button(action: {
-                                // SettingsView()
-                            }) {
-                                Image(systemName: "gearshape")
-                            }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack {
+                        Button(action: {
+                            // NotificationsView()
+                        }) {
+                            Image(systemName: "bell")
+                        }
+                        
+                        Button(action: {
+                            // SettingsView()
+                        }) {
+                            Image(systemName: "gearshape")
                         }
                     }
                 }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color("appBackground"))
+            }
             .navigationDestination(item: $selectedHerb) { herb in
                 HerbDetailView(herb: herb)
             }
+            .tint(Color("selectedTabItem"))
+            .toolbarColorScheme(.dark, for: .navigationBar)
+            .globalBackground()
+
         }
     }
 }

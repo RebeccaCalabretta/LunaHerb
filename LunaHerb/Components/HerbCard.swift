@@ -29,9 +29,10 @@ struct HerbCard: View {
                 .padding(6)
                 .frame(maxWidth: .infinity)
                 .background(
-                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                    UnevenRoundedRectangle(cornerRadii: .init(topLeading: 0.0, bottomLeading: 12.0, bottomTrailing: 12.0, topTrailing: 0.0), style: .continuous)
                         .foregroundColor(.black.opacity(0.6))
-                )        }
+                )
+        }
         .frame(width: 170, height: 170)
         
     }

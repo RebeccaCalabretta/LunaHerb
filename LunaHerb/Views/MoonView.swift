@@ -14,78 +14,80 @@ struct MoonView: View {
     @State private var selectedDate = Date()
     
     var body: some View {
-        VStack {
-            if let moonData = viewModel.moonData {
-                
-                MoonCardView()
-                
-                Divider()
-                
-                ScrollView {
-          
-                    LazyVStack(spacing: 16) {
-                        SectionView(
-                            title: "günstig",
-                            icon: "checkmark.circle.fill",
-                            color: .favorableTitle,
-                            actions: moonData.favorable ?? [],
-                            weekdayActions: moonData.favorableWeekdayActions ?? [],
-                            colorScheme: colorScheme
-                        )
-                        SectionView(
-                            title: "ungünstig",
-                            icon: "xmark.circle.fill",
-                            color: .unfavorableTitle,
-                            actions: moonData.unfavorable ?? [],
-                            weekdayActions: moonData.unfavorableWeekdayActions ?? [],
-                            colorScheme: colorScheme
-                        )
+        NavigationStack {
+            VStack {
+                if let moonData = viewModel.moonData {
+                    
+                    MoonCard()
+                    
+                    Divider()
+                    
+                    ScrollView {
+              
+                        LazyVStack(spacing: 16) {
+                            SectionView(
+                                title: "günstig",
+                                icon: "checkmark.circle.fill",
+                                color: .favorableTitle,
+                                actions: moonData.favorable ?? [],
+                                weekdayActions: moonData.favorableWeekdayActions ?? [],
+                                colorScheme: colorScheme
+                            )
+                            SectionView(
+                                title: "ungünstig",
+                                icon: "xmark.circle.fill",
+                                color: .unfavorableTitle,
+                                actions: moonData.unfavorable ?? [],
+                                weekdayActions: moonData.unfavorableWeekdayActions ?? [],
+                                colorScheme: colorScheme
+                            )
+                        }
+                        .padding()
                     }
-                    .padding()
+                } else {
+                    ProgressView()
                 }
-            } else {
-                ProgressView()
+                
+                Spacer()
+                
+                VStack(spacing: 8) {
+                    Text("Datum wählen:")
+                        .font(.headline)
+                        .foregroundColor(Color("text"))
+                        .padding(8)
+                    
+                    DatePicker("Datum", selection: $selectedDate, displayedComponents: .date)
+                        .datePickerStyle(.compact)
+                        .labelsHidden()
+                    
+                        .padding()
+                        .gradientBackground()
+                        .clipShape(Capsule())
+                                            .onChange(of: selectedDate) { newDate in
+                            Task {
+                                await viewModel.fetchMoonData(for: newDate)
+                            }
+                        }
+                        .shadow(color: colorScheme == .dark ? Color.gray.opacity(0.5) : Color.black.opacity(0.4), radius: 2, x: 2, y: 2)
+                }
+                .padding(.bottom)
             }
-            
-            Spacer()
-            
-            VStack(spacing: 8) {
-                Text("Datum wählen:")
-                    .font(.headline)
-                    .foregroundColor(Color("text"))
-                    .padding(8)
-                
-                DatePicker("Datum", selection: $selectedDate, displayedComponents: .date)
-                    .datePickerStyle(.compact)
-                    .labelsHidden()
-                
-                    .padding()
-                    .gradientBackground()
-                    .clipShape(Capsule())
-                                        .onChange(of: selectedDate) { newDate in
+            .padding()
+            .gesture(
+                DragGesture()
+                    .onEnded { value in
+                        if value.translation.width < -50 {
+                            selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? selectedDate
+                        } else if value.translation.width > 50 {
+                            selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? selectedDate
+                        }
                         Task {
-                            await viewModel.fetchMoonData(for: newDate)
+                            await viewModel.fetchMoonData(for: selectedDate)
                         }
                     }
-                    .shadow(color: colorScheme == .dark ? Color.gray.opacity(0.5) : Color.black.opacity(0.4), radius: 2, x: 2, y: 2)
-            }
-            .padding(.bottom)
+            )
+            .globalBackground()
         }
-        .padding()
-        .background(Color("appBackground"))
-        .gesture(
-            DragGesture()
-                .onEnded { value in
-                    if value.translation.width < -50 {
-                        selectedDate = Calendar.current.date(byAdding: .day, value: 1, to: selectedDate) ?? selectedDate
-                    } else if value.translation.width > 50 {
-                        selectedDate = Calendar.current.date(byAdding: .day, value: -1, to: selectedDate) ?? selectedDate
-                    }
-                    Task {
-                        await viewModel.fetchMoonData(for: selectedDate)
-                    }
-                }
-        )
     }
 }
 

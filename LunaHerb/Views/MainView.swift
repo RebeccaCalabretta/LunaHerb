@@ -8,29 +8,28 @@
 import SwiftUI
 
 struct MainView: View {
-
+    
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(named: "unselectedTabItem")
     }
-
+    
     var body: some View {
         
-            TabView {
-                Tab("Mond", systemImage: "moon.fill") {
-                    MoonView()
-                }
-                Tab("Favoriten", systemImage: "heart.fill") {
-                    FavoritesView()
-                }
-                Tab("Kräuter", systemImage: "leaf.fill") {
-                    HerbListView()
-                }
-                Tab("Symptome", systemImage: "stethoscope") {
-                    SymptomListView()
-                }
+        TabView {
+            Tab("Mond", systemImage: "moon.fill") {
+                MoonView()
             }
-            .tint(Color("selectedTabItem"))
-        
+            Tab("Favoriten", systemImage: "heart.fill") {
+                FavoritesView()
+            }
+            Tab("Kräuter", systemImage: "leaf.fill") {
+                HerbListView()
+            }
+            Tab("Symptome", systemImage: "stethoscope") {
+                SymptomListView()
+            }
+        }
+        .tint(Color("selectedTabItem"))
     }
 }
 
@@ -38,5 +37,5 @@ struct MainView: View {
     MainView()
         .environment(MoonViewModel())
         .environment(HerbViewModel())
-
+    
 }

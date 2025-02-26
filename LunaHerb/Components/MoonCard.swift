@@ -1,5 +1,5 @@
 //
-//  MoonCardView.swift
+//  MoonCard.swift
 //  LunaHerb
 //
 //  Created by Rebecca Calabretta on 22.02.25.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct MoonCardView: View {
+struct MoonCard: View {
     @Environment(MoonViewModel.self) private var viewModel
 
     var body: some View {
@@ -32,6 +32,6 @@ struct MoonCardView: View {
 }
 
 #Preview {
-    MoonCardView()
+    MoonCard()
         .environment(MoonViewModel())
 }
