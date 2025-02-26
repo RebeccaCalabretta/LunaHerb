@@ -13,7 +13,7 @@ struct HerbCard: View {
     
     var body: some View {
         ZStack(alignment: .bottom) {
-            AsyncImage(url: URL(string: herb.asyncImageURL)) { image in
+            AsyncImage(url: herb.asyncImageURL) { image in
                 image
                     .resizable()
                     .scaledToFill()
