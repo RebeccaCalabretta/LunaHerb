@@ -60,7 +60,6 @@ struct HerbListView: View {
                         }) {
                             Image(systemName: "bell")
                         }
-                        
                         Button(action: {
                             // SettingsView()
                         }) {
@@ -73,9 +72,7 @@ struct HerbListView: View {
                 HerbDetailView(herb: herb)
             }
             .tint(Color("selectedTabItem"))
-            .toolbarColorScheme(.dark, for: .navigationBar)
             .globalBackground()
-
         }
     }
 }

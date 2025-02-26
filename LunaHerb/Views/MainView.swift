@@ -9,8 +9,11 @@ import SwiftUI
 
 struct MainView: View {
     
+    @Environment(\.colorScheme) private var colorScheme
+    
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(named: "unselectedTabItem")
+        UITabBar.appearance().backgroundColor = UIColor(named: "tabBarBackground")
     }
     
     var body: some View {
@@ -30,6 +33,7 @@ struct MainView: View {
             }
         }
         .tint(Color("selectedTabItem"))
+        
     }
 }
 

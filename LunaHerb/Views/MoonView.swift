@@ -23,7 +23,7 @@ struct MoonView: View {
                     Divider()
                     
                     ScrollView {
-              
+                        
                         LazyVStack(spacing: 16) {
                             MoonSectionView(
                                 title: "günstig",
@@ -63,7 +63,7 @@ struct MoonView: View {
                         .padding()
                         .gradientBackground()
                         .clipShape(Capsule())
-                                            .onChange(of: selectedDate) { newDate in
+                        .onChange(of: selectedDate) { newDate in
                             Task {
                                 await viewModel.fetchMoonData(for: newDate)
                             }

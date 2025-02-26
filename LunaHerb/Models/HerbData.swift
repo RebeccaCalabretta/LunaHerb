@@ -11,10 +11,7 @@ struct HerbData: Identifiable, Hashable, Codable {
     var id: UUID
     var name: String
     var description: String
-    let imageURLString: String
-    var asyncImageURL: URL? {
-        URL(string: imageURLString)
-    }
+    var asyncImageURL: URL
     var properties: [String]
     var effect: String
     var usage: [String]
