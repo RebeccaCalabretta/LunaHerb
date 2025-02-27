@@ -19,7 +19,7 @@ struct MainTabView: View {
                 MoonView()
             }
             Tab("Favoriten", systemImage: "heart.fill") {
-                FavoritesView()
+                FavoritesListView()
             }
             Tab("Kräuter", systemImage: "leaf.fill") {
                 HerbListView()

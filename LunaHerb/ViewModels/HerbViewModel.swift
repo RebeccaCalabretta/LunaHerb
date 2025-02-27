@@ -31,4 +31,8 @@ final class HerbViewModel {
         guard let index = herbs.firstIndex(where: { $0.id == herb.id }) else { return }
             herbs[index].isFavorite.toggle()
     }
+    
+    func getFavoriteHerbs() -> [HerbData] {
+        return herbs.filter { $0.isFavorite }
+    }
 }
