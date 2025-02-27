@@ -13,19 +13,7 @@ struct HerbDetailView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            GeometryReader { geometry in
-                AsyncImage(url: herb.asyncImageURL) { image in
-                    image
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: geometry.size.width, height: 250)
-                        .clipped()
-                        .edgesIgnoringSafeArea(.all)
-                } placeholder: {
-                    Color(".gray")
-                }
-            }
-            .frame(height: 150)
+            HerbDetailHeaderView(herb: herb)
             HerbTabView(herb: herb, selectedTab: $selectedTab)
         }
         .globalBackground()

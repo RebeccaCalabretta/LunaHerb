@@ -18,14 +18,6 @@ struct HerbListView: View {
         GridItem(.flexible())
     ]
     
-    var searchedHerbs: [HerbData] {
-        if searchText.isEmpty {
-            return viewModel.herbs
-        } else {
-            return viewModel.herbs.filter { $0.name.lowercased().contains(searchText.lowercased()) }
-        }
-    }
-    
     var body: some View {
         NavigationStack {
             VStack {
