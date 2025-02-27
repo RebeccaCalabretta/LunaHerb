@@ -41,13 +41,13 @@ struct HerbCard: View {
                     await viewModel.toggleFavorite(for: herb)
                 }
             }) {
-                Image(systemName: herb.isFavorite ? "heart.fill" : "heart")
+                Image(systemName: "heart.fill")
                     .foregroundColor(herb.isFavorite ? .red : .white)
+                    .font(.system(size: 20))
             }
             .padding(10), alignment: .topTrailing
 
         )
-       
     }
 }
    

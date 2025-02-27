@@ -9,6 +9,7 @@ import SwiftUI
 
 struct HerbDetailHeaderView: View {
     let herb: HerbData
+    @Environment(HerbViewModel.self) private var viewModel
     
     var body: some View {
         GeometryReader { geometry in
@@ -25,6 +26,19 @@ struct HerbDetailHeaderView: View {
             }
         }
         .frame(height: 150)
+        .overlay(
+            Button(action: {
+                Task {
+                    await viewModel.toggleFavorite(for: herb)
+                }
+            }) {
+                Image(systemName: "heart.fill")
+                    .foregroundColor(herb.isFavorite ? .red : .white)
+                    .font(.system(size: 30))
+            }
+            .padding(20), alignment: .bottomTrailing
+
+        )
     }
 }
 
