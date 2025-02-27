@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Observation
 import CoreLocation
 import EKAstrologyCalc
 

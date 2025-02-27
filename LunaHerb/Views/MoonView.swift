@@ -14,7 +14,6 @@ struct MoonView: View {
     @State private var selectedDate = Date()
     
     var body: some View {
-        NavigationStack {
             VStack {
                 if let moonData = viewModel.moonData {
                     
@@ -23,7 +22,6 @@ struct MoonView: View {
                     Divider()
                     
                     ScrollView {
-                        
                         LazyVStack(spacing: 16) {
                             MoonSectionView(
                                 title: "günstig",
@@ -59,7 +57,6 @@ struct MoonView: View {
                     DatePicker("Datum", selection: $selectedDate, displayedComponents: .date)
                         .datePickerStyle(.compact)
                         .labelsHidden()
-                    
                         .padding()
                         .gradientBackground()
                         .clipShape(Capsule())
@@ -87,7 +84,6 @@ struct MoonView: View {
                     }
             )
             .globalBackground()
-        }
     }
 }
 

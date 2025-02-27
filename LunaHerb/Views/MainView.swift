@@ -8,32 +8,11 @@
 import SwiftUI
 
 struct MainView: View {
-    
-    @Environment(\.colorScheme) private var colorScheme
-    
-    init() {
-        UITabBar.appearance().unselectedItemTintColor = UIColor(named: "unselectedTabItem")
-        UITabBar.appearance().backgroundColor = UIColor(named: "tabBarBackground")
-    }
-    
+
     var body: some View {
-        
-        TabView {
-            Tab("Mond", systemImage: "moon.fill") {
-                MoonView()
-            }
-            Tab("Favoriten", systemImage: "heart.fill") {
-                FavoritesView()
-            }
-            Tab("Kräuter", systemImage: "leaf.fill") {
-                HerbListView()
-            }
-            Tab("Symptome", systemImage: "stethoscope") {
-                SymptomListView()
-            }
+        NavigationStack {
+            MainTabView()
         }
-        .tint(Color("selectedTabItem"))
-        
     }
 }
 
@@ -41,5 +20,4 @@ struct MainView: View {
     MainView()
         .environment(MoonViewModel())
         .environment(HerbViewModel())
-    
 }
