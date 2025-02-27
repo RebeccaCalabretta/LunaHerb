@@ -21,5 +21,5 @@ struct HerbData: Identifiable, Hashable, Codable {
     var contraindications: [String]?
     var harvestTime: String
     var harvest: String
-    var isFavorite: Bool
+    var isFavorite: Bool = false
 }

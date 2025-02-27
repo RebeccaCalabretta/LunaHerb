@@ -26,5 +26,9 @@ final class HerbViewModel {
             print("Fehler beim Laden der Kräuterdaten")
         }
     }
-     
+   
+    func toggleFavorite(for herb: HerbData) async {
+        guard let index = herbs.firstIndex(where: { $0.id == herb.id }) else { return }
+            herbs[index].isFavorite.toggle()
+    }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct HerbCard: View {
     
     let herb: HerbData
+    @Environment(HerbViewModel.self) private var viewModel
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -34,7 +35,20 @@ struct HerbCard: View {
                 )
         }
         .frame(width: 170, height: 170)
-        
+        .overlay(
+            Button(action: {
+                Task {
+                    await viewModel.toggleFavorite(for: herb)
+                }
+            }) {
+                Image(systemName: herb.isFavorite ? "heart.fill" : "heart")
+                    .foregroundColor(herb.isFavorite ? .red : .white)
+            }
+            .padding(10), alignment: .topTrailing
+
+        )
+       
     }
 }
-
+   
+    
