@@ -11,12 +11,13 @@ struct MoonView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @State private var viewModel = MoonViewModel()
+    @State private var selectedDate = Date()
     
     var body: some View {
         VStack {
             if let moonData = viewModel.moonData {
-                MoonCard()
-                
+                MoonHeaderView(selectedDate: $selectedDate, viewModel: $viewModel)
+
                 Divider()
                 
                 ScrollView {
@@ -68,9 +69,9 @@ struct MoonView: View {
             DragGesture()
                 .onEnded { value in
                     if value.translation.width < -50 {
-                        viewModel.changeDate(by: 1)
+                        viewModel.changeDay(by: 1)
                     } else if value.translation.width > 50 {
-                        viewModel.changeDate(by: -1)
+                        viewModel.changeDay(by: -1)
                     }
                 }
         )

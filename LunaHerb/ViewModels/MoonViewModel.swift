@@ -63,7 +63,7 @@ final class MoonViewModel {
         )
     }
     
-    func changeDate(by days: Int) {
+    func changeDay(by days: Int) {
         if let newDate = Calendar.current.date(byAdding: .day, value: days, to: selectedDate) {
             selectedDate = newDate
         }

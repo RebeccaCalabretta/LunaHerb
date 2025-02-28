@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct MoonCard: View {
-    @Environment(MoonViewModel.self) private var viewModel
-
+    @Binding var viewModel: MoonViewModel
+    
     var body: some View {
         
         VStack {
@@ -29,9 +29,4 @@ struct MoonCard: View {
             }
         }
     }
-}
-
-#Preview {
-    MoonCard()
-        .environment(MoonViewModel())
 }
