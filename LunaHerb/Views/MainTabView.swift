@@ -29,6 +29,7 @@ struct MainTabView: View {
             }
         }
         .tint(Color("selectedTabItem"))
+        .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
     }
 }
 
