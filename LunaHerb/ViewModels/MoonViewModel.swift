@@ -9,18 +9,22 @@ import Foundation
 import Observation
 import CoreLocation
 import EKAstrologyCalc
+import SwiftUI
 
 @Observable
 @MainActor
 final class MoonViewModel {
+    
     var moonData: MoonData?
+    var selectedDate: Date = Date() {
+        didSet { Task { await fetchMoonData(for: selectedDate) } }
+    }
+
     private let locationManager = CLLocationManager()
     private var moonPhaseManager: EKAstrologyCalc?
     
     init() {
-        Task {
-            await fetchMoonData()
-        }
+        Task { await fetchMoonData() }
     }
     
     func fetchMoonData(for date: Date = Date()) async {
@@ -29,7 +33,7 @@ final class MoonViewModel {
         moonPhaseManager = EKAstrologyCalc(location: location)
         let info = moonPhaseManager?.getInfo(date: date)
         
-        guard let moonInfo = info!.moonModels.first else { return }
+        guard let moonInfo = info?.moonModels.first else { return }
         
         let translatedPhase = info!.phase.toGerman
         let translatedSign = moonInfo.sign.toGerman
@@ -57,5 +61,11 @@ final class MoonViewModel {
             favorableWeekdayActions: weekdayActions.favorable.map { $0.text },
             unfavorableWeekdayActions: weekdayActions.unfavorable.map { $0.text }
         )
+    }
+    
+    func changeDate(by days: Int) {
+        if let newDate = Calendar.current.date(byAdding: .day, value: days, to: selectedDate) {
+            selectedDate = newDate
+        }
     }
 }
