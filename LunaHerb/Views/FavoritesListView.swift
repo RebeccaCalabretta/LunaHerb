@@ -18,7 +18,6 @@ struct FavoritesListView: View {
     ]
     
     var body: some View {
-        NavigationStack {
             VStack {
                 TextField("Suche nach favorisierten Kräutern...", text: $searchText)
                     .padding()
@@ -43,7 +42,6 @@ struct FavoritesListView: View {
             }
             .tint(Color("selectedTabItem"))
             .globalBackground()
-        }
     }
 }
 

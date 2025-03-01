@@ -19,7 +19,6 @@ struct HerbListView: View {
     ]
     
     var body: some View {
-        NavigationStack {
             VStack {
                 TextField("Suche nach Kräutern...", text: $searchText)
                     .padding()
@@ -65,7 +64,7 @@ struct HerbListView: View {
             }
             .tint(Color("selectedTabItem"))
             .globalBackground()
-        }
+        
     }
 }
 
