@@ -17,6 +17,7 @@ struct HerbDetailView: View {
             HerbTabView(herb: herb, selectedTab: $selectedTab)
         }
         .globalBackground()
+        .toolbar(.hidden, for: .navigationBar)
     }
 }
 

@@ -17,7 +17,6 @@ struct EffectsView: View {
                 HerbSectionView(title: "Eigenschaften", content: viewModel.properties)
             }
             .padding()
-            Spacer()
         }
     }
 }

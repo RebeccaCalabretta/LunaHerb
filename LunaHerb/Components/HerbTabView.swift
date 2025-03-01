@@ -19,7 +19,7 @@ struct HerbTabView: View {
         }
         .padding(.horizontal)
         .frame(maxWidth: .infinity)
-        .background(Color("green3").opacity(0.4))
+        .background(Color("tabBarBackground"))
             TabView(selection: $selectedTab) {
                 DescriptionView(viewModel: herb.toDescriptionViewModel()).tag(0)
                 EffectsView(viewModel: herb.toEffectsViewModel()).tag(1)

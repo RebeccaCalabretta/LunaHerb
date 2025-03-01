@@ -39,7 +39,7 @@ struct MoonView: View {
                             colorScheme: colorScheme
                         )
                     }
-                    .padding()
+                    .padding(20)
                 }
             } else {
                 ProgressView()

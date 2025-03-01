@@ -18,11 +18,11 @@ struct MainTabView: View {
             Tab("Mond", systemImage: "moon.fill") {
                 MoonView()
             }
-            Tab("Favoriten", systemImage: "heart.fill") {
-                FavoritesListView()
-            }
             Tab("Kräuter", systemImage: "leaf.fill") {
                 HerbListView()
+            }
+            Tab("Favoriten", systemImage: "heart.fill") {
+                FavoritesListView()
             }
             Tab("Symptome", systemImage: "stethoscope") {
                 SymptomListView()
