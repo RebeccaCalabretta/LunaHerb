@@ -19,7 +19,7 @@ struct HerbData: Identifiable, Hashable, Codable {
     var ingredients: [String]
     var sideEffects: [String]?
     var contraindications: [String]?
-    var harvestTime: String
-    var harvest: String
+    var harvestTime: [String]
+    var harvest: String?
     var isFavorite: Bool = false
 }

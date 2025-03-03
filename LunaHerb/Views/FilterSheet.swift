@@ -37,7 +37,7 @@ struct FilterSheet: View {
             ScrollView {
                 VStack(alignment: .leading) {
                    FilterSection(title: "Eigenschaften", items: properties, selectedFilters: $selectedFilters)
-                    FilterSection(title: "Symptome", items: symptoms, selectedFilters: $selectedFilters)
+                    FilterSection(title: "Anwendungsgebiete", items: symptoms, selectedFilters: $selectedFilters)
                     FilterSection(title: "Inhaltsstoffe", items: ingredients, selectedFilters: $selectedFilters)
                 }
             }

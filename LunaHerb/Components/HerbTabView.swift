@@ -13,7 +13,7 @@ struct HerbTabView: View {
     
     var body: some View {
         HStack {
-            HerbTabButton(title: "Beschreibung", icon: "info.circle", tag: 0, selectedTab: $selectedTab)
+            HerbTabButton(title: "Allgemeine Info", icon: "info.circle", tag: 0, selectedTab: $selectedTab)
             HerbTabButton(title: "Wirkung", icon: "leaf", tag: 1, selectedTab: $selectedTab)
             HerbTabButton(title: "Anwendung", icon: "cross.case", tag: 2, selectedTab: $selectedTab)
         }

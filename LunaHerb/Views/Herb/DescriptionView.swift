@@ -14,8 +14,9 @@ struct DescriptionView: View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
                 HerbSectionView(title: "Beschreibung", content: herb.description)
-                HerbSectionView(title: "Inhaltsstoffe", content: herb.ingredients.joined(separator: ", "))
+                HerbSectionView(title: "Inhaltsstoffe", content: herb.ingredients)
                 HerbSectionView(title: "Ernte", content: herb.harvest)
+                HerbSectionView(title: "Erntezeit", content: herb.harvestTime)
             }
             .padding()
         }

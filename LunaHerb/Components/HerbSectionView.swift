@@ -16,14 +16,13 @@ struct HerbSectionView: View {
             
             Text(title)
                 .font(.headline)
-                .foregroundStyle(Color("cardText"))
+                .foregroundStyle(Color("titleText"))
             
             if let contentArray = content as? [String] {
                 ForEach(contentArray, id: \.self) { item in
                     Text("• ").bold() + Text(item)
                         .font(.body)
-                        .foregroundStyle(.primary)
-                }
+                    .foregroundStyle(Color("cardText"))                }
             } else if let contentText = content as? String {
                 let parts = contentText.split(separator: "\n").map { String($0) }
                 
@@ -31,13 +30,11 @@ struct HerbSectionView: View {
                     if let attributedString = try? AttributedString(markdown: part) {
                         Text(attributedString)
                             .font(.body)
-                            .foregroundStyle(.primary)
-                            .padding(.vertical, 2)
+                            .foregroundStyle(Color("cardText")).padding(.vertical, 2)
                     } else {
                         Text(part)
                             .font(.body)
-                            .foregroundStyle(.primary)
-                            .padding(.vertical, 2)
+                            .foregroundStyle(Color("cardText")).padding(.vertical, 2)
                     }
                 }
             }
