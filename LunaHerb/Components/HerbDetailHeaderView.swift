@@ -5,8 +5,6 @@
 //  Created by Rebecca Calabretta on 27.02.25.
 //
 
-
-
 import SwiftUI
 
 struct HerbDetailHeaderView: View {

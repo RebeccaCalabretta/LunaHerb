@@ -8,10 +8,11 @@
 import SwiftUI
 
 struct HerbListView: View {
-    
     @Environment(HerbViewModel.self) private var viewModel
     @State private var searchText = ""
     @State private var selectedHerb: HerbData? = nil
+    @State private var selectedFilters: Set<String> = []
+    @State private var showFilterSheet = false
     
     let columns = [
         GridItem(.flexible()),
@@ -19,14 +20,36 @@ struct HerbListView: View {
     ]
     
     var body: some View {
-            VStack {
-                TextField("Suche nach Kräutern...", text: $searchText)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding([.leading, .trailing])
+        VStack {
+            HStack {
+                Button {
+                    showFilterSheet = true
+                } label: {
+                    Image(systemName: "slider.horizontal.3")
+                        .font(.title2)
+                        .foregroundStyle(Color("selectedTabItem"))
+                        .padding(.leading, 5)
+                }
                 
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 16) {
+                Spacer()
+                
+                if !selectedFilters.isEmpty {
+                    Button {
+                        selectedFilters.removeAll()
+                        viewModel.filteredHerbs = viewModel.herbs
+                    } label: {
+                        Text("Filter löschen")
+                            .font(.headline)
+                            .foregroundColor(Color("selectedTabItem"))
+                    }
+                    .padding(.trailing, 5)
+                }
+            }
+            .padding(.horizontal)
+            
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 16) {
+                    if searchText.isEmpty && selectedFilters.isEmpty {
                         ForEach(viewModel.herbs) { herb in
                             HerbCard(herb: herb)
                                 .onTapGesture {
@@ -34,37 +57,62 @@ struct HerbListView: View {
                                 }
                         }
                     }
-                    .padding()
-                }
-            }
-            .onAppear {
-                Task {
-                    await viewModel.fetchHerbs()
-                }
-            }
-            .navigationTitle("Kräuterlexikon")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack {
-                        Button(action: {
-                            // NotificationsView()
-                        }) {
-                            Image(systemName: "bell")
-                        }
-                        Button(action: {
-                            // SettingsView()
-                        }) {
-                            Image(systemName: "gearshape")
+                    else {
+                        ForEach(viewModel.filteredHerbs) { herb in
+                            HerbCard(herb: herb)
+                                .onTapGesture {
+                                    selectedHerb = herb
+                                }
                         }
                     }
                 }
+                .padding()
             }
-            .navigationDestination(item: $selectedHerb) { herb in
-                HerbDetailView(herb: herb)
+        }
+        .onAppear {
+            searchText = ""
+            Task {
+                await viewModel.fetchHerbs()
             }
-            .tint(Color("selectedTabItem"))
-            .globalBackground()
-        
+        }
+        .sheet(isPresented: $showFilterSheet) {
+            FilterSheet(isPresented: $showFilterSheet) { filters in
+                selectedFilters = filters
+                viewModel.filterHerbs(with: searchText, filters: filters)
+                
+                if filters.isEmpty {
+                    selectedFilters.removeAll()
+                    viewModel.filteredHerbs = viewModel.herbs
+                }
+            }
+        }
+        .navigationTitle("Kräuterlexikon")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                HStack {
+                    Button{
+                        // NotificationsView()
+                    } label: {
+                        Image(systemName: "bell")
+                    }
+                    Button {
+                        // SettingsView()
+                    } label: {
+                        Image(systemName: "gearshape")
+                    }
+                }
+                .font(.headline)
+            }
+        }
+        .navigationDestination(item: $selectedHerb) { herb in
+            HerbDetailView(herb: herb)
+        }
+        .tint(Color("selectedTabItem"))
+        .globalBackground()
+        .searchable(text: $searchText)
+        .onChange(of: searchText) { newValue in
+            viewModel.filterHerbs(with: newValue, filters: selectedFilters)
+        }
     }
 }
 
