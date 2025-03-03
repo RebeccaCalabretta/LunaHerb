@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct EffectsView: View {
-    var viewModel: EffectsViewModel
-
+    var herb: HerbData
+    
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                HerbSectionView(title: "Wirkung", content: viewModel.effect)
-                HerbSectionView(title: "Eigenschaften", content: viewModel.properties)
+                HerbSectionView(title: "Wirkung", content: herb.effect)
+                HerbSectionView(title: "Eigenschaften", content: herb.properties)
             }
             .padding()
         }

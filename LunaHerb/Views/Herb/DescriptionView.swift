@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct DescriptionView: View {
-    var viewModel: DescriptionViewModel
+    var herb: HerbData
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                HerbSectionView(title: "Beschreibung", content: viewModel.description)
-                HerbSectionView(title: "Inhaltsstoffe", content: viewModel.ingredients.joined(separator: ", "))
-                HerbSectionView(title: "Ernte", content: viewModel.harvest)
+                HerbSectionView(title: "Beschreibung", content: herb.description)
+                HerbSectionView(title: "Inhaltsstoffe", content: herb.ingredients.joined(separator: ", "))
+                HerbSectionView(title: "Ernte", content: herb.harvest)
             }
             .padding()
         }

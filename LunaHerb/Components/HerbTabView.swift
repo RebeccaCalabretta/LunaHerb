@@ -20,12 +20,13 @@ struct HerbTabView: View {
         .padding(.horizontal)
         .frame(maxWidth: .infinity)
         .background(Color("tabBarBackground"))
-            TabView(selection: $selectedTab) {
-                DescriptionView(viewModel: herb.toDescriptionViewModel()).tag(0)
-                EffectsView(viewModel: herb.toEffectsViewModel()).tag(1)
-                UsageView(viewModel: herb.toUsageViewModel()).tag(2)
-            }
-            .tabViewStyle(.page(indexDisplayMode: .never))
-            .animation(.easeInOut, value: selectedTab)    }
+        
+        TabView(selection: $selectedTab) {
+            DescriptionView(herb: herb).tag(0)
+            EffectsView(herb: herb).tag(1)
+            UsageView(herb: herb).tag(2)
+        }
+        .tabViewStyle(.page(indexDisplayMode: .never))
+        .animation(.easeInOut, value: selectedTab)
+    }
 }
-
