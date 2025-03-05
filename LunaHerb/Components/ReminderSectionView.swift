@@ -10,7 +10,6 @@ import SwiftUI
 struct ReminderSectionView: View {
     var reminder: Reminder
     let colorScheme: ColorScheme
-
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -18,7 +17,6 @@ struct ReminderSectionView: View {
                 .font(.headline)
                 .foregroundStyle(Color("favorableTitle"))
             Text(reminder.message)
-           
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .sectionBackground(colorScheme: colorScheme)

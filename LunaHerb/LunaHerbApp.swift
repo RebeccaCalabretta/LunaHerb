@@ -11,12 +11,14 @@ import SwiftUI
 struct LunaHerbApp: App {
     @State private var moonViewModel = MoonViewModel()
     @State private var herbViewModel = HerbViewModel()
-  
+    @State private var reminderVM = ReminderVM()
+
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environment(moonViewModel)
                 .environment(herbViewModel)
+                .environment(reminderVM)
         }
     }
 }

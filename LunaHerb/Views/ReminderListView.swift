@@ -12,8 +12,8 @@ struct ReminderListView: View {
     @Environment(\.colorScheme) var colorScheme
 
     @State var showCreateReminder = false
-    @State var viewModel = ReminderVM()
-
+    @Environment(ReminderVM.self) private var viewModel
+    
     var body: some View {
         ScrollView {
             LazyVStack(alignment: .leading, spacing: 16) {
@@ -41,7 +41,8 @@ struct ReminderListView: View {
             }
         }
         .sheet(isPresented: $showCreateReminder) {
-            //CreateReminder(viewModel: viewModel)
+            CreateReminder()
+                .presentationDetents([.medium])
         }
         .globalBackground()
     }
@@ -49,4 +50,5 @@ struct ReminderListView: View {
 
 #Preview {
     ReminderListView()
+        .environment(ReminderVM())
 }
