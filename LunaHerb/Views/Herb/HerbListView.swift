@@ -13,6 +13,8 @@ struct HerbListView: View {
     @State private var selectedHerb: HerbData? = nil
     @State private var selectedFilters: Set<String> = []
     @State private var showFilterSheet = false
+    @State private var showReminderList = false
+
     
     let columns = [
         GridItem(.flexible()),
@@ -90,8 +92,8 @@ struct HerbListView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 HStack {
-                    Button{
-                        // NotificationsView()
+                    Button {
+                        showReminderList = true
                     } label: {
                         Image(systemName: "bell")
                     }
@@ -103,6 +105,9 @@ struct HerbListView: View {
                 }
                 .font(.headline)
             }
+        }
+        .navigationDestination(isPresented: $showReminderList) { 
+            ReminderListView()
         }
         .navigationDestination(item: $selectedHerb) { herb in
             HerbDetailView(herb: herb)
