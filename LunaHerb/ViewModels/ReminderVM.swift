@@ -22,9 +22,9 @@ final class ReminderVM {
             reminders.remove(at: index)
         }
     }
-    func updateReminder(reminder: Reminder, message: String, date: Date) {
+    func updateReminder(reminder: Reminder) {
         if let index = reminders.firstIndex(where: { $0.id == reminder.id }) {
-            reminders[index] = Reminder(id: reminder.id, message: message, date: date)
+            reminders[index] = reminder
         }
     }
 }

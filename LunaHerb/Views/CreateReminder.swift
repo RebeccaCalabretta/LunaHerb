@@ -12,12 +12,19 @@ struct CreateReminder: View {
     @Environment(ReminderVM.self) private var viewModel
     @State private var message: String = ""
     @State private var selectedDate: Date = Date()
+    @Binding var reminder: Reminder?
     
     var body: some View {
         NavigationStack {
             Form {
                 Section(header: Text("Erinnerung")) {
                     TextField("Nachricht eingeben", text: $message)
+                        .onAppear {
+                            if let reminder = reminder {
+                                self.message = reminder.message
+                                self.selectedDate = reminder.date
+                            }
+                        }
                 }
                 
                 Section {
@@ -32,7 +39,7 @@ struct CreateReminder: View {
                 }
             }
             .scrollContentBackground(.hidden)
-            .background(Color.blue.ignoresSafeArea())
+            .background(Color.yellow.ignoresSafeArea())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -42,7 +49,20 @@ struct CreateReminder: View {
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Speichern") {
-                        viewModel.addReminder(message: message, date: selectedDate)
+                        if let reminder = reminder {
+                            let updatedReminder = Reminder(
+                                id: reminder.id,
+                                message: message,
+                                date: selectedDate
+                            )
+                            viewModel.updateReminder(reminder: updatedReminder)
+                        } else {
+                            let newReminder = Reminder(
+                                message: message,
+                                date: selectedDate
+                            )
+                            viewModel.addReminder(message: newReminder.message, date: newReminder.date)
+                        }
                         dismiss()
                     }
                     .disabled(message.isEmpty)
