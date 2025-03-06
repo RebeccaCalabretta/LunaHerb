@@ -2,19 +2,17 @@
 //  FilterSheet.swift
 //  LunaHerb
 //
-//  Created by Rebecca Calabretta on 01.03.25.
+//  Created by Rebecca Calabretta on 01.03.25. 
 //
 
 import SwiftUI
 
 struct FilterSheet: View {
-    
     @Environment(HerbViewModel.self) private var viewModel
     @Binding var isPresented: Bool
-    @State private var selectedFilters: Set<String> = []
-    var applyFilters: (Set<String>) -> ()
-    
-    
+    @Binding var selectedFilters: Set<String>
+    @State private var tempSelectedFilters: Set<String> = []
+
     var properties: [String] {
         Set(viewModel.herbs.flatMap { $0.properties }).sorted()
     }
@@ -26,7 +24,7 @@ struct FilterSheet: View {
     var ingredients: [String] {
         Set(viewModel.herbs.flatMap { $0.ingredients }).sorted()
     }
-    
+
     var body: some View {
         VStack {
             Text("Filter auswählen")
@@ -36,19 +34,31 @@ struct FilterSheet: View {
             
             ScrollView {
                 VStack(alignment: .leading) {
-                   FilterSection(title: "Eigenschaften", items: properties, selectedFilters: $selectedFilters)
-                    FilterSection(title: "Anwendungsgebiete", items: symptoms, selectedFilters: $selectedFilters)
-                    FilterSection(title: "Inhaltsstoffe", items: ingredients, selectedFilters: $selectedFilters)
+                    FilterSection(title: "Eigenschaften", items: properties, selectedFilters: $tempSelectedFilters)
+                    FilterSection(title: "Anwendungsgebiete", items: symptoms, selectedFilters: $tempSelectedFilters)
+                    FilterSection(title: "Inhaltsstoffe", items: ingredients, selectedFilters: $tempSelectedFilters)
                 }
             }
-            GeneralButton(title: "Filter anwenden", action: {
-                applyFilters(selectedFilters)
-                isPresented = false
-            })
+            
+            VStack {
+                GeneralButton(title: "Filter anwenden") {
+                    selectedFilters = tempSelectedFilters
+                    viewModel.filterHerbs(with: "", filters: selectedFilters)
+                    isPresented = false
+                }
+                .padding(.bottom, 8)
+                Button("Filter löschen") {
+                    tempSelectedFilters.removeAll()
+                }
+                .foregroundColor(Color("cancelActions"))
+            }
+            .padding()
+        }
+        .onAppear {
+            tempSelectedFilters = selectedFilters
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color("appBackground").opacity(0.4).ignoresSafeArea())
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        
     }
 }

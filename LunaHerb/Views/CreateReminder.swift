@@ -39,13 +39,14 @@ struct CreateReminder: View {
                 }
             }
             .scrollContentBackground(.hidden)
-            .background(Color.yellow.ignoresSafeArea())
+            .background(Color("appBackground").opacity(0.4).ignoresSafeArea())
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Abbrechen") {
                         dismiss()
                     }
+                    .foregroundStyle(Color("cancelActions"))
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Speichern") {

@@ -11,22 +11,46 @@ struct FavoritesListView: View {
     @Environment(HerbViewModel.self) private var viewModel
     @State private var searchText = ""
     @State private var selectedHerb: HerbData? = nil
-    
+    @State private var showFilterSheet = false
+    @State private var selectedFilters: Set<String> = []
+
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     var body: some View {
+        NavigationStack {
             VStack {
-                TextField("Suche nach favorisierten Kräutern...", text: $searchText)
-                    .padding()
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding([.leading, .trailing])
-                
+                HStack {
+                    Button {
+                        showFilterSheet = true
+                    } label: {
+                        Image(systemName: "slider.horizontal.3")
+                            .font(.title2)
+                            .foregroundStyle(Color("selectedTabItem"))
+                            .padding(.leading, 5)
+                    }
+
+                    Spacer()
+
+                    if !selectedFilters.isEmpty {
+                        Button {
+                            selectedFilters.removeAll()
+                            viewModel.filteredHerbs = viewModel.herbs
+                        } label: {
+                            Text("Filter löschen")
+                                .font(.headline)
+                                .foregroundColor(Color("selectedTabItem"))
+                        }
+                        .padding(.trailing, 5)
+                    }
+                }
+                .padding(.horizontal)
+
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.getFavoriteHerbs()) { herb in
+                        ForEach(viewModel.filteredHerbs) { herb in
                             HerbCard(herb: herb)
                                 .onTapGesture {
                                     selectedHerb = herb
@@ -37,11 +61,23 @@ struct FavoritesListView: View {
                 }
             }
             .navigationTitle("Favoriten")
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(item: $selectedHerb) { herb in
                 HerbDetailView(herb: herb)
             }
             .tint(Color("selectedTabItem"))
             .globalBackground()
+            .searchable(text: $searchText)
+            .onChange(of: searchText) { newValue in
+                viewModel.filterFavoriteHerbs(with: newValue, filters: selectedFilters)
+            }
+            .onChange(of: selectedFilters) { newFilters in
+                viewModel.filterFavoriteHerbs(with: searchText, filters: newFilters)
+            }
+            .sheet(isPresented: $showFilterSheet) {
+                FilterSheet(isPresented: $showFilterSheet, selectedFilters: $selectedFilters)
+            }
+        }
     }
 }
 

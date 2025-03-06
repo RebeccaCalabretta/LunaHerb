@@ -16,7 +16,7 @@ struct ReminderListView: View {
     
     var body: some View {
         List {
-            Section(header: Text("Bevorstehende Erinnerungen").font(.headline)) {
+            Section("Bevorstehende Erinnerungen") {
                 ForEach(viewModel.reminders.filter { $0.date > Date() }
                     .sorted { $0.date < $1.date }) { reminder in
                         ReminderSectionView(reminder: reminder, colorScheme: colorScheme)
@@ -26,13 +26,13 @@ struct ReminderListView: View {
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }
-                                .tint(Color("unfavorableTitle"))
+                                .tint(Color("cancelActions"))
                             }
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)
                     }
             }
-            Section(header: Text("Vergangene Erinnerungen").font(.headline)) {
+            Section("Vergangene Erinnerungen") {
                 ForEach(viewModel.reminders.filter { $0.date <= Date() }
                     .sorted { $0.date > $1.date }) { reminder in
                         ReminderSectionView(reminder: reminder, colorScheme: colorScheme)
@@ -42,7 +42,7 @@ struct ReminderListView: View {
                                 } label: {
                                     Image(systemName: "trash")
                                 }
-                                .tint(Color("unfavorableTitle"))
+                                .tint(Color("cancelActions"))
                             }
                             .listRowBackground(Color.clear)
                             .listRowSeparator(.hidden)

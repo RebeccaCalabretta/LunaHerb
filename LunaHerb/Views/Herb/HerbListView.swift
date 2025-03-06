@@ -15,108 +15,101 @@ struct HerbListView: View {
     @State private var showFilterSheet = false
     @State private var showReminderList = false
 
-    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-    
+
     var body: some View {
-        VStack {
-            HStack {
-                Button {
-                    showFilterSheet = true
-                } label: {
-                    Image(systemName: "slider.horizontal.3")
-                        .font(.title2)
-                        .foregroundStyle(Color("selectedTabItem"))
-                        .padding(.leading, 5)
-                }
-                
-                Spacer()
-                
-                if !selectedFilters.isEmpty {
-                    Button {
-                        selectedFilters.removeAll()
-                        viewModel.filteredHerbs = viewModel.herbs
-                    } label: {
-                        Text("Filter löschen")
-                            .font(.headline)
-                            .foregroundColor(Color("selectedTabItem"))
-                    }
-                    .padding(.trailing, 5)
-                }
-            }
-            .padding(.horizontal)
-            
-            ScrollView {
-                LazyVGrid(columns: columns, spacing: 16) {
-                    if searchText.isEmpty && selectedFilters.isEmpty {
-                        ForEach(viewModel.herbs) { herb in
-                            HerbCard(herb: herb)
-                                .onTapGesture {
-                                    selectedHerb = herb
-                                }
-                        }
-                    }
-                    else {
-                        ForEach(viewModel.filteredHerbs) { herb in
-                            HerbCard(herb: herb)
-                                .onTapGesture {
-                                    selectedHerb = herb
-                                }
-                        }
-                    }
-                }
-                .padding()
-            }
-        }
-        .onAppear {
-            searchText = ""
-            Task {
-                await viewModel.fetchHerbs()
-            }
-        }
-        .sheet(isPresented: $showFilterSheet) {
-            FilterSheet(isPresented: $showFilterSheet) { filters in
-                selectedFilters = filters
-                viewModel.filterHerbs(with: searchText, filters: filters)
-                
-                if filters.isEmpty {
-                    selectedFilters.removeAll()
-                    viewModel.filteredHerbs = viewModel.herbs
-                }
-            }
-        }
-        .navigationTitle("Kräuterlexikon")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+        NavigationStack {
+            VStack {
                 HStack {
                     Button {
-                        showReminderList = true
+                        showFilterSheet = true
                     } label: {
-                        Image(systemName: "bell")
+                        Image(systemName: "slider.horizontal.3")
+                            .font(.title2)
+                            .foregroundStyle(Color("selectedTabItem"))
+                            .padding(.leading, 5)
                     }
-                    Button {
-                        // SettingsView()
-                    } label: {
-                        Image(systemName: "gearshape")
+
+                    Spacer()
+
+                    if !selectedFilters.isEmpty {
+                        Button {
+                            selectedFilters.removeAll()
+                            viewModel.filteredHerbs = viewModel.herbs
+                        } label: {
+                            Text("Filter löschen")
+                                .font(.headline)
+                                .foregroundColor(Color("cancelActions"))
+                        }
+                        .padding(.trailing, 5)
                     }
                 }
-                .font(.headline)
+                .padding(.horizontal)
+
+                ScrollView {
+                    LazyVGrid(columns: columns, spacing: 16) {
+                        if searchText.isEmpty && selectedFilters.isEmpty {
+                            ForEach(viewModel.herbs) { herb in
+                                HerbCard(herb: herb)
+                                    .onTapGesture {
+                                        selectedHerb = herb
+                                    }
+                            }
+                        } else {
+                            ForEach(viewModel.filteredHerbs) { herb in
+                                HerbCard(herb: herb)
+                                    .onTapGesture {
+                                        selectedHerb = herb
+                                    }
+                            }
+                        }
+                    }
+                    .padding()
+                }
             }
-        }
-        .navigationDestination(isPresented: $showReminderList) { 
-            ReminderListView()
-        }
-        .navigationDestination(item: $selectedHerb) { herb in
-            HerbDetailView(herb: herb)
-        }
-        .tint(Color("selectedTabItem"))
-        .globalBackground()
-        .searchable(text: $searchText)
-        .onChange(of: searchText) { newValue in
-            viewModel.filterHerbs(with: newValue, filters: selectedFilters)
+            .onAppear {
+                searchText = ""
+                Task {
+                    await viewModel.fetchHerbs()
+                }
+            }
+            .sheet(isPresented: $showFilterSheet) {
+                FilterSheet(isPresented: $showFilterSheet, selectedFilters: $selectedFilters)
+            }
+            .navigationTitle("Kräuterlexikon")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    HStack {
+                        Button {
+                            showReminderList = true
+                        } label: {
+                            Image(systemName: "bell")
+                        }
+                        Button {
+                            // SettingsView()
+                        } label: {
+                            Image(systemName: "gearshape")
+                        }
+                    }
+                    .font(.headline)
+                }
+            }
+            .navigationDestination(isPresented: $showReminderList) {
+                ReminderListView()
+            }
+            .navigationDestination(item: $selectedHerb) { herb in
+                HerbDetailView(herb: herb)
+            }
+            .tint(Color("selectedTabItem"))
+            .globalBackground()
+            .searchable(text: $searchText)
+            .onChange(of: searchText) { newValue in
+                viewModel.filterHerbs(with: newValue, filters: selectedFilters)
+            }
         }
     }
 }
