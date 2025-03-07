@@ -6,19 +6,30 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct LunaHerbApp: App {
     @State private var moonViewModel = MoonViewModel()
     @State private var herbViewModel = HerbViewModel()
-    @State private var reminderVM = ReminderVM()
+    @State private var reminderVM: ReminderVM
+    private let modelContainer: ModelContainer
 
+    init() {
+        do {
+            modelContainer = try ModelContainer(for: Reminder.self)
+            _reminderVM = State(initialValue: ReminderVM(repository: ReminderRepository(modelContext: modelContainer.mainContext)))
+        } catch {
+            fatalError("Fehler beim Erstellen des ModelContainers: \(error.localizedDescription)")
+        }
+    }
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environment(moonViewModel)
                 .environment(herbViewModel)
                 .environment(reminderVM)
+                .modelContainer(for: [Reminder.self])
         }
     }
 }

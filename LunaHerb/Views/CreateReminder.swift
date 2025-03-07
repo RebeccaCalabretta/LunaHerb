@@ -29,11 +29,11 @@ struct CreateReminder: View {
                 
                 Section {
                     HStack {
-                        Text("Zeitpunkt wählen")
+                        Text("Datum wählen")
                             .foregroundStyle(.secondary)
                             .font(.subheadline)
                         Spacer()
-                        DatePicker("", selection: $selectedDate, displayedComponents: [.date, .hourAndMinute])
+                        DatePicker("", selection: $selectedDate, displayedComponents: .date)
                             .labelsHidden()
                     }
                 }
@@ -56,13 +56,17 @@ struct CreateReminder: View {
                                 message: message,
                                 date: selectedDate
                             )
-                            viewModel.updateReminder(reminder: updatedReminder)
+                            Task {
+                                await                             viewModel.updateReminder(reminder: updatedReminder)
+                            }
                         } else {
                             let newReminder = Reminder(
                                 message: message,
                                 date: selectedDate
                             )
-                            viewModel.addReminder(message: newReminder.message, date: newReminder.date)
+                            Task {
+                                await                             viewModel.addReminder(message: newReminder.message, date: newReminder.date)
+                            }
                         }
                         dismiss()
                     }

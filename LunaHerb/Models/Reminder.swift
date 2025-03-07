@@ -6,9 +6,17 @@
 //
 
 import Foundation
+import SwiftData
 
-struct Reminder: Identifiable {
-    var id: UUID = UUID()
+@Model
+final class Reminder {
+    var id: UUID
     var message: String
     var date: Date
+    
+    init(id: UUID = UUID(), message: String, date: Date) {
+        self.id = id
+        self.message = message
+        self.date = date
+    }
 }

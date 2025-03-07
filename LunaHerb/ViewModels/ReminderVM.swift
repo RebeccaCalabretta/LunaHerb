@@ -10,24 +10,37 @@ import Foundation
 @Observable
 final class ReminderVM {
     
+    private let repository: ReminderRepository
     var reminders: [Reminder] = []
-    
-    func addReminder(message: String, date: Date) {
+
+    init(repository: ReminderRepository) {
+        self.repository = repository
+        Task {
+            await loadReminders()
+        }
+    }
+
+    func loadReminders() async {
+        reminders = await repository.loadReminders()
+    }
+
+    func addReminder(message: String, date: Date) async {
         let newReminder = Reminder(message: message, date: date)
-        reminders.append(newReminder)
+        await repository.addReminder(reminder: newReminder)
+        await loadReminders()
     }
-    
-    func removeReminder(by id: UUID) {
-        if let index = reminders.firstIndex(where: { $0.id == id }) {
-            reminders.remove(at: index)
+
+    func removeReminder(by id: UUID) async {
+        if let reminder = reminders.first(where: { $0.id == id }) {
+            await repository.removeReminder(reminder: reminder)
+            await loadReminders()
         }
     }
-    func updateReminder(reminder: Reminder) {
-        if let index = reminders.firstIndex(where: { $0.id == reminder.id }) {
-            reminders[index] = reminder
-        }
+
+    func updateReminder(reminder: Reminder) async {
+        await repository.updateReminder(reminder: reminder)
+        await loadReminders()
     }
 }
-
 
 

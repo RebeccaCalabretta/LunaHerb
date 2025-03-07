@@ -8,7 +8,7 @@
 import Foundation
 
 @Observable
-class HerbRepository {
+final class HerbRepository {
     
     func loadHerbsFromFile() async throws -> [HerbData] {
         guard let url = Bundle.main.url(forResource: "herbs", withExtension: "json") else {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ReminderListView: View {
     @Environment(\.colorScheme) var colorScheme
@@ -22,7 +23,9 @@ struct ReminderListView: View {
                         ReminderSectionView(reminder: reminder, colorScheme: colorScheme)
                             .swipeActions {
                                 Button(role: .destructive) {
-                                    viewModel.removeReminder(by: reminder.id)
+                                    Task {
+                                        await viewModel.removeReminder(by: reminder.id)
+                                    }
                                 } label: {
                                     Label("Löschen", systemImage: "trash")
                                 }
@@ -38,7 +41,9 @@ struct ReminderListView: View {
                         ReminderSectionView(reminder: reminder, colorScheme: colorScheme)
                             .swipeActions {
                                 Button(role: .destructive) {
-                                    viewModel.removeReminder(by: reminder.id)
+                                    Task {
+                                        await viewModel.removeReminder(by: reminder.id)
+                                    }
                                 } label: {
                                     Image(systemName: "trash")
                                 }
@@ -66,7 +71,4 @@ struct ReminderListView: View {
     }
 }
 
-#Preview {
-    ReminderListView()
-        .environment(ReminderVM())
-}
+
