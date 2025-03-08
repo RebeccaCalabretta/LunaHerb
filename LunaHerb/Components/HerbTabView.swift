@@ -22,7 +22,7 @@ struct HerbTabView: View {
         .background(Color("tabBarBackground"))
         
         TabView(selection: $selectedTab) {
-            DescriptionView(herb: herb).tag(0)
+            DetailView(herb: herb).tag(0)
             EffectsView(herb: herb).tag(1)
             UsageView(herb: herb).tag(2)
         }

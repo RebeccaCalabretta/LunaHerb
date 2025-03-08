@@ -1,31 +1,33 @@
 //
-//  HerbViewModel.swift
+//  HerbVM.swift
 //  LunaHerb
 //
 //  Created by Rebecca Calabretta on 24.02.25.
 //
 
 import Foundation
+import SwiftData
 
 @MainActor
 @Observable
-final class HerbViewModel {
+final class HerbVM {
     
     var herbs: [HerbData] = []
     var filteredHerbs: [HerbData] = []
     var selectedFilters: Set<String> = []
+    var errorMessage: String?
     
-    private var repository = HerbRepository()
+    private var repository: HerbRepository
     
-    init() {
-        Task {
-            await fetchHerbs()
-        }
-    }
-    
+    init(modelContext: ModelContext) {
+           self.repository = HerbRepository(modelContext: modelContext)
+           Task {
+               await fetchHerbs()
+           }
+       }
     func fetchHerbs() async {
         do {
-            self.herbs = try await repository.loadHerbsFromFile()
+            self.herbs = try await repository.updateHerbsFromDropbox()
         } catch {
             print("Fehler beim Laden der Kräuterdaten")
         }

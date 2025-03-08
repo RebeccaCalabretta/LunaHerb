@@ -6,19 +6,20 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FavoritesListView: View {
-    @Environment(HerbViewModel.self) private var viewModel
+    @Environment(HerbVM.self) private var viewModel
     @State private var searchText = ""
     @State private var selectedHerb: HerbData? = nil
     @State private var showFilterSheet = false
     @State private var selectedFilters: Set<String> = []
-
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
     ]
-
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -31,9 +32,9 @@ struct FavoritesListView: View {
                             .foregroundStyle(Color("selectedTabItem"))
                             .padding(.leading, 5)
                     }
-
+                    
                     Spacer()
-
+                    
                     if !selectedFilters.isEmpty {
                         Button {
                             selectedFilters.removeAll()
@@ -47,7 +48,7 @@ struct FavoritesListView: View {
                     }
                 }
                 .padding(.horizontal)
-
+                
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
                         ForEach(viewModel.filteredHerbs) { herb in
@@ -82,6 +83,7 @@ struct FavoritesListView: View {
 }
 
 #Preview {
+    let modelContainer = try! ModelContainer(for: HerbData.self)
     FavoritesListView()
-        .environment(HerbViewModel())
+        .environment(HerbVM(modelContext: modelContainer.mainContext))
 }

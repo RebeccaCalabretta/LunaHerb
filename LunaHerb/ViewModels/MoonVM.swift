@@ -1,5 +1,5 @@
 //
-//  MoonViewModel.swift
+//  MoonVM.swift
 //  LunaHerb
 //
 //  Created by Rebecca Calabretta on 15.02.25.
@@ -13,7 +13,7 @@ import SwiftUI
 
 @Observable
 @MainActor
-final class MoonViewModel {
+final class MoonVM {
     
     var moonData: MoonData?
     var selectedDate: Date = Date() {

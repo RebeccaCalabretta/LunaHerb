@@ -10,13 +10,13 @@ import SwiftUI
 struct MoonView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @State private var viewModel = MoonViewModel()
+    @State private var viewModel = MoonVM()
     @State private var selectedDate = Date()
     
     var body: some View {
         VStack {
             if let moonData = viewModel.moonData {
-                MoonHeaderView(selectedDate: $selectedDate, viewModel: $viewModel)
+                MoonHeaderView(moonData: moonData, selectedDate: $selectedDate, viewModel: $viewModel)
 
                 Divider()
                 
@@ -81,5 +81,5 @@ struct MoonView: View {
 
 #Preview {
     MoonView()
-        .environment(MoonViewModel())
+        .environment(MoonVM())
 }

@@ -9,8 +9,9 @@ import SwiftUI
 
 struct MoonHeaderView: View {
     
+    let moonData: MoonData
     @Binding var selectedDate: Date
-    @Binding var viewModel: MoonViewModel
+    @Binding var viewModel: MoonVM
     var body: some View {
         HStack {
             Image(systemName: "chevron.left")
@@ -22,7 +23,7 @@ struct MoonHeaderView: View {
                         await viewModel.changeDay(by: -1)
                     }
                 }
-            MoonCard(viewModel: $viewModel)
+            MoonCard(moonData: moonData)
             Image(systemName: "chevron.right")
                 .font(.title)
                 .foregroundColor(Color("text"))

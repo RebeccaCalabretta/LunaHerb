@@ -10,7 +10,7 @@ import SwiftUI
 struct HerbCard: View {
     
     let herb: HerbData
-    @Environment(HerbViewModel.self) private var viewModel
+    @Environment(HerbVM.self) private var viewModel
     
     var body: some View {
         ZStack(alignment: .bottom) {

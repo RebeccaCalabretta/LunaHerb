@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct HerbListView: View {
-    @Environment(HerbViewModel.self) private var viewModel
+    @Environment(HerbVM.self) private var viewModel
     @State private var searchText = ""
     @State private var selectedHerb: HerbData? = nil
     @State private var selectedFilters: Set<String> = []
@@ -115,6 +116,7 @@ struct HerbListView: View {
 }
 
 #Preview {
+    let modelContainer = try! ModelContainer(for: HerbData.self)
     HerbListView()
-        .environment(HerbViewModel())
+        .environment(HerbVM(modelContext: modelContainer.mainContext))
 }

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct MainTabView: View {
     
@@ -34,7 +35,8 @@ struct MainTabView: View {
 }
 
 #Preview {
+    let modelContainer = try! ModelContainer(for: HerbData.self)
     MainTabView()
-        .environment(MoonViewModel())
-        .environment(HerbViewModel())
+        .environment(MoonVM())
+        .environment(HerbVM(modelContext: modelContainer.mainContext))
 }

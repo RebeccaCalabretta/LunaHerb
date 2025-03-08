@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FilterSheet: View {
-    @Environment(HerbViewModel.self) private var viewModel
+    @Environment(HerbVM.self) private var viewModel
     @Binding var isPresented: Bool
     @Binding var selectedFilters: Set<String>
     @State private var tempSelectedFilters: Set<String> = []

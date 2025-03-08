@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HerbDetailHeaderView: View {
     let herb: HerbData
-    @Environment(HerbViewModel.self) private var viewModel
+    @Environment(HerbVM.self) private var viewModel
     @Environment(\.dismiss) private var dismiss
     
     var body: some View {

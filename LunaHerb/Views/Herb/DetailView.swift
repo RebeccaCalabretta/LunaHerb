@@ -7,13 +7,13 @@
 
 import SwiftUI
 
-struct DescriptionView: View {
+struct DetailView: View {
     var herb: HerbData
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 16) {
-                HerbSectionView(title: "Beschreibung", content: herb.description)
+                HerbSectionView(title: "Beschreibung", content: herb.detail)
                 HerbSectionView(title: "Inhaltsstoffe", content: herb.ingredients)
                 HerbSectionView(title: "Ernte", content: herb.harvest)
                 HerbSectionView(title: "Erntezeit", content: herb.harvestTime)
