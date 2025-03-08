@@ -17,7 +17,7 @@ struct CreateReminder: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section(header: Text("Erinnerung")) {
+                Section("Erinnerung") {
                     TextField("Nachricht eingeben", text: $message)
                         .onAppear {
                             if let reminder = reminder {
@@ -51,21 +51,15 @@ struct CreateReminder: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Speichern") {
                         if let reminder = reminder {
-                            let updatedReminder = Reminder(
-                                id: reminder.id,
-                                message: message,
-                                date: selectedDate
-                            )
+                            reminder.message = message
+                            reminder.date = selectedDate
                             Task {
-                                await                             viewModel.updateReminder(reminder: updatedReminder)
+                                await viewModel.updateReminder(reminder: reminder)
                             }
                         } else {
-                            let newReminder = Reminder(
-                                message: message,
-                                date: selectedDate
-                            )
+                            let newReminder = Reminder(message: message, date: selectedDate)
                             Task {
-                                await                             viewModel.addReminder(message: newReminder.message, date: newReminder.date)
+                                await viewModel.addReminder(message: newReminder.message, date: newReminder.date)
                             }
                         }
                         dismiss()

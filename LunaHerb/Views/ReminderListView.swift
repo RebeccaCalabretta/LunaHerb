@@ -70,5 +70,3 @@ struct ReminderListView: View {
         .globalBackground()
     }
 }
-
-
