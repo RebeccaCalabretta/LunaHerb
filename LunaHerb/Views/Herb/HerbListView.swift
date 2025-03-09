@@ -10,6 +10,8 @@ import SwiftData
 
 struct HerbListView: View {
     @Environment(HerbVM.self) private var viewModel
+    @Query(sort: \HerbData.name) var herbs: [HerbData]
+
     @State private var searchText = ""
     @State private var selectedHerb: HerbData? = nil
     @State private var selectedFilters: Set<String> = []
@@ -89,11 +91,6 @@ struct HerbListView: View {
                             showReminderList = true
                         } label: {
                             Image(systemName: "bell")
-                        }
-                        Button {
-                            // SettingsView()
-                        } label: {
-                            Image(systemName: "gearshape")
                         }
                     }
                     .font(.headline)

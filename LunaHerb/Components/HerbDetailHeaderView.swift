@@ -50,6 +50,7 @@ struct HerbDetailHeaderView: View {
                 Task {
                     await viewModel.toggleFavorite(for: herb)
                 }
+                herb.isFavorite.toggle()
             }) {
                 Image(systemName: "heart.fill")
                     .foregroundColor(herb.isFavorite ? .red : .white)

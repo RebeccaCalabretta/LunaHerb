@@ -60,6 +60,7 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Einstellungen")
+        .globalBackground()
     }
 }
 

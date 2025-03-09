@@ -15,6 +15,14 @@ struct FavoritesListView: View {
     @State private var showFilterSheet = false
     @State private var selectedFilters: Set<String> = []
     
+    var favoriteHerbs: [HerbData] {
+        if searchText.isEmpty && selectedFilters.isEmpty {
+            return viewModel.getFavoriteHerbs()
+        } else {
+            return viewModel.filteredFavHerbs
+        }
+    }
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())
@@ -51,7 +59,7 @@ struct FavoritesListView: View {
                 
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.filteredHerbs) { herb in
+                        ForEach(favoriteHerbs) { herb in
                             HerbCard(herb: herb)
                                 .onTapGesture {
                                     selectedHerb = herb

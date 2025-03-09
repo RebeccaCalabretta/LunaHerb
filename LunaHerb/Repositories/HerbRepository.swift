@@ -32,7 +32,7 @@ final class HerbRepository {
     private func loadHerbs() async throws -> [HerbData] {
         let fetchRequest = FetchDescriptor<HerbData>()
         let herbs = try await modelContext.fetch(fetchRequest)
-        return herbs
+        return herbs.sorted { $0.name < $1.name }
     }
     
     private func updateSwiftData(with dtos: [HerbDataJson]) async {
@@ -64,4 +64,14 @@ final class HerbRepository {
             errorMessage = error.localizedDescription
         }
     }
+    
+    func saveFavoriteStatus(for herb: HerbData) async {
+          herb.isFavorite.toggle()
+
+          do {
+              try modelContext.save()
+          } catch {
+              errorMessage = error.localizedDescription
+          }
+      }
 }
