@@ -13,6 +13,8 @@ struct LunaHerbApp: App {
     @State private var moonViewModel = MoonVM()
     @State private var herbViewModel: HerbVM
     @State private var reminderVM: ReminderVM
+    @State private var notificationVM = NotificationVM()
+
     private let modelContainer: ModelContainer
     
     init() {
@@ -31,6 +33,7 @@ struct LunaHerbApp: App {
                 .environment(moonViewModel)
                 .environment(herbViewModel)
                 .environment(reminderVM)
+                .environment(notificationVM)
                 .modelContainer(for: [Reminder.self, HerbData.self])
         }
     }

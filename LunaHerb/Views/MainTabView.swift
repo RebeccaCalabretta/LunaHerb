@@ -9,6 +9,10 @@ import SwiftUI
 import SwiftData
 
 struct MainTabView: View {
+    @State private var isPushEnabled: Bool = false
+    @State private var pushTime: Date = Date()
+    @State private var isDarkModeEnabled: Bool = false
+    @State private var settingsVM = SettingsVM()
     
     init() {
         UITabBar.appearance().unselectedItemTintColor = UIColor(named: "unselectedTabItem")
@@ -25,12 +29,15 @@ struct MainTabView: View {
             Tab("Favoriten", systemImage: "heart.fill") {
                 FavoritesListView()
             }
-            Tab("Symptome", systemImage: "stethoscope") {
-                SymptomListView()
+            Tab("Einstellungen", systemImage: "gearshape") {
+                SettingsView(isPushEnabled: $isPushEnabled, pushTime: $pushTime)
             }
         }
         .tint(Color("selectedTabItem"))
         .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
+        .onAppear {
+            settingsVM.applyDarkMode(settingsVM.isDarkModeEnabled)
+        }
     }
 }
 
