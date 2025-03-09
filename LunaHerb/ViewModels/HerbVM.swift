@@ -48,24 +48,21 @@ final class HerbVM {
     }
     
     func filterHerbs(with query: String, filters: Set<String>) {
-        let trimmedFilters = filters.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() }
-        let filtersSet = Set(trimmedFilters)
+        let trimmedFilters = Set(filters.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() })
         
         filteredHerbs = herbs.filter { herb in
-            let matchingSearchQuery = query.isEmpty ||
-            herb.name.localizedCaseInsensitiveContains(query) ||
-            herb.properties.contains { $0.localizedCaseInsensitiveContains(query) } ||
-            herb.symptoms.contains { $0.localizedCaseInsensitiveContains(query) } ||
-            herb.ingredients.contains { $0.localizedCaseInsensitiveContains(query) }
+            let matchQuery = { (string: String) -> Bool in
+                return query.isEmpty || string.localizedCaseInsensitiveContains(query)
+            }
+            
+            let matchingSearchQuery = matchQuery(herb.name) ||
+                herb.properties.contains { matchQuery($0) } ||
+                herb.symptoms.contains { matchQuery($0) } ||
+                herb.ingredients.contains { matchQuery($0) }
             
             let herbPropertiesSet = Set(herb.properties.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() })
+            let matchingFilters = trimmedFilters.isEmpty || trimmedFilters.isSubset(of: herbPropertiesSet)
             
-            let matchingFilters: Bool
-            if filtersSet.isEmpty {
-                matchingFilters = true
-            } else {
-                matchingFilters = filtersSet.isSubset(of: herbPropertiesSet)
-            }
             return matchingSearchQuery && matchingFilters
         }
         .sorted { $0.name < $1.name }
