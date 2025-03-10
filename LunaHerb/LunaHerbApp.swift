@@ -15,6 +15,7 @@ struct LunaHerbApp: App {
     @State private var reminderVM: ReminderVM
     @State private var notificationVM = NotificationVM()
     @State private var weatherVM = WeatherVM()
+    @State private var settingsVM = SettingsVM()
 
     private let modelContainer: ModelContainer
     
@@ -36,6 +37,7 @@ struct LunaHerbApp: App {
                 .environment(reminderVM)
                 .environment(notificationVM)
                 .environment(weatherVM)
+                .environment(settingsVM)
                 .modelContainer(for: [Reminder.self, HerbData.self])
         }
     }

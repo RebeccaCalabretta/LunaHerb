@@ -28,9 +28,14 @@ final class NotificationVM {
         set { defaults.set(newValue, forKey: "pushNotification") }
     }
     
-    var pushTime: Int {
-        get { defaults.integer(forKey: "pushTime") }
-        set { defaults.set(newValue, forKey: "pushTime") }
+    var pushTime: Date {
+        get {
+            let timeInterval = defaults.integer(forKey: "pushTime")
+            return Date(timeIntervalSince1970: TimeInterval(timeInterval))
+        }
+        set {
+            defaults.set(Int(newValue.timeIntervalSince1970), forKey: "pushTime")
+        }
     }
     
     func requestNotificationAuthorization() {
@@ -44,15 +49,14 @@ final class NotificationVM {
         }
     }
     
-    func scheduleNotification() {
+    func scheduleNotification(for reminder: Reminder) {
         let content = UNMutableNotificationContent()
-        content.title = "Mond-Erinnerung"
-        content.body = "Heute ist ein besonderer Mondtag!"
+        content.title = "LunaHerb Erinnerung"
+        content.body = reminder.message
         content.sound = .default
         
-        var components = DateComponents()
-        components.hour = 20
-        components.minute = 0
+        let calendar = Calendar.current
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: pushTime)
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)

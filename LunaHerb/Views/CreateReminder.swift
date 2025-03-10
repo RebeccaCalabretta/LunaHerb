@@ -10,6 +10,7 @@ import SwiftUI
 struct CreateReminder: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ReminderVM.self) private var viewModel
+    @Environment(NotificationVM.self) private var notificationVM
     @State private var message: String = ""
     @State private var selectedDate: Date = Date()
     @Binding var reminder: Reminder?
@@ -55,12 +56,14 @@ struct CreateReminder: View {
                             reminder.date = selectedDate
                             Task {
                                 await viewModel.updateReminder(reminder: reminder)
+                               notificationVM.scheduleNotification(for: reminder)
+
                             }
                         } else {
                             let newReminder = Reminder(message: message, date: selectedDate)
                             Task {
                                 await viewModel.addReminder(message: newReminder.message, date: newReminder.date)
-          //                      notificationVM.scheduleNotification()
+                                notificationVM.scheduleNotification(for: newReminder)
                             }
                         }
                         dismiss()

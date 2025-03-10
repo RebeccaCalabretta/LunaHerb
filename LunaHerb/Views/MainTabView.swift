@@ -30,7 +30,7 @@ struct MainTabView: View {
                 FavoritesListView()
             }
             Tab("Einstellungen", systemImage: "gearshape") {
-                SettingsView(isPushEnabled: $isPushEnabled, pushTime: $pushTime)
+                SettingsView()
             }
         }
         .tint(Color("selectedTabItem"))

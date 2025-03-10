@@ -82,7 +82,7 @@ struct HerbListView: View {
             .sheet(isPresented: $showFilterSheet) {
                 FilterSheet(isPresented: $showFilterSheet, selectedFilters: $selectedFilters)
             }
-            .navigationTitle("Kräuterlexikon")
+            .navigationTitle("Kräuter")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
