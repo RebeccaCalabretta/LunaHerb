@@ -8,10 +8,24 @@
 import Foundation
 
 struct WeatherData: Codable {
-    let current: CurrentWeather
+    let forecast: Forecast
 }
 
-struct CurrentWeather: Codable {
-    let temp_c: Double
-    let condition: WeatherIcon
+struct Forecast: Codable {
+    let forecastday: [ForecastDay]
+}
+
+struct ForecastDay: Codable {
+    let date: String
+    let day: DayWeather
+    let condition: WeatherCondition
+}
+
+struct DayWeather: Codable {
+    let avgtemp_c: Double
+}
+
+struct WeatherCondition: Codable {
+    let text: String
+    let icon: String
 }

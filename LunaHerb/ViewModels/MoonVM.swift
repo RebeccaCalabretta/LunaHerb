@@ -16,6 +16,7 @@ import SwiftUI
 final class MoonVM {
     
     var moonData: MoonData?
+    var location: CLLocation = CLLocation(latitude: 48.12190, longitude: 7.847354)
     var selectedDate: Date = Date() {
         didSet { Task { await fetchMoonData(for: selectedDate) } }
     }
@@ -27,9 +28,7 @@ final class MoonVM {
         Task { await fetchMoonData() }
     }
     
-    func fetchMoonData(for date: Date = Date()) async {
-        let location = CLLocation(latitude: 48.12190, longitude: 7.847354)
-        
+    func fetchMoonData(for date: Date = Date()) async {        
         moonPhaseManager = EKAstrologyCalc(location: location)
         let info = moonPhaseManager?.getInfo(date: date)
         
@@ -67,5 +66,10 @@ final class MoonVM {
         if let newDate = Calendar.current.date(byAdding: .day, value: days, to: selectedDate) {
             selectedDate = newDate
         }
+    }
+    
+    func updateLocation(with location: CLLocation) {
+        self.location = location
+        Task { await fetchMoonData() }
     }
 }

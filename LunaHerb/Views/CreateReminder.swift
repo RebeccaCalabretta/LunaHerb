@@ -60,6 +60,7 @@ struct CreateReminder: View {
                             let newReminder = Reminder(message: message, date: selectedDate)
                             Task {
                                 await viewModel.addReminder(message: newReminder.message, date: newReminder.date)
+          //                      notificationVM.scheduleNotification()
                             }
                         }
                         dismiss()

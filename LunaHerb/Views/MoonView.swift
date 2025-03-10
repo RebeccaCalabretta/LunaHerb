@@ -10,16 +10,17 @@ import SwiftUI
 struct MoonView: View {
     
     @Environment(\.colorScheme) var colorScheme
-    @State private var viewModel = MoonVM()
+    @State private var moonVM = MoonVM()
+    @State private var weatherVM = WeatherVM()
     @State private var selectedDate = Date()
     
     var body: some View {
         VStack {
-            if let moonData = viewModel.moonData {
-                MoonHeaderView(moonData: moonData, selectedDate: $selectedDate, viewModel: $viewModel)
+            if let moonData = moonVM.moonData {
+                MoonHeaderView(moonData: moonData, selectedDate: $selectedDate, viewModel: $moonVM)
 
-                Divider()
-                
+                WeatherView(selectedDate: $selectedDate, weatherVM: weatherVM)
+
                 ScrollView {
                     LazyVStack(spacing: 16) {
                         MoonSectionView(
@@ -53,7 +54,7 @@ struct MoonView: View {
                     .foregroundColor(Color("text"))
                     .padding(8)
                 
-                DatePicker("Datum", selection: $viewModel.selectedDate, displayedComponents: .date)
+                DatePicker("Datum", selection: $moonVM.selectedDate, displayedComponents: .date)
                     .datePickerStyle(.compact)
                     .labelsHidden()
                     .padding()
@@ -69,9 +70,9 @@ struct MoonView: View {
             DragGesture()
                 .onEnded { value in
                     if value.translation.width < -50 {
-                        viewModel.changeDay(by: 1)
+                        moonVM.changeDay(by: 1)
                     } else if value.translation.width > 50 {
-                        viewModel.changeDay(by: -1)
+                        moonVM.changeDay(by: -1)
                     }
                 }
         )
