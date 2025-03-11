@@ -8,11 +8,12 @@
 //import SwiftUI
 //
 //struct WeatherView: View {
-//    
+//
 //    @Binding var selectedDate: Date
 //    @Binding var location: String
 //    var weatherVM: WeatherVM
-//    
+//    var moonVM: MoonVM
+//
 //    var body: some View {
 //        VStack {
 //            if weatherVM.temperature != "--" {
@@ -21,7 +22,7 @@
 //                        .resizable()
 //                        .scaledToFit()
 //                        .frame(width: 30, height: 30)
-//                    
+//
 //                    Text("\(weatherVM.temperature)")
 //                        .font(.title2)
 //                }
@@ -32,38 +33,23 @@
 //            }
 //        }
 //        .padding()
-//        .onAppear {
-//            print("⚡️ WeatherView onAppear - Starte initialen API-Call")
-//            print("🔍 Aktuelles Datum (selectedDate): \(selectedDate)")
-//            print("📍 Aktueller Standort: \(location)")
-//            
-//            Task {
-//                if let locationCL = await weatherVM.getCLLocation(from: location) {
-//                    print("✅ Standort gefunden: \(locationCL)")
-//                    await weatherVM.getWeather(for: selectedDate, location: locationCL)
-//                } else {
-//                    print("❌ Fehler beim Abrufen des Standorts für \(location)")
-//                }
-//            }
-//        }
-//        .onChange(of: location) { newLocation in
-//            print("📍 onChange - location geändert: \(newLocation)")
-//            
-//            Task {
-//                if let locationCL = await weatherVM.getCLLocation(from: newLocation) {
-//                    print("✅ Neuer Standort gefunden: \(locationCL)")
-//                    await weatherVM.getWeather(for: selectedDate, location: locationCL)
-//                } else {
-//                    print("❌ Fehler beim Abrufen des Standorts für \(newLocation)")
-//                }
-//            }
-//        }
+//                .onAppear {
+//Task {
+//    await weatherVM.getWeather(for: selectedDate)
+//}
+//}
+//.onChange(of: moonVM.selectedDate) { oldValue, newValue in
+//    Task {
+//        await weatherVM.getWeather(for: newValue)
+//    }
+//}
 //    }
 //}
 //
 //#Preview {
 //    WeatherView(
 //        selectedDate: .constant(Date()), location: .constant("Berlin"),
-//        weatherVM: WeatherVM()
+//        weatherVM: WeatherVM(),
+//        moonVM: MoonVM()
 //    )
 //}

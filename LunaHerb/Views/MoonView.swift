@@ -53,9 +53,11 @@ struct MoonView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 30, height: 30)
+                            .padding(.horizontal, 8)
                         
                         Text("\(weatherVM.temperature)")
                             .font(.title2)
+                            .padding(.horizontal, 8)
                     }
                     .foregroundStyle(Color("text"))
                     .padding()
