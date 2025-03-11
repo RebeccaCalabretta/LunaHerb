@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct MoonView: View {
     
@@ -18,9 +19,7 @@ struct MoonView: View {
         VStack {
             if let moonData = moonVM.moonData {
                 MoonHeaderView(moonData: moonData, selectedDate: $selectedDate, viewModel: $moonVM)
-
-                WeatherView(selectedDate: $selectedDate, weatherVM: weatherVM)
-
+                
                 ScrollView {
                     LazyVStack(spacing: 16) {
                         MoonSectionView(
@@ -47,6 +46,39 @@ struct MoonView: View {
             }
             
             Spacer()
+            VStack {
+                if weatherVM.temperature != "--" {
+                    HStack {
+                        Image(systemName: weatherVM.sfSymbol)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        Text("\(weatherVM.temperature)")
+                            .font(.title2)
+                    }
+                    .foregroundStyle(Color("text"))
+                    .padding()
+                } else {
+                    ProgressView()
+                }
+            }
+            
+            HStack {
+                TextField("Ort", text: $weatherVM.location)
+                    .textFieldStyle(.roundedBorder)
+                    .padding(.horizontal)
+                    .frame(width: 300)
+                Button {
+                    Task {
+                        await weatherVM.getWeather(for: selectedDate)
+                    }
+                } label: {
+                    Text("Search")
+                        .foregroundStyle(Color("cardText"))
+                }
+            }
+            .padding(.bottom)
             
             VStack(spacing: 8) {
                 Text("Datum wählen:")
@@ -64,6 +96,16 @@ struct MoonView: View {
                     .shadow(color: colorScheme == .dark ? Color.gray.opacity(0.5) : Color.black.opacity(0.4), radius: 2, x: 2, y: 2)
             }
             .padding(.bottom)
+        }
+        .onAppear {
+            Task {
+                await weatherVM.getWeather(for: selectedDate)
+            }
+        }
+        .onChange(of: moonVM.selectedDate) { oldValue, newValue in
+            Task {
+                await weatherVM.getWeather(for: newValue)
+            }
         }
         .padding()
         .gesture(

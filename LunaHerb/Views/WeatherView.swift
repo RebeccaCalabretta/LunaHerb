@@ -1,57 +1,69 @@
+////
+////  WeatherView.swift
+////  LunaHerb
+////
+////  Created by Rebecca Calabretta on 10.03.25.
+////
 //
-//  WeatherView.swift
-//  LunaHerb
+//import SwiftUI
 //
-//  Created by Rebecca Calabretta on 10.03.25.
+//struct WeatherView: View {
+//    
+//    @Binding var selectedDate: Date
+//    @Binding var location: String
+//    var weatherVM: WeatherVM
+//    
+//    var body: some View {
+//        VStack {
+//            if weatherVM.temperature != "--" {
+//                HStack {
+//                    Image(systemName: weatherVM.sfSymbol)
+//                        .resizable()
+//                        .scaledToFit()
+//                        .frame(width: 30, height: 30)
+//                    
+//                    Text("\(weatherVM.temperature)")
+//                        .font(.title2)
+//                }
+//                .foregroundStyle(Color("text"))
+//                .padding()
+//            } else {
+//                ProgressView()
+//            }
+//        }
+//        .padding()
+//        .onAppear {
+//            print("⚡️ WeatherView onAppear - Starte initialen API-Call")
+//            print("🔍 Aktuelles Datum (selectedDate): \(selectedDate)")
+//            print("📍 Aktueller Standort: \(location)")
+//            
+//            Task {
+//                if let locationCL = await weatherVM.getCLLocation(from: location) {
+//                    print("✅ Standort gefunden: \(locationCL)")
+//                    await weatherVM.getWeather(for: selectedDate, location: locationCL)
+//                } else {
+//                    print("❌ Fehler beim Abrufen des Standorts für \(location)")
+//                }
+//            }
+//        }
+//        .onChange(of: location) { newLocation in
+//            print("📍 onChange - location geändert: \(newLocation)")
+//            
+//            Task {
+//                if let locationCL = await weatherVM.getCLLocation(from: newLocation) {
+//                    print("✅ Neuer Standort gefunden: \(locationCL)")
+//                    await weatherVM.getWeather(for: selectedDate, location: locationCL)
+//                } else {
+//                    print("❌ Fehler beim Abrufen des Standorts für \(newLocation)")
+//                }
+//            }
+//        }
+//    }
+//}
 //
-
-import SwiftUI
-
-struct WeatherView: View {
-    
-    @Binding var selectedDate: Date
-    @Bindable var weatherVM: WeatherVM
-
-    var body: some View {
-        VStack {
-            HStack {
-                Text("Das Wetter in")
-                    .font(.headline)
-                    .foregroundColor(Color("text"))
-                
-                TextField("Ort eingeben", text: $weatherVM.location)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal)
-                    .frame(width: 200)
-            }
-            if weatherVM.temperature != "--" {
-                HStack {
-                    Image(systemName: weatherVM.sfSymbol)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 35, height: 35)
-                    
-                    Text("\(weatherVM.temperature)°C")
-                        .font(.title)
-                        .bold()
-                }
-                .padding()
-            } else {
-                ProgressView()
-            }
-        }
-        .padding()
-        .onAppear {
-            Task {
-                await weatherVM.getWeather(for: selectedDate)
-            }
-        }
-    }
-}
-
-#Preview {
-    WeatherView(
-        selectedDate: .constant(Date()),
-        weatherVM: WeatherVM()
-    )
-}
+//#Preview {
+//    WeatherView(
+//        selectedDate: .constant(Date()), location: .constant("Berlin"),
+//        weatherVM: WeatherVM()
+//    )
+//}

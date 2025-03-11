@@ -16,11 +16,14 @@ import SwiftUI
 final class MoonVM {
     
     var moonData: MoonData?
-    var location: CLLocation = CLLocation(latitude: 48.12190, longitude: 7.847354)
+    var location: CLLocation = CLLocation(latitude: 48.12190, longitude: 7.847354) {
+        didSet { Task { await fetchMoonData(for: selectedDate) } }
+    }
+    
     var selectedDate: Date = Date() {
         didSet { Task { await fetchMoonData(for: selectedDate) } }
     }
-
+    
     private let locationManager = CLLocationManager()
     private var moonPhaseManager: EKAstrologyCalc?
     
@@ -28,7 +31,7 @@ final class MoonVM {
         Task { await fetchMoonData() }
     }
     
-    func fetchMoonData(for date: Date = Date()) async {        
+    func fetchMoonData(for date: Date = Date()) async {
         moonPhaseManager = EKAstrologyCalc(location: location)
         let info = moonPhaseManager?.getInfo(date: date)
         
@@ -70,6 +73,5 @@ final class MoonVM {
     
     func updateLocation(with location: CLLocation) {
         self.location = location
-        Task { await fetchMoonData() }
     }
 }

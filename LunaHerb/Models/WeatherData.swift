@@ -21,7 +21,7 @@ struct ForecastDay: Codable {
 }
 
 struct DayWeather: Codable {
-    let avgtemp_c: Double?
+    let maxtemp_c: Double?
     let condition: WeatherCondition
 }
 
