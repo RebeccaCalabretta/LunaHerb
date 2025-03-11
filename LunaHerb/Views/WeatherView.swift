@@ -29,7 +29,7 @@ struct WeatherView: View {
                     Image(systemName: weatherVM.sfSymbol)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 35, height: 35)
                     
                     Text("\(weatherVM.temperature)°C")
                         .font(.title)

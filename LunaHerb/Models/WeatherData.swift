@@ -18,11 +18,11 @@ struct Forecast: Codable {
 struct ForecastDay: Codable {
     let date: String
     let day: DayWeather
-    let condition: WeatherCondition
 }
 
 struct DayWeather: Codable {
-    let avgtemp_c: Double
+    let avgtemp_c: Double?
+    let condition: WeatherCondition
 }
 
 struct WeatherCondition: Codable {

@@ -23,7 +23,7 @@ struct MoonSectionView: View {
                 Text("\(title):")
                     .font(.title3)
                     .bold()
-                    .foregroundColor(color.opacity(0.8))
+                    .foregroundColor(color)
             }
             if !actions.isEmpty || !weekdayActions.isEmpty {
                 ForEach(actions + weekdayActions, id: \.self) { action in
@@ -31,7 +31,7 @@ struct MoonSectionView: View {
                 }
             } else {
                 Text("Keine \(title)en Aktionen")
-                    .foregroundColor(Color(.systemGray2))
+                    .foregroundColor(Color("cardText"))
             }
         }
         .sectionBackground(colorScheme: colorScheme)
