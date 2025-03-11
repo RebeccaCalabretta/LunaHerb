@@ -17,9 +17,9 @@ struct HerbDataJson: Decodable {
     var usage: [String]
     var symptoms: [String]
     var ingredients: [String]
-    var sideEffects: [String]?
-    var contraindications: [String]?
+    var sideEffects: [String]
+    var contraindications: [String]
     var harvestTime: [String]
-    var harvest: String?
+    var harvest: String
     var isFavorite: Bool
 }

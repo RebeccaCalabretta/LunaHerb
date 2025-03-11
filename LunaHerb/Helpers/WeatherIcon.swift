@@ -15,6 +15,7 @@ enum WeatherIcon: String, Codable {
     case overcast = "Overcast"
     case mist = "Mist"
     case patchyRainPossible = "Patchy rain possible"
+    case patchyRainNearby = "Patchy rain nearby"
     case patchySnowPossible = "Patchy snow possible"
     case patchySleetPossible = "Patchy sleet possible"
     case patchyFreezingDrizzlePossible = "Patchy freezing drizzle possible"
@@ -22,6 +23,7 @@ enum WeatherIcon: String, Codable {
     case fog = "Fog"
     case freezingFog = "Freezing fog"
     case lightRain = "Light rain"
+    case moderateRain = "Moderate rain"
     case heavyRain = "Heavy rain"
     case lightSnow = "Light snow"
     case heavySnow = "Heavy snow"
@@ -37,7 +39,7 @@ enum WeatherIcon: String, Codable {
             return "cloud"
         case .mist, .fog, .freezingFog:
             return "cloud.fog"
-        case .patchyRainPossible, .lightRain:
+        case .patchyRainPossible, .lightRain, .patchyRainNearby:
             return "cloud.drizzle"
         case .heavyRain:
             return "cloud.heavyrain"

@@ -19,13 +19,13 @@ final class HerbData {
     var usage: [String]
     var symptoms: [String]
     var ingredients: [String]
-    var sideEffects: [String]?
-    var contraindications: [String]?
+    var sideEffects: [String]
+    var contraindications: [String]
     var harvestTime: [String]
-    var harvest: String?
+    var harvest: String
     var isFavorite: Bool = false
     
-    init(id: UUID, name: String, detail: String, asyncImageURL: URL, properties: [String], effect: String, usage: [String], symptoms: [String], ingredients: [String], sideEffects: [String]? = nil, contraindications: [String]? = nil, harvestTime: [String], harvest: String? = nil, isFavorite: Bool) {
+    init(id: UUID, name: String, detail: String, asyncImageURL: URL, properties: [String], effect: String, usage: [String], symptoms: [String], ingredients: [String], sideEffects: [String], contraindications: [String], harvestTime: [String], harvest: String, isFavorite: Bool) {
         self.id = id
         self.name = name
         self.detail = detail

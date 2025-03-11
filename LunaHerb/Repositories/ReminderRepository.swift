@@ -20,7 +20,7 @@ final class ReminderRepository {
     func loadReminders() async -> [Reminder] {
         do {
             let fetchRequest = FetchDescriptor<Reminder>()
-            let reminders = try await modelContext.fetch(fetchRequest)
+            let reminders = try modelContext.fetch(fetchRequest)
             return reminders
         } catch {
             errorMessage = error.localizedDescription

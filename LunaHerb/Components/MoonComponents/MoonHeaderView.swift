@@ -19,9 +19,7 @@ struct MoonHeaderView: View {
                 .foregroundColor(Color("text"))
                 .padding(.leading)
                 .onTapGesture {
-                    Task {
-                        await viewModel.changeDay(by: -1)
-                    }
+                         viewModel.changeDay(by: -1)
                 }
             MoonCard(moonData: moonData)
             Image(systemName: "chevron.right")
@@ -29,9 +27,7 @@ struct MoonHeaderView: View {
                 .foregroundColor(Color("text"))
                 .padding(.trailing)
                 .onTapGesture {
-                    Task {
-                        await viewModel.changeDay(by: 1)
-                    }
+                        viewModel.changeDay(by: 1)
                 }
         }
     }
