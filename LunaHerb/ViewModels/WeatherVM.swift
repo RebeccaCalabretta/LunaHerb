@@ -42,22 +42,17 @@ final class WeatherVM {
                 let geocoder = CLGeocoder()
                 let placemarks = try await geocoder.reverseGeocodeLocation(clLocation)
                 guard let placemark = placemarks.first else {
-                    print("Kein Ort gefunden")
                     return
                 }
                 let city = placemark.locality ?? "Unbekannt"
                 
-                if let (temp, conditionDescription, sfSymbol) = try await weatherRepository.fetchWeather(for: date, location: city) {
-                    print("✅ Erfolgreich Wetterdaten erhalten: \(temp)°C, \(conditionDescription), \(sfSymbol)")
+                if let (temp, sfSymbol) = try await weatherRepository.fetchWeather(for: date, location: city) {
                     self.temperature = "\(Int(temp))°C"
-                    self.condition = conditionDescription
                     self.sfSymbol = sfSymbol
                     print("WeatherVM - Wetterdaten aktualisiert für \(date)")
                     print("🌡️ Werte gesetzt: \(self.temperature), \(self.condition), \(self.sfSymbol)")
                 } else {
-                        print("⚠️ fetchWeather hat nil zurückgegeben!")
                         temperature = "--"
-                        condition = "--"
                         sfSymbol = "questionmark.circle"
                     }
             } catch {

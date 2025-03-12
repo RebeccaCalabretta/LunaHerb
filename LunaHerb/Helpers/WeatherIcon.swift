@@ -10,9 +10,9 @@ import Foundation
 enum WeatherIcon: String, Codable {
     case sunny = "Sunny"
     case clear = "Clear"
-    case partlyCloudy = "Partly Cloudy"
+    case partlyCloudy = "Partly Cloudy "
     case cloudy = "Cloudy"
-    case overcast = "Overcast"
+    case overcast = "Overcast "
     case mist = "Mist"
     case patchyRainPossible = "Patchy rain possible"
     case patchyRainNearby = "Patchy rain nearby"
