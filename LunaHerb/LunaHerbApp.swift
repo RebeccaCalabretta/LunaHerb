@@ -13,7 +13,7 @@ struct LunaHerbApp: App {
     @State private var moonVM = MoonVM()
     @State private var herbVM: HerbVM
     @State private var reminderVM: ReminderVM
-    @State private var notificationVM = NotificationVM()
+    @State private var notificationVM = NotificationManager()
     @State private var weatherVM = WeatherVM()
     @State private var settingsVM = SettingsVM()
 

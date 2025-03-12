@@ -10,7 +10,6 @@ import SwiftUI
 struct CreateReminder: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(ReminderVM.self) private var viewModel
-    @Environment(NotificationVM.self) private var notificationVM
     @State private var message: String = ""
     @State private var selectedDate: Date = Date()
     @Binding var reminder: Reminder?
@@ -27,14 +26,13 @@ struct CreateReminder: View {
                             }
                         }
                 }
-                
                 Section {
                     HStack {
                         Text("Datum wählen")
                             .foregroundStyle(.secondary)
                             .font(.subheadline)
                         Spacer()
-                        DatePicker("", selection: $selectedDate, displayedComponents: .date)
+                        DatePicker("", selection: $selectedDate, in: Date()..., displayedComponents: .date)
                             .labelsHidden()
                     }
                 }
@@ -56,14 +54,13 @@ struct CreateReminder: View {
                             reminder.date = selectedDate
                             Task {
                                 await viewModel.updateReminder(reminder: reminder)
-                               notificationVM.scheduleNotification(for: reminder)
-
+                                self.reminder = reminder
                             }
                         } else {
                             let newReminder = Reminder(message: message, date: selectedDate)
                             Task {
-                                await viewModel.addReminder(message: newReminder.message, date: newReminder.date)
-                                notificationVM.scheduleNotification(for: newReminder)
+                                await viewModel.addReminder(reminder: newReminder)
+                                self.reminder = newReminder
                             }
                         }
                         dismiss()

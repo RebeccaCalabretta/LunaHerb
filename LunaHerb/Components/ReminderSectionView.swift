@@ -30,7 +30,8 @@ struct ReminderSectionView: View {
                     .foregroundColor(.blue)
             }
             .padding(.top, 8)
-            .frame(maxWidth: .infinity, alignment: .trailing)        }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+        }
         .frame(maxWidth: .infinity, alignment: .leading)
         .sectionBackground(colorScheme: colorScheme)
         .sheet(item: $editingReminder) { editingReminder in

@@ -50,7 +50,7 @@ final class WeatherVM {
                     self.temperature = "\(Int(temp))°C"
                     self.sfSymbol = sfSymbol
                     print("WeatherVM - Wetterdaten aktualisiert für \(date)")
-                    print("🌡️ Werte gesetzt: \(self.temperature), \(self.condition), \(self.sfSymbol)")
+                    print("Werte gesetzt: \(self.temperature), \(self.condition), \(self.sfSymbol)")
                 } else {
                         temperature = "--"
                         sfSymbol = "questionmark.circle"

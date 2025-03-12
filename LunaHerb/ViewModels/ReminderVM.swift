@@ -24,9 +24,9 @@ final class ReminderVM {
         reminders = await repository.loadReminders()
     }
 
-    func addReminder(message: String, date: Date) async {
-        let newReminder = Reminder(message: message, date: date)
-        await repository.addReminder(reminder: newReminder)
+    func addReminder(reminder: Reminder) async {
+        NotificationManager.shared.scheduleReminderNotification(for: reminder)
+        await repository.addReminder(reminder: reminder)
         await loadReminders()
     }
 
@@ -38,6 +38,7 @@ final class ReminderVM {
     }
 
     func updateReminder(reminder: Reminder) async {
+        NotificationManager.shared.scheduleReminderNotification(for: reminder)
         await repository.updateReminder(reminder: reminder)
         await loadReminders()
     }
