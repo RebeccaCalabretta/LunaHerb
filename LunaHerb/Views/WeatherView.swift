@@ -1,55 +1,34 @@
-////
-////  WeatherView.swift
-////  LunaHerb
-////
-////  Created by Rebecca Calabretta on 10.03.25.
-////
 //
-//import SwiftUI
+//  WeatherView.swift
+//  LunaHerb
 //
-//struct WeatherView: View {
+//  Created by Rebecca Calabretta on 10.03.25.
 //
-//    @Binding var selectedDate: Date
-//    @Binding var location: String
-//    var weatherVM: WeatherVM
-//    var moonVM: MoonVM
-//
-//    var body: some View {
-//        VStack {
-//            if weatherVM.temperature != "--" {
-//                HStack {
-//                    Image(systemName: weatherVM.sfSymbol)
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 30, height: 30)
-//
-//                    Text("\(weatherVM.temperature)")
-//                        .font(.title2)
-//                }
-//                .foregroundStyle(Color("text"))
-//                .padding()
-//            } else {
-//                ProgressView()
-//            }
-//        }
-//        .padding()
-//                .onAppear {
-//Task {
-//    await weatherVM.getWeather(for: selectedDate)
-//}
-//}
-//.onChange(of: moonVM.selectedDate) { oldValue, newValue in
-//    Task {
-//        await weatherVM.getWeather(for: newValue)
-//    }
-//}
-//    }
-//}
-//
-//#Preview {
-//    WeatherView(
-//        selectedDate: .constant(Date()), location: .constant("Berlin"),
-//        weatherVM: WeatherVM(),
-//        moonVM: MoonVM()
-//    )
-//}
+import SwiftUI
+
+struct WeatherView: View {
+    @Bindable var weatherVM: WeatherVM
+    
+    var body: some View {
+        VStack {
+            if weatherVM.temperature != "--" {
+                HStack {
+                    Image(systemName: weatherVM.sfSymbol)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 30, height: 30)
+                        .padding(.horizontal, 8)
+                    
+                    Text("\(weatherVM.temperature)")
+                        .font(.system(size: 18))
+                        .padding(.horizontal, 8)
+                }
+                .foregroundStyle(Color("text"))
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            } else {
+                ProgressView()
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .trailing)
+    }
+}

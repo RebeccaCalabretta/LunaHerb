@@ -39,10 +39,16 @@ enum WeatherIcon: String, Codable {
             return "cloud"
         case .mist, .fog, .freezingFog:
             return "cloud.fog"
-        case .patchyRainPossible, .lightRain, .patchyRainNearby:
+        case .patchyRainPossible,.patchyRainNearby:
+            return "cloud.sun.rain"
+        case .lightRain:
             return "cloud.drizzle"
+        case .moderateRain:
+            return "cloud.rain"
         case .heavyRain:
             return "cloud.heavyrain"
+        case .patchySleetPossible:
+            return "cloud.sleet"
         case .patchySnowPossible, .lightSnow:
             return "cloud.snow"
         case .heavySnow:

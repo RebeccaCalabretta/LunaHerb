@@ -14,9 +14,43 @@ struct MoonView: View {
     @State private var moonVM = MoonVM()
     @State private var weatherVM = WeatherVM()
     @State private var selectedDate = Date()
+    @State private var showLocationInput = false
     
     var body: some View {
         VStack {
+            
+            MoonDatePicker(selectedDate: $moonVM.selectedDate, colorScheme: colorScheme)
+                .padding(.bottom)
+            HStack {
+                Spacer(minLength: 40)
+                HStack(spacing: 6) {
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 14))
+                        .foregroundStyle(Color("text"))
+                    
+                    Text(weatherVM.location)
+                        .font(.system(size: 18))
+                }
+                .padding(.leading, 20)
+                .onTapGesture {
+                    showLocationInput = true
+                }
+                
+                Spacer(minLength: 20)
+
+                WeatherView(weatherVM: weatherVM)
+                    .frame(minWidth: 100)
+                    .padding(.trailing, 20)
+                Spacer(minLength: 40)
+            }
+            .alert("Ort ändern", isPresented: $showLocationInput) {
+                TextField("Neuer Ort", text: $weatherVM.location)
+                Button("Fertig", role: .none) {
+                    Task {
+                        await weatherVM.getWeather(for: selectedDate)                                    }
+                }
+                Button("Abbrechen", role: .cancel) { }
+            }
             if let moonData = moonVM.moonData {
                 MoonHeaderView(moonData: moonData, selectedDate: $selectedDate, viewModel: $moonVM)
                 
@@ -44,60 +78,7 @@ struct MoonView: View {
             } else {
                 ProgressView()
             }
-            
             Spacer()
-            VStack {
-                if weatherVM.temperature != "--" {
-                    HStack {
-                        Image(systemName: weatherVM.sfSymbol)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 30, height: 30)
-                            .padding(.horizontal, 8)
-                        
-                        Text("\(weatherVM.temperature)")
-                            .font(.title2)
-                            .padding(.horizontal, 8)
-                    }
-                    .foregroundStyle(Color("text"))
-                    .padding()
-                } else {
-                    ProgressView()
-                }
-            }
-            
-            HStack {
-                TextField("Ort", text: $weatherVM.location)
-                    .textFieldStyle(.roundedBorder)
-                    .padding(.horizontal)
-                    .frame(width: 300)
-                Button {
-                    Task {
-                        await weatherVM.getWeather(for: selectedDate)
-                    }
-                } label: {
-                    Text("Search")
-                        .foregroundStyle(Color("cardText"))
-                }
-            }
-            .padding(.bottom)
-            
-            VStack(spacing: 8) {
-                Text("Datum wählen:")
-                    .font(.headline)
-                    .foregroundColor(Color("text"))
-                    .padding(8)
-                
-                DatePicker("Datum", selection: $moonVM.selectedDate, displayedComponents: .date)
-                    .datePickerStyle(.compact)
-                    .labelsHidden()
-                    .padding()
-                    .frame(width: 160)
-                    .gradientBackground()
-                    .clipShape(Capsule())
-                    .shadow(color: colorScheme == .dark ? Color.gray.opacity(0.5) : Color.black.opacity(0.4), radius: 2, x: 2, y: 2)
-            }
-            .padding(.bottom)
         }
         .onAppear {
             Task {
