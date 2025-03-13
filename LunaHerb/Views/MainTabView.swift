@@ -26,7 +26,7 @@ struct MainTabView: View {
             Tab("Kräuter", systemImage: "leaf.fill") {
                 HerbListView()
             }
-            Tab("Favoriten", systemImage: "heart.fill") {
+            Tab("Favoriten", systemImage: "star.fill") {
                 FavoritesListView()
             }
             Tab("Einstellungen", systemImage: "gearshape") {

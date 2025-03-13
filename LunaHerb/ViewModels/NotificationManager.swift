@@ -81,12 +81,8 @@ final class NotificationManager {
         let date = reminder.date
         let calendar = Calendar.current
         
-        var validPushTime = pushTime
-        //        if calendar.component(.year, from: validPushTime) == 1970 {
-        //            print("Warnung: Ungültige Push-Time erkannt. Setze auf aktuelle Zeit.")
-        //            validPushTime = Date()
-        //        }
-        //
+        let validPushTime = pushTime
+
         print("Push-Time nach Validierung: \(validPushTime)")
         
         print("Benachrichtigung wird für den \(reminder.message) am \(date) geplant")
@@ -112,13 +108,13 @@ final class NotificationManager {
     func createReminderMessage(for reminder: Reminder, daysRemaining: Int) -> String {
         let calendar = Calendar.current
         let today = Date()
-        let targetDate = calendar.date(byAdding: .day, value: -daysRemaining, to: reminder.date)!
+        let targetDate = reminder.date
         let components = calendar.dateComponents([.day], from: today, to: targetDate)
         
         guard let days = components.day else { return "Fehler bei der Berechnung" }
         
         if days == 1 {
-            return "In einem Tag: \(reminder.message)"
+            return "Morgen: \(reminder.message)"
         } else if days > 1 {
             return "In \(days) Tagen: \(reminder.message)"
         } else if days == 0 {

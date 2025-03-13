@@ -77,11 +77,11 @@ struct FavoritesListView: View {
             .tint(Color("selectedTabItem"))
             .globalBackground()
             .searchable(text: $searchText)
-            .onChange(of: searchText) { newValue in
-                viewModel.filterFavoriteHerbs(with: newValue, filters: selectedFilters)
+            .onChange(of: searchText) {
+                viewModel.filterFavoriteHerbs(with: searchText, filters: selectedFilters)
             }
-            .onChange(of: selectedFilters) { newFilters in
-                viewModel.filterFavoriteHerbs(with: searchText, filters: newFilters)
+            .onChange(of: selectedFilters) {
+                viewModel.filterFavoriteHerbs(with: searchText, filters: selectedFilters)
             }
             .sheet(isPresented: $showFilterSheet) {
                 FilterSheet(isPresented: $showFilterSheet, selectedFilters: $selectedFilters)

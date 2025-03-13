@@ -27,7 +27,7 @@ struct ReminderListView: View {
                                         await viewModel.removeReminder(by: reminder.id)
                                     }
                                 } label: {
-                                    Label("Löschen", systemImage: "trash")
+                                    Image(systemName: "trash")
                                 }
                                 .tint(Color("cancelActions"))
                             }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingsView: View {
     @AppStorage("isPushEnabled") private var isPushEnabled: Bool = false
-    @AppStorage("pushTime") private var pushTime: Date = Date()
+    @AppStorage("pushTime") private var pushTime: Date = NotificationManager.shared.pushTime
     @AppStorage("darkMode") private var isDarkModeEnabled: Bool = false
     @AppStorage("reminderDays1") private var reminderDays1: Int = 0
     @AppStorage("reminderDays2") private var reminderDays2: Int = 0
@@ -22,8 +22,8 @@ struct SettingsView: View {
             Form {
                 Section("Benachrichtigungen") {
                     Toggle(isPushEnabled ? "Benachrichtigungen deaktivieren" : "Benachrichtigungen aktivieren", isOn: $isPushEnabled)
-                        .onChange(of: isPushEnabled) { newValue in
-                            if newValue {
+                        .onChange(of: isPushEnabled) {
+                            if isPushEnabled {
                                 Task {
                                     await notificationVM.requestNotificationAuthorization()
                                 }
@@ -38,9 +38,6 @@ struct SettingsView: View {
                     
                     if isPushEnabled {
                         VStack {
-                            Text("Zusätzliche Erinnerungen")
-                                .font(.headline)
-                            
                             Picker("Erinnerung 1", selection: $reminderDays1) {
                                 Text("Keine Erinnerung").tag(0)
                                 ForEach(1..<8) { day in
@@ -63,9 +60,12 @@ struct SettingsView: View {
                     }
                 }
                 Section("Dunkelmodus") {
-                    Toggle(isDarkModeEnabled ? "Dunkelmodus deaktivieren" : "Dunkelmodus aktivieren", isOn: $isDarkModeEnabled)                        .onChange(of: isDarkModeEnabled) { newValue in
-                        UIApplication.shared.windows.first?.overrideUserInterfaceStyle = newValue ? .dark : .light
-                    }
+                    Toggle(isDarkModeEnabled ? "Dunkelmodus deaktivieren" : "Dunkelmodus aktivieren", isOn: $isDarkModeEnabled)
+                        .onChange(of: isDarkModeEnabled) {
+                            if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+                                windowScene.windows.first?.overrideUserInterfaceStyle = isDarkModeEnabled ? .dark : .light
+                            }
+                        }
                 }
             }
             .navigationTitle("Einstellungen")

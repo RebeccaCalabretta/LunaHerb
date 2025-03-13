@@ -52,9 +52,12 @@ struct HerbDetailHeaderView: View {
                 }
                 herb.isFavorite.toggle()
             }) {
-                Image(systemName: "heart.fill")
-                    .foregroundColor(herb.isFavorite ? .red : .white)
+                Image(systemName: "star.fill")
+                    .foregroundColor(herb.isFavorite ? Color("lightYellow") : .white)
                     .font(.system(size: 30))
+                    .symbolEffect(.bounce, value: herb.isFavorite )
+                    .scaleEffect(herb.isFavorite  ? 1.2 : 1)
+                    .animation(.easeInOut(duration: 0.2), value: herb.isFavorite )
             }
             .padding(20),
             alignment: .bottomTrailing

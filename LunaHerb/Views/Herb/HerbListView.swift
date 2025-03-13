@@ -105,8 +105,8 @@ struct HerbListView: View {
             .tint(Color("selectedTabItem"))
             .globalBackground()
             .searchable(text: $searchText)
-            .onChange(of: searchText) { newValue in
-                viewModel.filterHerbs(with: newValue, filters: selectedFilters)
+            .onChange(of: searchText) {
+                viewModel.filterHerbs(with: searchText, filters: selectedFilters)
             }
         }
     }
