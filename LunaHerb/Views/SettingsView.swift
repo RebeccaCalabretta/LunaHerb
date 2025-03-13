@@ -40,6 +40,7 @@ struct SettingsView: View {
                         VStack {
                             Picker("Erinnerung 1", selection: $reminderDays1) {
                                 Text("Keine Erinnerung").tag(0)
+                                Text("Am Ereignistag").tag(0)
                                 ForEach(1..<8) { day in
                                     Text("\(day) Tag\(day == 1 ? "" : "e") vorher").tag(day as Int)
                                 }
@@ -48,6 +49,7 @@ struct SettingsView: View {
                             
                             Picker("Erinnerung 2", selection: $reminderDays2) {
                                 Text("Keine Erinnerung").tag(0)
+                                Text("Am Ereignistag").tag(0)
                                 ForEach(1..<8) { day in
                                     if day != reminderDays1 {
                                         Text("\(day) Tag\(day == 1 ? "" : "e") vorher").tag(day as Int)

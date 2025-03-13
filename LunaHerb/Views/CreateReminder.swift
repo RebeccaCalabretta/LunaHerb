@@ -54,13 +54,13 @@ struct CreateReminder: View {
                             reminder.date = selectedDate
                             Task {
                                 await viewModel.updateReminder(reminder: reminder)
-                                self.reminder = reminder
+                                self.reminder = nil
                             }
                         } else {
                             let newReminder = Reminder(message: message, date: selectedDate)
                             Task {
                                 await viewModel.addReminder(reminder: newReminder)
-                                self.reminder = newReminder
+                                self.reminder = nil
                             }
                         }
                         dismiss()

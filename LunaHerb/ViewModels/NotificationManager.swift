@@ -76,63 +76,41 @@ final class NotificationManager {
     func scheduleReminderNotification(for reminder: Reminder) {
         guard isPushEnabled else {
             print("Benachrichtigungen sind deaktiviert")
-            return }
-        
-        let date = reminder.date
-        let calendar = Calendar.current
+            return
+        }
         
         let validPushTime = pushTime
-
-        print("Push-Time nach Validierung: \(validPushTime)")
+        scheduleNotification(message: reminder.message, date: reminder.date, validPushTime: validPushTime)
         
-        print("Benachrichtigung wird für den \(reminder.message) am \(date) geplant")
-        scheduleNotification(message: reminder.message, date: date, validPushTime: validPushTime)
-        
-        if let days1 = reminderDays1 {
-            if let newDate = calendar.date(byAdding: .day, value: -days1, to: date) {
-                let message = createReminderMessage(for: reminder, daysRemaining: days1)
-                print("Erinnerung 1 wird für den \(message) geplant")
-                scheduleNotification(message: message, date: newDate, validPushTime: validPushTime)
+        [reminderDays1, reminderDays2]
+            .compactMap { $0 }
+            .filter { $0 != 0 }
+            .forEach { days in
+                if let newDate = Calendar.current.date(byAdding: .day, value: -days, to: reminder.date) {
+                    let message = createReminderMessage(for: reminder, daysBefore: days)
+                    scheduleNotification(message: message, date: newDate, validPushTime: validPushTime)
+                }
             }
-        }
-        
-        if let days2 = reminderDays2, days2 != reminderDays1 {
-            if let newDate = calendar.date(byAdding: .day, value: -days2, to: date) {
-                let message = createReminderMessage(for: reminder, daysRemaining: days2)
-                print("Erinnerung 2 wird für den \(message) geplant")
-                scheduleNotification(message: message, date: newDate, validPushTime: validPushTime)
-            }
+    }
+    
+    private func createReminderMessage(for reminder: Reminder, daysBefore: Int) -> String {
+        switch daysBefore {
+        case 0: return "Heute: \(reminder.message)"
+        case 1: return "Morgen: \(reminder.message)"
+        default: return "In \(daysBefore) Tagen: \(reminder.message)"
         }
     }
     
-    func createReminderMessage(for reminder: Reminder, daysRemaining: Int) -> String {
-        let calendar = Calendar.current
-        let today = Date()
-        let targetDate = reminder.date
-        let components = calendar.dateComponents([.day], from: today, to: targetDate)
-        
-        guard let days = components.day else { return "Fehler bei der Berechnung" }
-        
-        if days == 1 {
-            return "Morgen: \(reminder.message)"
-        } else if days > 1 {
-            return "In \(days) Tagen: \(reminder.message)"
-        } else if days == 0 {
-            return "Heute: \(reminder.message)"
-        }
-        return ""
-    }
-    
-    func scheduleNotification(message: String, date: Date, validPushTime: Date) {
+    private func scheduleNotification(message: String, date: Date, validPushTime: Date) {
         let content = UNMutableNotificationContent()
         content.title = "LunaHerb Erinnerung"
         content.body = message
         content.sound = .default
         
         let calendar = Calendar.current
-
         let timeComponents = calendar.dateComponents([.hour, .minute], from: validPushTime)
         let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
+        
         let components = DateComponents(
             year: dateComponents.year,
             month: dateComponents.month,
@@ -140,8 +118,6 @@ final class NotificationManager {
             hour: timeComponents.hour,
             minute: timeComponents.minute
         )
-        
-        
         // Debug-Ausgabe der validierten Push-Time
         print("Benachrichtigung wird mit folgenden Komponenten geplant: year: \(components.year ?? -1) month: \(components.month ?? -1) day: \(components.day ?? -1) hour: \(components.hour ?? -1) minute: \(components.minute ?? -1)")
         
@@ -151,6 +127,8 @@ final class NotificationManager {
         scheduleLocalNotification(request)
     }
     
+    
+    // TestPrint
     func printScheduleNotifications() {
         Task {
             let notifications = await center.pendingNotificationRequests()
@@ -173,6 +151,10 @@ final class NotificationManager {
             }
             printScheduleNotifications()
         }
+    }
+    
+    func removePendingNotification(for id: UUID) {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
     }
     
     func cancelAllNotifications() {
