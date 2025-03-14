@@ -20,10 +20,11 @@ struct WeatherView: View {
                         .padding(.horizontal, 8)
                     
                     Text("\(weatherVM.temperature)")
+                        .frame(width: 50)
                         .font(.system(size: 18))
-                        .padding(.horizontal, 8)
+                        .padding(.trailing, 8)
                 }
-                .foregroundStyle(Color("text"))
+                .foregroundStyle(Color("cardText"))
                 .frame(maxWidth: .infinity, alignment: .trailing)
             } else {
                 ProgressView()

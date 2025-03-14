@@ -47,10 +47,10 @@ struct HerbListView: View {
                                 .font(.headline)
                                 .foregroundColor(Color("cancelActions"))
                         }
-                        .padding(.trailing, 5)
                     }
                 }
                 .padding(.horizontal)
+                .padding(.bottom, 4)
 
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 16) {

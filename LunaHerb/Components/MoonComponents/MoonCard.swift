@@ -18,7 +18,7 @@ struct MoonCard: View {
                 .bold()
             Text("in \(moonData.zodiacSign)")
         }
-        .frame(width: 320, height: 120)
+        .frame(width: 380, height: 120)
         .foregroundColor(Color("cardText"))
         .background(Color("cardBackground"))
         .cornerRadius(16)
