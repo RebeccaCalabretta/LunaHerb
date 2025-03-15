@@ -33,11 +33,6 @@ struct LocationWeatherView: View {
                 .frame(minWidth: 100)
                 .padding(.trailing, 8)
         }
-        .frame(width: 380, height: 50)
-        .foregroundColor(Color("cardText"))
-        .background(Color("cardBackground"))
-        .cornerRadius(16)
-        .shadow(radius: 2, x: 2, y: 2)
         .alert("Ort ändern", isPresented: $showLocationInput) {
             TextField("Neuer Ort", text: $weatherVM.location)
             Button("Fertig", role: .none) {

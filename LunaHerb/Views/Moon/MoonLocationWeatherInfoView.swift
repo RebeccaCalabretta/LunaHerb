@@ -20,7 +20,7 @@ struct MoonLocationWeatherInfoView: View {
             LocationWeatherView(weatherVM: weatherVM, selectedDate: $selectedDate, showLocationInput: $showLocationInput)
             
             if let moonData = moonData {
-                MoonInfoView(moonData: moonData, selectedDate: $selectedDate, moonVM: $moonVM, colorScheme: colorScheme)
+                MoonActionsView(moonData: moonData, selectedDate: $selectedDate, moonVM: $moonVM, colorScheme: colorScheme)
             } else {
                 ProgressView()
             }

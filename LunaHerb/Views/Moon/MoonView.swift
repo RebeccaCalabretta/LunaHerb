@@ -12,7 +12,7 @@ struct MoonView: View {
     
     @Environment(\.colorScheme) var colorScheme
     @State private var moonVM = MoonVM()
-    @State private var weatherVM = WeatherVM()
+    @Bindable private var weatherVM = WeatherVM()
     @State private var selectedDate = Date()
     @State private var showLocationInput = false
     
@@ -21,17 +21,20 @@ struct MoonView: View {
             VStack {
                 MoonDatePicker(selectedDate: $moonVM.selectedDate, colorScheme: colorScheme)
                     .padding(.bottom)
-                
-                LocationWeatherView(weatherVM: weatherVM, selectedDate: $selectedDate, showLocationInput: $showLocationInput)
-                
-                if let moonData = moonVM.moonData {
-                    MoonInfoView(moonData: moonData, selectedDate: $selectedDate, moonVM: $moonVM, colorScheme: colorScheme)
-                } else {
-                    ProgressView()
+                VStack {
+                    if let moonData = moonVM.moonData {
+                        MoonWeatherView(moonData: moonData, selectedDate: $selectedDate, moonVM: moonVM, weatherVM: weatherVM, showLocationInput: $showLocationInput)
+                    }
+                    
+                    if let moonData = moonVM.moonData {
+                        MoonActionsView(moonData: moonData, selectedDate: $selectedDate, moonVM: $moonVM, colorScheme: colorScheme)
+                    } else {
+                        ProgressView()
+                    }
+                    Spacer()
                 }
-                Spacer()
+                .padding(.horizontal, 20)
             }
-            .padding()
             .onAppear {
                 Task {
                     await weatherVM.getWeather(for: selectedDate)

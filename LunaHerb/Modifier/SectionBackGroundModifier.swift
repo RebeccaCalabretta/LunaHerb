@@ -18,6 +18,7 @@ struct SectionBackgroundModifier: ViewModifier {
             .background(Color("cardBackground"))
             .cornerRadius(16)
             .shadow(color: colorScheme == .dark ? Color.gray.opacity(0.5) : Color.black.opacity(0.4), radius: 2, x: 2, y: 2)
+            .padding(.horizontal)
     }
 }
 

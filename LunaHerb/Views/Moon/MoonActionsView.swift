@@ -7,16 +7,13 @@
 
 import SwiftUI
 
-struct MoonInfoView: View {
+struct MoonActionsView: View {
     var moonData: MoonData
     @Binding var selectedDate: Date
     @Binding var moonVM: MoonVM
     var colorScheme: ColorScheme
 
     var body: some View {
-        MoonCard(moonData: moonData)
-            .padding(.bottom)
-
         ScrollView {
             LazyVStack(spacing: 16) {
                 MoonSectionView(
@@ -36,6 +33,7 @@ struct MoonInfoView: View {
                     colorScheme: colorScheme
                 )
             }
+            .padding(.vertical, 16)
         }
     }
 }
