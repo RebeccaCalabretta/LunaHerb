@@ -60,17 +60,44 @@ final class NotificationManager {
         set { defaults.set(newValue, forKey: "reminderDays2") }
     }
     
-    func requestNotificationAuthorization() async {
-        Task { @MainActor in
-            do {
-                let success = try await center.requestAuthorization(options: [.sound, .alert, .badge])
-                isAuthorized = success
-                print("Benachrichtigungsberechtigung: \(isAuthorized ?? false)")
-            } catch {
-                errorMessage = error.localizedDescription
-                print("Fehler bei der Berechtigung: \(error.localizedDescription)")
+    var showSettingsAlert: Bool {
+        get { UserDefaults.standard.bool(forKey: "showSettingsAlert") }
+        set { UserDefaults.standard.set(newValue, forKey: "showSettingsAlert") }
+    }
+    
+    func requestNotificationAuthorization() async -> Bool {
+        do {
+            let success = try await center.requestAuthorization(options: [.sound, .alert, .badge])
+            await MainActor.run {
+                if success {
+                    isPushEnabled = true
+                } else {
+                    isPushEnabled = false
+                }
+            }
+            return success
+        } catch {
+            errorMessage = error.localizedDescription
+            await MainActor.run {
+                isPushEnabled = false
+            }
+            return false
+        }
+    }
+    func checkAuthStatus() async {
+        let settings = await center.notificationSettings()
+        if settings.authorizationStatus == .denied {
+            await MainActor.run {
+                self.isPushEnabled = false
+                self.showSettingsAlert = true
             }
         }
+    }
+    
+    func openAppSettings() {
+        guard let url = URL(string: UIApplication.openSettingsURLString),
+              UIApplication.shared.canOpenURL(url) else { return }
+        UIApplication.shared.open(url)
     }
     
     func scheduleReminderNotification(for reminder: Reminder) {
