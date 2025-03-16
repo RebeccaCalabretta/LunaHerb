@@ -15,9 +15,18 @@ struct MainTabView: View {
     @State private var settingsVM = SettingsVM()
     
     init() {
-        UITabBar.appearance().unselectedItemTintColor = UIColor(named: "unselectedTabItem")
-        UITabBar.appearance().backgroundColor = UIColor(named: "tabBarBackground")
+        let appearance = UITabBarAppearance()
+        appearance.backgroundColor = UIColor(named: "tabBarBackground")
+        appearance.stackedLayoutAppearance.normal.iconColor = UIColor(named: "unselectedTabItem")
+        appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
+                  .foregroundColor: UIColor(named: "unselectedTabItem") ?? UIColor.gray
+              ]
+        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(named: "selectedTabItem")
+        
+        UITabBar.appearance().standardAppearance = appearance
+        UITabBar.appearance().scrollEdgeAppearance = appearance
     }
+    
     var body: some View {
         TabView {
             Tab("Mond", systemImage: "moon.fill") {
@@ -34,10 +43,10 @@ struct MainTabView: View {
             }
         }
         .tint(Color("selectedTabItem"))
-        .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
         .onAppear {
             settingsVM.applyDarkMode(settingsVM.isDarkModeEnabled)
         }
+        .toolbarBackgroundVisibility(.hidden, for: .navigationBar)
     }
 }
 
