@@ -55,7 +55,16 @@ struct MoonView: View {
                 .scrollPosition(id: $scrollPosition, anchor: .center)
             }
             .globalBackground()
-            MoonChevronNavigation(moonVM: $moonVM, selectedDate: $selectedDate)
+            VStack {
+                Spacer()
+                MoonChevronNavigation(
+                    moonVM: $moonVM,
+                    selectedDate: $selectedDate,
+                    scrollPosition: $scrollPosition,
+                    dates: dates
+                )
+            }
+            .padding(.bottom, 20)
         }
         .onAppear {
             Task {
