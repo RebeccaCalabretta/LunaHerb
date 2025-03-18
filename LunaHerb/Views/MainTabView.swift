@@ -21,7 +21,6 @@ struct MainTabView: View {
         appearance.stackedLayoutAppearance.normal.titleTextAttributes = [
                   .foregroundColor: UIColor(named: "unselectedTabItem") ?? UIColor.gray
               ]
-        appearance.stackedLayoutAppearance.selected.iconColor = UIColor(named: "selectedTabItem")
         
         UITabBar.appearance().standardAppearance = appearance
         UITabBar.appearance().scrollEdgeAppearance = appearance
