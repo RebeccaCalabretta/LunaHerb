@@ -18,6 +18,7 @@ struct MoonView: View {
         Calendar.current.date(byAdding: .day, value: $0, to: Date())
     }
     @State private var scrollPosition: Date? = nil
+    
     var body: some View {
         ZStack {
             VStack {
@@ -88,6 +89,13 @@ struct MoonView: View {
         .onChange(of: moonVM.selectedDate) { _, newValue in
             if scrollPosition != newValue {
                 scrollPosition = newValue
+            }
+        }
+        .onChange(of: selectedDate) { _, newValue in
+            if let matchingDate = dates.first(where: { Calendar.current.isDate($0, inSameDayAs: newValue) }) {
+                withAnimation {
+                    scrollPosition = matchingDate
+                }
             }
         }
     }
