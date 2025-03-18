@@ -21,7 +21,7 @@ struct MoonWeatherView: View {
             MoonCard(moonData: moonData)
             LocationWeatherView(weatherVM: weatherVM, selectedDate: $selectedDate, showLocationInput: $showLocationInput)
         }
-        .frame(width: .infinity, height: 160)
+        .frame(height: 160)
         .foregroundColor(Color("cardText"))
         .background(Color("cardBackground"))
         .cornerRadius(16)
