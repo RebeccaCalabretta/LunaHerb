@@ -31,5 +31,15 @@ struct WeatherView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .trailing)
+        .alert("Fehler", isPresented: Binding(
+            get: { weatherVM.errorMessage != nil },
+            set: { _ in weatherVM.errorMessage = nil }
+        )) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            if let errorMessage = weatherVM.errorMessage {
+                Text(errorMessage)
+            }
+        }
     }
 }

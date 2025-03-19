@@ -8,45 +8,35 @@
 import Foundation
 import SwiftData
 
+@MainActor
 final class ReminderRepository {
     
-    var errorMessage: String?
     private let modelContext: ModelContext
 
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
     }
 
-    func loadReminders() async -> [Reminder] {
-        do {
-            let fetchRequest = FetchDescriptor<Reminder>()
-            let reminders = try modelContext.fetch(fetchRequest)
-            return reminders
-        } catch {
-            errorMessage = error.localizedDescription
-            return []
-        }
+    func loadReminders() async throws -> [Reminder] {
+        let fetchRequest = FetchDescriptor<Reminder>()
+        return try modelContext.fetch(fetchRequest)
     }
 
-    func addReminder(reminder: Reminder) async {
+    func addReminder(reminder: Reminder) async throws {
         modelContext.insert(reminder)
-        await saveChanges()
+        try await saveChanges()
     }
 
-    func removeReminder(reminder: Reminder) async {
+    func removeReminder(reminder: Reminder) async throws {
         modelContext.delete(reminder)
-        await saveChanges()
+        try await saveChanges()
     }
 
-    func updateReminder(reminder: Reminder) async {
-        await saveChanges()
+    func updateReminder(reminder: Reminder) async throws {
+        try await saveChanges()
     }
 
-    private func saveChanges() async {
-        do {
-            try modelContext.save()
-        } catch {
-            errorMessage = error.localizedDescription
-        }
+    private func saveChanges() async throws {
+        try modelContext.save()
     }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import NotificationCenter
+import UIKit
 
 @Observable
 final class NotificationManager {
@@ -19,10 +20,6 @@ final class NotificationManager {
     
     private let defaults = UserDefaults.standard
     private let defaultPushTime = Calendar.current.date(bySettingHour: 9, minute: 0, second: 0, of: Date())!
-    
-    init() {
-        printScheduleNotifications()
-    }
     
     var pushTime: Date {
         get {
@@ -45,7 +42,9 @@ final class NotificationManager {
                     await requestNotificationAuthorization()
                 }
             } else {
-                cancelAllNotifications()
+                Task {
+                    cancelAllNotifications()
+                }
             }
         }
     }
@@ -69,11 +68,7 @@ final class NotificationManager {
         do {
             let success = try await center.requestAuthorization(options: [.sound, .alert, .badge])
             await MainActor.run {
-                if success {
-                    isPushEnabled = true
-                } else {
-                    isPushEnabled = false
-                }
+                isPushEnabled = success
             }
             return success
         } catch {
@@ -84,12 +79,13 @@ final class NotificationManager {
             return false
         }
     }
+    
     func checkAuthStatus() async {
         let settings = await center.notificationSettings()
         if settings.authorizationStatus == .denied {
             await MainActor.run {
-                self.isPushEnabled = false
-                self.showSettingsAlert = true
+                isPushEnabled = false
+                showSettingsAlert = true
             }
         }
     }
@@ -101,21 +97,28 @@ final class NotificationManager {
     }
     
     func scheduleReminderNotification(for reminder: Reminder) {
-        guard isPushEnabled else {
-            print("Benachrichtigungen sind deaktiviert")
-            return
-        }
-        
+        guard isPushEnabled else { return }
         let validPushTime = pushTime
-        scheduleNotification(message: reminder.message, date: reminder.date, validPushTime: validPushTime)
-        
+
+        scheduleNotification(
+            message: reminder.message,
+            date: reminder.date,
+            validPushTime: validPushTime,
+            id: reminder.id.uuidString
+        )
         [reminderDays1, reminderDays2]
             .compactMap { $0 }
             .filter { $0 != 0 }
-            .forEach { days in
-                if let newDate = Calendar.current.date(byAdding: .day, value: -days, to: reminder.date) {
-                    let message = createReminderMessage(for: reminder, daysBefore: days)
-                    scheduleNotification(message: message, date: newDate, validPushTime: validPushTime)
+            .forEach { daysBefore in
+                if let newDate = Calendar.current.date(byAdding: .day, value: -daysBefore, to: reminder.date) {
+                    let message = createReminderMessage(for: reminder, daysBefore: daysBefore)
+                    let combinedID = reminder.id.uuidString + "-\(daysBefore)"
+                    scheduleNotification(
+                        message: message,
+                        date: newDate,
+                        validPushTime: validPushTime,
+                        id: combinedID
+                    )
                 }
             }
     }
@@ -128,16 +131,16 @@ final class NotificationManager {
         }
     }
     
-    private func scheduleNotification(message: String, date: Date, validPushTime: Date) {
+    private func scheduleNotification(message: String, date: Date, validPushTime: Date, id: String) {
         let content = UNMutableNotificationContent()
         content.title = "LunaHerb Erinnerung"
         content.body = message
         content.sound = .default
-        
+
         let calendar = Calendar.current
         let timeComponents = calendar.dateComponents([.hour, .minute], from: validPushTime)
         let dateComponents = calendar.dateComponents([.year, .month, .day], from: date)
-        
+
         let components = DateComponents(
             year: dateComponents.year,
             month: dateComponents.month,
@@ -145,47 +148,43 @@ final class NotificationManager {
             hour: timeComponents.hour,
             minute: timeComponents.minute
         )
-        // Debug-Ausgabe der validierten Push-Time
-        print("Benachrichtigung wird mit folgenden Komponenten geplant: year: \(components.year ?? -1) month: \(components.month ?? -1) day: \(components.day ?? -1) hour: \(components.hour ?? -1) minute: \(components.minute ?? -1)")
-        
         let trigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: false)
-        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
-        
+        let request = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+
         scheduleLocalNotification(request)
-    }
-    
-    
-    // TestPrint
-    func printScheduleNotifications() {
-        Task {
-            let notifications = await center.pendingNotificationRequests()
-            print("Pending Notifications: \(notifications)")
-        }
-        Task {
-            let notifications = await center.deliveredNotifications()
-            print("Delivered Notifications: \(notifications)")
-        }
     }
     
     private func scheduleLocalNotification(_ request: UNNotificationRequest) {
         Task {
             do {
                 try await center.add(request)
-                print("Benachrichtigung erfolgreich hinzugefügt.")
             } catch {
                 errorMessage = error.localizedDescription
-                print("Fehler beim Hinzufügen der Benachrichtigung: \(error.localizedDescription)")
             }
-            printScheduleNotifications()
         }
     }
     
-    func removePendingNotification(for id: UUID) {
-        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [id.uuidString])
+    func removePendingNotification(for id: UUID) async {
+        let allPending = await center.pendingNotificationRequests()
+        let allDelivered = await center.deliveredNotifications()
+
+        let matchingPending = allPending.filter { $0.identifier.contains(id.uuidString) }
+        let matchingDelivered = allDelivered.filter { $0.request.identifier.contains(id.uuidString) }
+
+        let matchingIDsPending = matchingPending.map(\.identifier)
+        let matchingIDsDelivered = matchingDelivered.map { $0.request.identifier }
+
+        center.removePendingNotificationRequests(withIdentifiers: matchingIDsPending)
+        center.removeDeliveredNotifications(withIdentifiers: matchingIDsDelivered)
+
+        if !matchingPending.isEmpty || !matchingDelivered.isEmpty {
+            print("✅ Gelöscht: \(matchingIDsPending + matchingIDsDelivered)")
+        } else {
+            print("ℹ️ Keine Notifications mehr vorhanden für Reminder ID \(id).")
+        }
     }
-    
+
     func cancelAllNotifications() {
-        print("Alle Benachrichtigungen werden entfernt.")
         center.removeAllPendingNotificationRequests()
     }
 }

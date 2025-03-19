@@ -98,6 +98,16 @@ struct MoonView: View {
                 }
             }
         }
+        .alert("Fehler", isPresented: Binding(
+            get: { moonVM.errorMessage != nil },
+            set: { _ in moonVM.errorMessage = nil }
+        )) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            if let errorMessage = moonVM.errorMessage {
+                Text(errorMessage)
+            }
+        }
     }
 }
 

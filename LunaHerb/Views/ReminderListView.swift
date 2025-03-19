@@ -12,19 +12,19 @@ struct ReminderListView: View {
     @Environment(\.colorScheme) var colorScheme
     
     @State var showCreateReminder = false
-    @Environment(ReminderVM.self) private var viewModel
+    @Environment(ReminderVM.self) private var reminderVM
     @State private var editingReminder: Reminder? = nil
     
     var body: some View {
         List {
             Section("Bevorstehende Erinnerungen") {
-                ForEach(viewModel.reminders.filter { $0.date > Date() }
+                ForEach(reminderVM.reminders.filter { $0.date > Date() }
                     .sorted { $0.date < $1.date }) { reminder in
                         ReminderSectionView(reminder: reminder, colorScheme: colorScheme)
                             .swipeActions {
                                 Button(role: .destructive) {
                                     Task {
-                                        await viewModel.removeReminder(by: reminder.id)
+                                        await reminderVM.removeReminder(by: reminder.id)
                                     }
                                 } label: {
                                     Image(systemName: "trash")
@@ -36,13 +36,13 @@ struct ReminderListView: View {
                     }
             }
             Section("Vergangene Erinnerungen") {
-                ForEach(viewModel.reminders.filter { $0.date <= Date() }
+                ForEach(reminderVM.reminders.filter { $0.date <= Date() }
                     .sorted { $0.date > $1.date }) { reminder in
                         ReminderSectionView(reminder: reminder, colorScheme: colorScheme)
                             .swipeActions {
                                 Button(role: .destructive) {
                                     Task {
-                                        await viewModel.removeReminder(by: reminder.id)
+                                        await reminderVM.removeReminder(by: reminder.id)
                                     }
                                 } label: {
                                     Image(systemName: "trash")
@@ -65,6 +65,16 @@ struct ReminderListView: View {
         .sheet(isPresented: $showCreateReminder) {
             CreateReminder(reminder: $editingReminder)
                 .presentationDetents([.medium])
+        }
+        .alert("Fehler", isPresented: Binding(
+            get: { reminderVM.errorMessage != nil },
+            set: { _ in reminderVM.errorMessage = nil }
+        )) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            if let errorMessage = reminderVM.errorMessage {
+                Text(errorMessage)
+            }
         }
         .listStyle(PlainListStyle())
         .globalBackground()
