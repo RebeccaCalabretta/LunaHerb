@@ -25,7 +25,7 @@ struct ReminderSectionView: View {
             }) {
                 Image(systemName: "pencil")
                     .font(.title)
-                    .foregroundColor(.blue)
+                    .foregroundColor(Color("selectedTabItem"))
             }
             .padding(.top, 8)
             .frame(maxWidth: .infinity, alignment: .trailing)

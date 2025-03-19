@@ -69,7 +69,14 @@ struct FavoritesListView: View {
                     .padding()
                 }
             }
-            .navigationTitle("Favoriten")
+            .navigationTitle("")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("FAVORITEN")
+                        .font(.custom("AvenirNext-Regular", size: 24))
+                        .foregroundColor(Color("titleText"))
+                }
+            }
             .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(item: $selectedHerb) { herb in
                 HerbDetailView(herb: herb)

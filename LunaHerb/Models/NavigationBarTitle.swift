@@ -7,12 +7,14 @@
 
 import SwiftUI
 
-struct NavigationBarTitle: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+struct NavigationBarTitle {
+    static func setupNavigationBarAppearance() {
+        let font = UIFont(name: "Pompiere-Regular", size: 24) ?? UIFont.systemFont(ofSize: 24)
+                let textColor = UIColor(named: "titleText") ?? UIColor.white
+        
+        UINavigationBar.appearance().titleTextAttributes = [
+            NSAttributedString.Key.font: font,
+            NSAttributedString.Key.foregroundColor: textColor
+        ]
     }
-}
-
-#Preview {
-    NavigationBarTitle()
 }

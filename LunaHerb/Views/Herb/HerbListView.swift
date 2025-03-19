@@ -82,7 +82,14 @@ struct HerbListView: View {
             .sheet(isPresented: $showFilterSheet) {
                 FilterSheet(isPresented: $showFilterSheet, selectedFilters: $selectedFilters)
             }
-            .navigationTitle("Kräuter")
+            .navigationTitle("")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("KRÄUTER")
+                        .font(.custom("AvenirNext-Regular", size: 24))
+                        .foregroundColor(Color("titleText"))
+                }
+            }
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

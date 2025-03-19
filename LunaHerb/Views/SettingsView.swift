@@ -71,7 +71,14 @@ struct SettingsView: View {
                         }
                 }
             }
-            .navigationTitle("Einstellungen")
+            .navigationTitle("")
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("EINSTELLUNGEN")
+                        .font(.custom("AvenirNext-Regular", size: 24))
+                        .foregroundColor(Color("titleText"))
+                }
+            }
             .navigationBarTitleDisplayMode(.inline)
             .globalBackground()
             .scrollContentBackground(.hidden)

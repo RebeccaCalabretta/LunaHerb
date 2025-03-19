@@ -19,14 +19,14 @@ struct OnboardingView: View {
             
             TabView(selection: $currentPage) {
                 OnboardingScreen(title: "Erlebe die Kraft der Natur im Rhythmus des Mondes",
-                                 description: "Erhalte wertvolle Infos zu Ernte, Aussaat und Pflanzenpflege nach dem Mondkalender.",
-                                 imageName: "moon_phase",
+                                 description: "Erhalte wertvolle Infos zu Aussaat, Ernte und Pflanzenpflege nach dem Mondkalender.",
+                                 imageName: "AppIconImage",
                                  currentPage: $currentPage,
                                  totalPages: 3)
                 .tag(0)
                 
                 OnboardingScreen(title: "Kräuterdatenbank",
-                                 description: "Finde ausführliche Informationen zu Wirkungen, Anwendungen und Anwendungsgebieten verschiedenster Kräuter.",
+                                 description: "Finde ausführliche Informationen zu Wirkungen, Anwendungen und Anwendungsgebieten vieler Heilpflanzen.",
                                  imageName: "herbalTreatment",
                                  currentPage: $currentPage,
                                  totalPages: 3)
@@ -34,7 +34,7 @@ struct OnboardingView: View {
                 
                 OnboardingScreen(title: "Erinnerungsfunktion",
                                  description: "Verpasse keine wichtigen Termine mehr für Aussaat, Ernte oder Pflege deiner Pflanzen.",
-                                 imageName: "reminder",
+                                 imageName: "garden-seeds-sowing",
                                  showStartButton: true,
                                  action: { hasSeenOnboarding = true },
                                  currentPage: $currentPage,
@@ -43,7 +43,7 @@ struct OnboardingView: View {
                 .tag(2)
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-
+            
             VStack {
                 HStack {
                     Spacer()
@@ -58,10 +58,6 @@ struct OnboardingView: View {
         }
     }
 }
-
-
-
-
 
 #Preview {
     OnboardingView()

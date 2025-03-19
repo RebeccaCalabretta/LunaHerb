@@ -22,10 +22,10 @@ struct OnboardingScreen: View {
             Image(imageName)
                 .resizable()
                 .scaledToFit()
-                .frame(height: 200)
+                .frame(width: 150, height: 200)
             
             Text(title)
-                .font(.largeTitle)
+                .font(.custom("Pompiere", size: 28))
                 .fontWeight(.bold)
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
@@ -63,4 +63,14 @@ struct OnboardingScreen: View {
             Spacer()
         }
     }
+}
+
+#Preview {
+    OnboardingScreen(
+        title: "Test Title",
+        description: "Test description for the preview.",
+        imageName: "moon_phase",
+        currentPage: .constant(0),
+        totalPages: 3
+    )
 }
