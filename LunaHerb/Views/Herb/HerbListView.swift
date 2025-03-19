@@ -108,6 +108,16 @@ struct HerbListView: View {
             .onChange(of: searchText) {
                 viewModel.filterHerbs(with: searchText, filters: selectedFilters)
             }
+            .alert("Fehler", isPresented: Binding(
+                get: { viewModel.errorMessage != nil },
+                set: { _ in viewModel.errorMessage = nil }
+            )) {
+                Button("OK", role: .cancel) { }
+            } message: {
+                if let errorMessage = viewModel.errorMessage {
+                    Text(errorMessage)
+                }
+            }
         }
     }
 }

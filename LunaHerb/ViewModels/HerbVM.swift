@@ -26,11 +26,13 @@ final class HerbVM {
             await fetchHerbs()
         }
     }
+    
     func fetchHerbs() async {
         do {
             self.herbs = try await repository.updateHerbsFromDropbox()
         } catch {
-            print("Fehler beim Laden der Kräuterdaten")
+            print("Fehler beim Laden der Kräuter:", error)
+            self.errorMessage = "Fehler beim Laden der Kräuter. Bitte versuchen Sie es später erneut."
         }
     }
     
@@ -56,9 +58,9 @@ final class HerbVM {
             }
             
             let matchingSearchQuery = matchQuery(herb.name) ||
-                herb.properties.contains { matchQuery($0) } ||
-                herb.symptoms.contains { matchQuery($0) } ||
-                herb.ingredients.contains { matchQuery($0) }
+            herb.properties.contains { matchQuery($0) } ||
+            herb.symptoms.contains { matchQuery($0) } ||
+            herb.ingredients.contains { matchQuery($0) }
             
             let herbPropertiesSet = Set(herb.properties.map { $0.trimmingCharacters(in: .whitespacesAndNewlines).lowercased() })
             let matchingFilters = trimmedFilters.isEmpty || trimmedFilters.isSubset(of: herbPropertiesSet)

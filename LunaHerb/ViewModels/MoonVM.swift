@@ -23,6 +23,7 @@ final class MoonVM {
     var selectedDate: Date = Date() {
         didSet { Task { await fetchMoonData(for: selectedDate) } }
     }
+    var errorMessage: String?
     
     private let locationManager = CLLocationManager()
     private var moonPhaseManager: EKAstrologyCalc?
@@ -32,10 +33,14 @@ final class MoonVM {
     }
     
     func fetchMoonData(for date: Date = Date()) async {
+        
         moonPhaseManager = EKAstrologyCalc(location: location)
         let info = moonPhaseManager?.getInfo(date: date)
         
-        guard let moonInfo = info?.moonModels.first else { return }
+        guard let moonInfo = info?.moonModels.first else {
+            errorMessage = "Keine Mond-Daten gefunden."
+            return
+        }
         
         let translatedPhase = info!.phase.toGerman
         let translatedSign = moonInfo.sign.toGerman

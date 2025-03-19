@@ -38,6 +38,7 @@ final class HerbRepository {
     private func updateSwiftData(with dtos: [HerbDataJson]) async {
         do {
             let existingHerbs = try modelContext.fetch(FetchDescriptor<HerbData>())
+            let dtoIDs = Set(dtos.map { $0.id })
             
             for dto in dtos {
                 if let existingHerb = existingHerbs.first(where: { $0.id == dto.id }) {
@@ -58,6 +59,12 @@ final class HerbRepository {
                     modelContext.insert(newHerb)
                 }
             }
+            
+            for herb in existingHerbs {
+                        if !dtoIDs.contains(herb.id) {
+                            modelContext.delete(herb)
+                        }
+                    }
             
             try modelContext.save()
         } catch {

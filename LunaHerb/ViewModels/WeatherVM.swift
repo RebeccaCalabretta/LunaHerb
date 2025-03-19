@@ -17,6 +17,7 @@ final class WeatherVM {
     var sfSymbol: String = ""
     var selectedDate: Date = Date()
     var location: String = "Berlin"
+    var errorMessage: String?
     
     private let weatherRepository = WeatherRepository()
     
@@ -26,38 +27,36 @@ final class WeatherVM {
             let placemarks = try await geocoder.geocodeAddressString(cityName)
             return placemarks.first?.location
         } catch {
-            print("Fehler bei der Geocodierung: \(error.localizedDescription)")
+            errorMessage = "Fehler bei der Geocodierung."
             return nil
         }
     }
     
     func getWeather(for date: Date) async {
-        print("WeatherVM - getWeather aufgerufen mit Datum: \(date)")
-        Task {
+        do {
             let locationResponse = await getCLLocation(from: location)
             guard let clLocation = locationResponse else {
+                errorMessage = "Ort nicht gefunden."
                 return
             }
-            do {
-                let geocoder = CLGeocoder()
-                let placemarks = try await geocoder.reverseGeocodeLocation(clLocation)
-                guard let placemark = placemarks.first else {
-                    return
-                }
-                let city = placemark.locality ?? "Unbekannt"
-                
-                if let (temp, sfSymbol) = try await weatherRepository.fetchWeather(for: date, location: city) {
-                    self.temperature = "\(Int(temp))°C"
-                    self.sfSymbol = sfSymbol
-                    print("WeatherVM - Wetterdaten aktualisiert für \(date)")
-                    print("Werte gesetzt: \(self.temperature), \(self.condition), \(self.sfSymbol)")
-                } else {
-                        temperature = "--"
-                        sfSymbol = "questionmark.circle"
-                    }
-            } catch {
-                print("Fehler beim Abrufen der Wetterdaten: \(error.localizedDescription)")
+            let geocoder = CLGeocoder()
+            let placemarks = try await geocoder.reverseGeocodeLocation(clLocation)
+            guard let placemark = placemarks.first else {
+                errorMessage = "Fehler beim Laden des Standorts."
+                return
             }
+            let city = placemark.locality ?? "Unbekannt"
+            
+            if let (temp, sfSymbol) = try await weatherRepository.fetchWeather(for: date, location: city) {
+                self.temperature = "\(Int(temp))°C"
+                self.sfSymbol = sfSymbol
+            } else {
+                temperature = "--"
+                sfSymbol = "questionmark.circle"
+                errorMessage = "Wetterdaten nicht verfügbar."
+            }
+        } catch {
+            errorMessage = "Fehler beim Abrufen der Wetterdaten."
         }
     }
 }
