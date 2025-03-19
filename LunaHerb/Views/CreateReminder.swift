@@ -13,13 +13,21 @@ struct CreateReminder: View {
     @State private var message: String = ""
     @State private var selectedDate: Date = Date()
     @Binding var reminder: Reminder?
+    @FocusState private var isTextFieldFocused: Bool
+    
+    init(reminder: Binding<Reminder?>, defaultDate: Date) {
+        self._reminder = reminder
+        self._selectedDate = State(initialValue: defaultDate)
+    }
     
     var body: some View {
         NavigationStack {
             Form {
                 Section("Erinnerung") {
                     TextField("Nachricht eingeben", text: $message)
+                        .focused($isTextFieldFocused)
                         .onAppear {
+                            isTextFieldFocused = true
                             if let reminder = reminder {
                                 self.message = reminder.message
                                 self.selectedDate = reminder.date

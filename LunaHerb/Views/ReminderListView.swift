@@ -15,44 +15,20 @@ struct ReminderListView: View {
     @Environment(ReminderVM.self) private var reminderVM
     @State private var editingReminder: Reminder? = nil
     
+    var upcomingReminders: [Reminder] {
+        reminderVM.reminders.filter { $0.date > Date() }
+            .sorted { $0.date < $1.date }
+    }
+    
+    var pastReminders: [Reminder] {
+        reminderVM.reminders.filter { $0.date <= Date() }
+            .sorted { $0.date > $1.date }
+    }
+    
     var body: some View {
         List {
-            Section("Bevorstehende Erinnerungen") {
-                ForEach(reminderVM.reminders.filter { $0.date > Date() }
-                    .sorted { $0.date < $1.date }) { reminder in
-                        ReminderSectionView(reminder: reminder, colorScheme: colorScheme)
-                            .swipeActions {
-                                Button(role: .destructive) {
-                                    Task {
-                                        await reminderVM.removeReminder(by: reminder.id)
-                                    }
-                                } label: {
-                                    Image(systemName: "trash")
-                                }
-                                .tint(Color("cancelActions"))
-                            }
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                    }
-            }
-            Section("Vergangene Erinnerungen") {
-                ForEach(reminderVM.reminders.filter { $0.date <= Date() }
-                    .sorted { $0.date > $1.date }) { reminder in
-                        ReminderSectionView(reminder: reminder, colorScheme: colorScheme)
-                            .swipeActions {
-                                Button(role: .destructive) {
-                                    Task {
-                                        await reminderVM.removeReminder(by: reminder.id)
-                                    }
-                                } label: {
-                                    Image(systemName: "trash")
-                                }
-                                .tint(Color("cancelActions"))
-                            }
-                            .listRowBackground(Color.clear)
-                            .listRowSeparator(.hidden)
-                    }
-            }
+            ReminderContent(title: "Bevorstehende Erinnerungen", reminders: upcomingReminders, colorScheme: colorScheme)
+            ReminderContent(title: "Vergangene Erinnerungen", reminders: pastReminders, colorScheme: colorScheme)
         }
         .navigationTitle("Erinnerungen")
         .toolbar {
@@ -63,7 +39,7 @@ struct ReminderListView: View {
             }
         }
         .sheet(isPresented: $showCreateReminder) {
-            CreateReminder(reminder: $editingReminder)
+            CreateReminder(reminder: $editingReminder, defaultDate: Date())
                 .presentationDetents([.medium])
         }
         .alert("Fehler", isPresented: Binding(

@@ -10,7 +10,6 @@ import SwiftUI
 struct ReminderSectionView: View {
     var reminder: Reminder
     let colorScheme: ColorScheme
-    @State private var showEditMode = false
     @State private var editingReminder: Reminder?
 
     var body: some View {
@@ -23,7 +22,6 @@ struct ReminderSectionView: View {
             }
             Button(action: {
                 editingReminder = reminder
-                showEditMode = true
             }) {
                 Image(systemName: "pencil")
                     .font(.title)
@@ -35,7 +33,7 @@ struct ReminderSectionView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .sectionBackground(colorScheme: colorScheme)
         .sheet(item: $editingReminder) { editingReminder in
-            CreateReminder(reminder: $editingReminder)
+            CreateReminder(reminder: $editingReminder, defaultDate: editingReminder.date)
         }
     }
 }

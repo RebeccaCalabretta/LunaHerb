@@ -53,7 +53,6 @@ final class WeatherVM {
             } else {
                 temperature = "--"
                 sfSymbol = "questionmark.circle"
-                errorMessage = "Wetterdaten nicht verfügbar."
             }
         } catch {
             errorMessage = "Fehler beim Abrufen der Wetterdaten."

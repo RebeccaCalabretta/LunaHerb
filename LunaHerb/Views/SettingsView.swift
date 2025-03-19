@@ -26,7 +26,7 @@ struct SettingsView: View {
                         .onChange(of: isPushEnabled) {
                             if isPushEnabled {
                                 Task {
-                                    await notificationManager.requestNotificationAuthorization()
+                                    _ = await notificationManager.requestNotificationAuthorization()
                                     await notificationManager.checkAuthStatus()
                                 }
                             } else {
