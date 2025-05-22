@@ -187,4 +187,12 @@ final class NotificationManager {
     func cancelAllNotifications() {
         center.removeAllPendingNotificationRequests()
     }
+    
+    func rescheduleAllNotifications(for reminders: [Reminder]) async {
+        cancelAllNotifications()
+        
+        for reminder in reminders {
+            scheduleReminderNotification(for: reminder)
+        }
+    }
 }

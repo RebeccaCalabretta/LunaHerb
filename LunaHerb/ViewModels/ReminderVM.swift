@@ -53,9 +53,14 @@ final class ReminderVM {
 
     func updateReminder(reminder: Reminder) async {
         do {
-            await NotificationManager.shared.removePendingNotification(for: reminder.id)
+            guard let oldReminder = reminders.first(where: { $0.id == reminder.id }) else { return }
+
+            await NotificationManager.shared.removePendingNotification(for: oldReminder.id)
+
             try await repository.updateReminder(reminder: reminder)
+
             NotificationManager.shared.scheduleReminderNotification(for: reminder)
+
             await loadReminders()
         } catch {
             errorMessage = "Fehler beim Aktualisieren der Erinnerung: \(error.localizedDescription)"
