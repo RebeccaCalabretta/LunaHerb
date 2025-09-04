@@ -15,6 +15,9 @@ struct FavoritesListView: View {
     @State private var showFilterSheet = false
     @State private var selectedFilters: Set<String> = []
     
+    let spacing: CGFloat = 16
+    let horizontalPadding: CGFloat = 16
+    
     var favoriteHerbs: [HerbData] {
         if searchText.isEmpty && selectedFilters.isEmpty {
             return viewModel.getFavoriteHerbs()
@@ -22,11 +25,6 @@ struct FavoritesListView: View {
             return viewModel.filteredFavHerbs
         }
     }
-    
-    let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
-    ]
     
     var body: some View {
         NavigationStack {
@@ -56,17 +54,30 @@ struct FavoritesListView: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.bottom, 4)
                 
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: 16) {
+                    let screenWidth = UIScreen.main.bounds.width
+                    let cardWidth = (screenWidth - (2 * horizontalPadding) - spacing) / 2
+                    
+                    LazyVGrid(
+                        columns: [
+                            GridItem(.flexible(), spacing: spacing),
+                            GridItem(.flexible(), spacing: spacing)
+                        ],
+                        spacing: spacing
+                    ) {
                         ForEach(favoriteHerbs) { herb in
                             HerbCard(herb: herb)
+                                .frame(width: cardWidth, height: cardWidth)
                                 .onTapGesture {
                                     selectedHerb = herb
                                 }
                         }
                     }
-                    .padding()
+                    .padding(.horizontal, horizontalPadding)
+                    .padding(.top, spacing)
+                    .padding(.bottom, spacing)
                 }
             }
             .navigationTitle("")

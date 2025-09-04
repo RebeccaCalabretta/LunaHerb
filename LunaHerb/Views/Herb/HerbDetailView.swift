@@ -14,10 +14,13 @@ struct HerbDetailView: View {
     var body: some View {
         VStack(spacing: 0) {
             HerbDetailHeaderView(herb: herb)
+
             HerbTabView(herb: herb, selectedTab: $selectedTab)
         }
+        .ignoresSafeArea(edges: .top)
         .globalBackground()
         .toolbar(.hidden, for: .navigationBar)
+        .navigationBarBackButtonHidden(true)
     }
 }
 

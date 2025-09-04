@@ -11,18 +11,21 @@ import SwiftData
 struct HerbListView: View {
     @Environment(HerbVM.self) private var viewModel
     @Query(sort: \HerbData.name) var herbs: [HerbData]
-
+    
     @State private var searchText = ""
-    @State private var selectedHerb: HerbData? = nil
     @State private var selectedFilters: Set<String> = []
     @State private var showFilterSheet = false
     @State private var showReminderList = false
-
+    
     let columns = [
-        GridItem(.flexible()),
-        GridItem(.flexible())
+        GridItem(.flexible(), spacing: 16),
+        GridItem(.flexible(), spacing: 16)
     ]
-
+    
+    var herbsToShow: [HerbData] {
+        searchText.isEmpty && selectedFilters.isEmpty ? viewModel.herbs : viewModel.filteredHerbs
+    }
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -35,9 +38,9 @@ struct HerbListView: View {
                             .foregroundStyle(Color("selectedTabItem"))
                             .padding(.leading, 5)
                     }
-
+                    
                     Spacer()
-
+                    
                     if !selectedFilters.isEmpty {
                         Button {
                             selectedFilters.removeAll()
@@ -51,33 +54,30 @@ struct HerbListView: View {
                 }
                 .padding(.horizontal)
                 .padding(.bottom, 4)
-
+                
                 ScrollView {
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        if searchText.isEmpty && selectedFilters.isEmpty {
-                            ForEach(viewModel.herbs) { herb in
+                    let spacing: CGFloat = 16
+                    let horizontalPadding: CGFloat = 16
+                    let screenWidth = UIScreen.main.bounds.width
+                    let cardWidth = (screenWidth - (2 * horizontalPadding) - spacing) / 2
+                    
+                    LazyVGrid(columns: columns, spacing: spacing) {
+                        ForEach(herbsToShow) { herb in
+                            NavigationLink(value: herb.id) {
                                 HerbCard(herb: herb)
-                                    .onTapGesture {
-                                        selectedHerb = herb
-                                    }
+                                    .frame(width: cardWidth, height: cardWidth)
                             }
-                        } else {
-                            ForEach(viewModel.filteredHerbs) { herb in
-                                HerbCard(herb: herb)
-                                    .onTapGesture {
-                                        selectedHerb = herb
-                                    }
-                            }
+                            .buttonStyle(.plain)
                         }
                     }
-                    .padding()
+                    .padding(.horizontal, horizontalPadding)
+                    .padding(.top, spacing)
+                    .padding(.bottom, spacing)
                 }
             }
             .onAppear {
                 searchText = ""
-                Task {
-                    await viewModel.fetchHerbs()
-                }
+                Task { await viewModel.fetchHerbs() }
             }
             .sheet(isPresented: $showFilterSheet) {
                 FilterSheet(isPresented: $showFilterSheet, selectedFilters: $selectedFilters)
@@ -89,25 +89,21 @@ struct HerbListView: View {
                         .font(.custom("AvenirNext-Regular", size: 24))
                         .foregroundColor(Color("titleText"))
                 }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    HStack {
-                        Button {
-                            showReminderList = true
-                        } label: {
-                            Image(systemName: "bell")
-                        }
+                    Button { showReminderList = true } label: {
+                        Image(systemName: "bell")
+                            .font(.headline)
                     }
-                    .font(.headline)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationDestination(isPresented: $showReminderList) {
                 ReminderListView()
             }
-            .navigationDestination(item: $selectedHerb) { herb in
-                HerbDetailView(herb: herb)
+            .navigationDestination(for: UUID.self) { id in
+                if let herb = herbs.first(where: { $0.id == id }) {
+                    HerbDetailView(herb: herb)
+                }
             }
             .tint(Color("selectedTabItem"))
             .globalBackground()
@@ -128,6 +124,7 @@ struct HerbListView: View {
         }
     }
 }
+
 
 #Preview {
     let modelContainer = try! ModelContainer(for: HerbData.self)
