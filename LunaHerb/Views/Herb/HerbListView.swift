@@ -16,6 +16,8 @@ struct HerbListView: View {
     @State private var selectedFilters: Set<String> = []
     @State private var showFilterSheet = false
     @State private var showReminderList = false
+    @State private var showSearch = false
+    
     
     let columns = [
         GridItem(.flexible(), spacing: 16),
@@ -29,19 +31,61 @@ struct HerbListView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
+                HStack(spacing: 2) {
+                    if showSearch {
+                        HStack(spacing: 6) {
+                            Image(systemName: "magnifyingglass")
+                                .foregroundColor(.gray)
+                            
+                            TextField("Suche", text: $searchText)
+                                .onChange(of: searchText) {
+                                    viewModel.filterHerbs(with: searchText, filters: selectedFilters)
+                                }
+                                .autocorrectionDisabled(true)
+                                .textInputAutocapitalization(.never)
+                            
+                            if !searchText.isEmpty {
+                                Button {
+                                    searchText = ""
+                                    viewModel.filteredHerbs = viewModel.herbs
+                                } label: {
+                                    Image(systemName: "xmark.circle.fill")
+                                        .foregroundColor(.gray)
+                                }
+                            }
+                        }
+                        .padding(10)
+                        .background(Color(uiColor: .tertiarySystemFill))
+                        .cornerRadius(10)
+                        .transition(.move(edge: .trailing).combined(with: .opacity))
+                    }
+                    
+                    Spacer()
+                    
+                    Button {
+                        withAnimation {
+                            showSearch.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "magnifyingglass")
+                            .font(.title2)
+                            .foregroundStyle(Color("selectedTabItem"))
+                    }
+                    
                     Button {
                         showFilterSheet = true
                     } label: {
                         Image(systemName: "slider.horizontal.3")
                             .font(.title2)
                             .foregroundStyle(Color("selectedTabItem"))
-                            .padding(.leading, 5)
+                            .padding(.leading, 4)
                     }
-                    
-                    Spacer()
-                    
-                    if !selectedFilters.isEmpty {
+                }
+                .padding(.horizontal)
+                
+                if !selectedFilters.isEmpty {
+                    HStack {
+                        Spacer()
                         Button {
                             selectedFilters.removeAll()
                             viewModel.filteredHerbs = viewModel.herbs
@@ -51,9 +95,8 @@ struct HerbListView: View {
                                 .foregroundColor(Color("cancelActions"))
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
-                .padding(.bottom, 4)
                 
                 ScrollView {
                     let spacing: CGFloat = 16
@@ -78,6 +121,10 @@ struct HerbListView: View {
             .onAppear {
                 searchText = ""
                 Task { await viewModel.fetchHerbs() }
+            }
+            .onDisappear {
+                showSearch = false
+                searchText = ""
             }
             .sheet(isPresented: $showFilterSheet) {
                 FilterSheet(isPresented: $showFilterSheet, selectedFilters: $selectedFilters)
@@ -107,10 +154,6 @@ struct HerbListView: View {
             }
             .tint(Color("selectedTabItem"))
             .globalBackground()
-            .searchable(text: $searchText)
-            .onChange(of: searchText) {
-                viewModel.filterHerbs(with: searchText, filters: selectedFilters)
-            }
             .alert("Fehler", isPresented: Binding(
                 get: { viewModel.errorMessage != nil },
                 set: { _ in viewModel.errorMessage = nil }
@@ -124,7 +167,6 @@ struct HerbListView: View {
         }
     }
 }
-
 
 #Preview {
     let modelContainer = try! ModelContainer(for: HerbData.self)
