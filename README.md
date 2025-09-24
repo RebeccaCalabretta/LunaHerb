@@ -22,6 +22,14 @@ LunaHerb is a Swift-based iOS application that combines the world of medicinal h
 
 ## 📸 Screenshots
 
+<p align="center">
+  <img src="screenshots/moon-dark.png" width="180"/>
+  <img src="screenshots/herb-detail-dark.png" width="180"/>
+  <img src="screenshots/herb-list-light.png" width="180"/>
+  <img src="screenshots/herb-list-dark.png" width="180"/>
+  <img src="screenshots/settings-light.png" width="180"/>
+</p>
+
 ## 🛠️ Installation
 
 1. clone the LunaHerb project with Git
