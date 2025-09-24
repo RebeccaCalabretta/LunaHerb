@@ -33,7 +33,7 @@ struct LocationWeatherView: View {
                 showLocationInput = true
             }
 
-            Spacer(minLength: 50)
+            Spacer()
 
             WeatherView(weatherVM: weatherVM)
                 .frame(minWidth: 100)

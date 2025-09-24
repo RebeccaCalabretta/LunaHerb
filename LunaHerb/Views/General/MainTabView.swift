@@ -14,6 +14,7 @@ struct MainTabView: View {
     @State private var isPushEnabled: Bool = false
     @State private var pushTime: Date = Date()
     @State private var isDarkModeEnabled: Bool = false
+    @State private var showReminderSheet = false
     
     init() {
         let appearance = UITabBarAppearance()

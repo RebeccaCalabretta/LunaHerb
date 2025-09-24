@@ -15,6 +15,7 @@ struct FavoritesListView: View {
     @State private var showFilterSheet = false
     @State private var selectedFilters: Set<String> = []
     @State private var showSearch = false
+    @State private var showReminderList = false
 
     let spacing: CGFloat = 16
     let horizontalPadding: CGFloat = 16
@@ -128,8 +129,17 @@ struct FavoritesListView: View {
                         .font(.custom("AvenirNext-Regular", size: 24))
                         .foregroundColor(Color("titleText"))
                 }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button { showReminderList = true } label: {
+                        Image(systemName: "bell")
+                            .font(.headline)
+                    }
+                }
             }
             .navigationBarTitleDisplayMode(.inline)
+            .navigationDestination(isPresented: $showReminderList) {
+                ReminderListView()
+            }
             .navigationDestination(item: $selectedHerb) { herb in
                 HerbDetailView(herb: herb)
             }
