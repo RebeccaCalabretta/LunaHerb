@@ -82,8 +82,8 @@ LunaHerb is a Swift-based iOS application that combines the world of medicinal h
 
 **Aromatherapy**: List of helpful essential oils
 
-## ✍️ Author/Contact
+## ℹ️ About
 
-www.linkedin.com/in/rebecca-calabretta-b63617319
+This project was developed as part of my training.  
 
 
